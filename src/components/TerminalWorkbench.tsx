@@ -59,9 +59,13 @@ export const TerminalWorkbench: React.FC<TerminalWorkbenchProps> = ({ onSetMode,
   const [keywordFilter, setKeywordFilter] = useState('');
   const [isScraping, setIsScraping] = useState(false);
   const [scrapeStatus, setScrapeStatus] = useState('STATUS: READY');
+  const [scrapeFailed, setScrapeFailed] = useState(false);
   const [copiedRecordId, setCopiedRecordId] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
   const [copiedPy, setCopiedPy] = useState(false);
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const inFlightKeyRef = useRef<string>('');
 
   const [extractedRecords, setExtractedRecords] = useState<ScrapedRecord[]>([
     {
@@ -255,7 +259,7 @@ if __name__ == "__main__":
       } else {
         window.location.href = '#capabilities';
       }
-      newHist.push({ sender: 'system', text: `[CAPABILITIES] Flyvane // CEH Hardened Architecture, 99.98% SLA, Distributed Autonomous Pipelines.` });
+      newHist.push({ sender: 'system', text: `[CAPABILITIES] Flyvane // Defensive Architecture, Fault-Tolerant Worker Pooling, Distributed Autonomous Pipelines.` });
     } else if (action === 'contact') {
       const el = document.getElementById('contact');
       if (el && (window as any).__lenis) {
@@ -448,15 +452,22 @@ if __name__ == "__main__":
     asyncio.run(run_scraper())`);
   };
 
+  const cancelScrape = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+      setIsScraping(false);
+      setScrapeFailed(true);
+      setScrapeStatus("REQUEST CANCELLED BY USER");
+      soundEngine.playClick(0.05);
+    }
+  };
+
   const executeScrape = async (
     targetUrl: string = scraperUrl,
     targetType: ScraperTargetType = scrapeTargetType,
     customQuery: string = keywordFilter
   ) => {
-    setIsScraping(true);
-    setScrapeStatus("CONNECTING TO TARGET...");
-    const startTime = performance.now();
-
     let cleanUrl = (targetUrl || scraperUrl).trim();
     if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
       cleanUrl = 'https://' + cleanUrl;
@@ -467,41 +478,83 @@ if __name__ == "__main__":
       parsedUrl = new URL(cleanUrl);
     } catch {
       setIsScraping(false);
+      setScrapeFailed(true);
       setScrapeStatus("INVALID URL SYNTAX");
       return;
     }
 
+    const requestKey = `${cleanUrl}|${targetType}|${customQuery}`;
+    if (isScraping && inFlightKeyRef.current === requestKey) {
+      return; // Deduplicate identical concurrent requests
+    }
+
+    // Cancel any existing in-flight request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    inFlightKeyRef.current = requestKey;
+
+    setIsScraping(true);
+    setScrapeFailed(false);
+    setScrapeStatus("CONNECTING TO TARGET...");
+    const startTime = performance.now();
+
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 12000);
+
     let rawHtml = '';
     let isLiveFetched = false;
 
-    // 1. Try local Node scraper API (runs via Vite middleware with zero browser CORS)
     try {
-      setScrapeStatus("FETCHING LIVE DOM VIA NODE ENGINE...");
-      const localResp = await fetch(`/api/scrape?url=${encodeURIComponent(cleanUrl)}`);
-      if (localResp.ok) {
-        rawHtml = await localResp.text();
-        if (rawHtml && rawHtml.length > 200) {
-          isLiveFetched = true;
-        }
-      }
-    } catch {
-      // Local endpoint offline or static build
-    }
-
-    // 2. Fallback to Jina Reader CORS-friendly proxy (extracts clean live content from any public web page)
-    if (!isLiveFetched) {
+      // 1. Try local Node scraper API (runs via Vite middleware with zero browser CORS)
+      setScrapeStatus("FETCHING LIVE DOM VIA LOCAL NODE ENGINE...");
       try {
-        setScrapeStatus("FETCHING VIA JINA PROXY ENGINE...");
-        const jinaResp = await fetch(`https://r.jina.ai/${cleanUrl}`);
-        if (jinaResp.ok) {
-          rawHtml = await jinaResp.text();
-          if (rawHtml && rawHtml.length > 100) {
+        const localResp = await fetch(`/api/scrape?url=${encodeURIComponent(cleanUrl)}`, {
+          signal: controller.signal
+        });
+        if (localResp.ok) {
+          rawHtml = await localResp.text();
+          if (rawHtml && rawHtml.length > 200) {
             isLiveFetched = true;
           }
         }
-      } catch {
-        // Fallback
+      } catch (err: any) {
+        if (err.name === 'AbortError') throw err;
       }
+
+      // 2. Fallback to Jina Reader CORS-friendly gateway
+      if (!isLiveFetched) {
+        setScrapeStatus("FETCHING VIA JINA GATEWAY PROXY...");
+        try {
+          const jinaResp = await fetch(`https://r.jina.ai/${cleanUrl}`, {
+            signal: controller.signal
+          });
+          if (jinaResp.ok) {
+            rawHtml = await jinaResp.text();
+            if (rawHtml && rawHtml.length > 100) {
+              isLiveFetched = true;
+            }
+          }
+        } catch (err: any) {
+          if (err.name === 'AbortError') throw err;
+        }
+      }
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      setIsScraping(false);
+      setScrapeFailed(true);
+      if (err.name === 'AbortError') {
+        setScrapeStatus("REQUEST TIMED OUT / CANCELLED");
+      } else {
+        setScrapeStatus("EXTRACTION NETWORK ERROR");
+      }
+      return;
+    } finally {
+      clearTimeout(timeoutId);
     }
 
     const duration = Math.round(performance.now() - startTime + 60);
@@ -677,32 +730,36 @@ if __name__ == "__main__":
     // STRICT CAP: Keep max output strictly as 3 records
     const finalTop3 = parsedRecords.slice(0, 3);
 
-    // If target has zero records matching this specific category, provide clean, graceful telemetry records
+    // Honest handling: never invent fake mock emails/data
     if (finalTop3.length === 0) {
-      if (targetType === 'contacts') {
-        finalTop3.push(
-          { id: 1, badge: "CONTACT DOMAIN", value: `admin@${parsedUrl.hostname.replace('www.', '')}`, context: "Standard domain administrative channel" },
-          { id: 2, badge: "CONTACT PATH", value: `${cleanUrl.replace(/\/$/, '')}/contact`, context: "Inferred direct contact form endpoint" },
-          { id: 3, badge: "TELEMETRY", value: "No raw mailto anchors on this page view. Try 'Headings & Text' or 'Links & URLs'.", context: "Privacy-hardened landing page" }
-        );
-      } else if (targetType === 'pricing') {
-        finalTop3.push(
-          { id: 1, badge: "PRICING PATH", value: `${cleanUrl.replace(/\/$/, '')}/pricing`, context: "Inferred pricing tier endpoint" },
-          { id: 2, badge: "STATUS", value: "No public currency symbols ($/€/£) displayed on this view", context: "Static landing view without public price badges" },
-          { id: 3, badge: "CUSTOM ESTIMATE", value: "Custom Enterprise Quoting Required", context: "Switch to 'Contacts' to extract inquiry channels" }
-        );
+      setScrapeFailed(true);
+      if (isLiveFetched) {
+        finalTop3.push({
+          id: 1,
+          badge: "NO RECORDS FOUND",
+          value: customQuery
+            ? `No records matching filter "${customQuery}"`
+            : `No public ${targetType} elements discovered on page view`,
+          context: `Target (${parsedUrl.hostname}) returned 200 OK without matching ${targetType}. Try another extraction category or query.`
+        });
+        setScrapeStatus(`200 OK (${duration}ms) - 0 RECORDS MATCHED`);
       } else {
-        finalTop3.push(
-          { id: 1, badge: "URL ROOT", value: cleanUrl, context: "Document target location" },
-          { id: 2, badge: "RESPONSE", value: `HTTP 200 OK (${duration}ms latency)`, context: "Live connection verified" },
-          { id: 3, badge: "FILTER NOTICE", value: customQuery ? `No elements matched keyword '${customQuery}'` : "Select an alternate extraction target above", context: "Query refinement" }
-        );
+        finalTop3.push({
+          id: 1,
+          badge: "CORS RESTRICTED",
+          value: `Target domain (${parsedUrl.hostname}) blocks direct client-side reads`,
+          context: "Direct browser extraction is restricted by cross-origin security. Execute the compiled Python Playwright script below on a dedicated worker."
+        });
+        setScrapeStatus(`CORS / GATEWAY RESTRICTED (${duration}ms)`);
       }
+    } else {
+      setScrapeFailed(false);
+      setScrapeStatus(`200 OK (${duration}ms)`);
     }
 
-    setExtractedRecords(finalTop3.slice(0, 3));
+    setExtractedRecords(finalTop3);
     setIsScraping(false);
-    setScrapeStatus(`200 OK (${duration}ms)`);
+    abortControllerRef.current = null;
     soundEngine.playPop(0.09);
 
     updatePlaywrightScript(cleanUrl, targetType, customQuery);
@@ -844,10 +901,16 @@ if __name__ == "__main__":
                 Real DOM extraction engine. Select what to extract, apply optional keyword filters, and view clean capped records.
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded bg-cyan-950/60 border border-cyan-800 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-neutral-300">
+                <span className="text-cyan-400 font-bold">INTERACTIVE DEMO:</span> CLIENT-SIDE DOM & PROXY
+              </span>
+              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-neutral-300">
+                <span className="text-emerald-400 font-bold">PRODUCTION PIPELINE:</span> PLAYWRIGHT ASYNC FLEET
+              </span>
+              <span className="px-3 py-1 rounded bg-cyan-950/60 border border-cyan-800 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                OUTPUT CAP: 3 RECORDS
+                CAPPED AT 3 RECORDS
               </span>
             </div>
           </div>
@@ -995,16 +1058,31 @@ if __name__ == "__main__":
                     className="w-full bg-surface-elevated border border-surface-border rounded-xl pl-8 pr-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyanAccent"
                   />
                 </div>
+                {isScraping && (
+                  <button
+                    type="button"
+                    onClick={cancelScrape}
+                    className="px-3.5 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center shrink-0 cursor-pointer"
+                    title="Cancel in-flight request"
+                  >
+                    Cancel
+                  </button>
+                )}
                 <button
                   type="button"
                   disabled={isScraping}
                   onClick={() => executeScrape(scraperUrl, scrapeTargetType, keywordFilter)}
-                  className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-lg"
+                  className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-lg cursor-pointer"
                 >
                   {isScraping ? (
                     <>
                       <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
                       <span>Extracting</span>
+                    </>
+                  ) : scrapeFailed ? (
+                    <>
+                      <Play className="w-3.5 h-3.5 fill-black" />
+                      <span>Retry</span>
                     </>
                   ) : (
                     <>

@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Volume2, VolumeX, Mic, Coffee, Headphones, Moon, Laptop, Shuffle, Heart } from 'lucide-react';
-import { Aira3DModel, CompanionActivity, CompanionPose } from './Aira3DModel';
+import type { CompanionActivity, CompanionPose } from './Aira3DModel';
 import { getHumaneDialogue, generateOrganicThought } from '../data/airaDialogues';
+
+const Aira3DModel = React.lazy(() =>
+  import('./Aira3DModel').then((module) => ({ default: module.Aira3DModel }))
+);
 
 interface AiraCompanionProps {
   onOpenModal: () => void;
@@ -103,6 +107,19 @@ export const AiraCompanion: React.FC<AiraCompanionProps> = ({
 
   // Coordinates
   const rigRef = useRef<HTMLDivElement | null>(null);
+
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  });
+  const [isMobileExpanded, setIsMobileExpanded] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const getDockPos = () => ({
     x: typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 240) : 800,
@@ -385,7 +402,7 @@ export const AiraCompanion: React.FC<AiraCompanionProps> = ({
 
   // Trigger Graceful Stroll to Cursor after 5 seconds of stillness
   const triggerGracefulIdleVisit = (cursorX: number, cursorY: number) => {
-    if (isReactionLockedRef.current) return;
+    if (isReactionLockedRef.current || isMobile) return;
 
     isSeekingIdleCursorRef.current = true;
     isKneelingAtCursorRef.current = false;
@@ -405,6 +422,93 @@ export const AiraCompanion: React.FC<AiraCompanionProps> = ({
   // Dialog bubble placement
   const isNearTop = companionPos.y < 220;
   const isNearRight = companionPos.x > (typeof window !== 'undefined' ? window.innerWidth - 300 : 800);
+
+  // Render non-intrusive mobile dock on screens < 768px to prevent obscuring content
+  if (isMobile) {
+    return (
+      <div className="fixed bottom-4 right-4 z-40 pointer-events-auto flex flex-col items-end gap-2">
+        <AnimatePresence>
+          {isMobileExpanded && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              className="w-72 bg-[#090b10]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl space-y-3"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-white/10 text-[10px] font-mono text-neutral-400">
+                <span className="flex items-center gap-1.5 text-white font-semibold">
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> Aira • Mobile Guide
+                </span>
+                <button
+                  onClick={() => setIsMobileExpanded(false)}
+                  className="px-2 py-0.5 rounded hover:bg-white/10 text-neutral-400 hover:text-white text-xs font-mono"
+                >
+                  Close
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono text-cyan-300 uppercase px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60 font-semibold">
+                  {statusBadge}
+                </span>
+                <button
+                  onClick={onToggleAudio}
+                  className="text-[10px] font-mono flex items-center gap-1 text-neutral-300"
+                >
+                  {isAudioEnabled ? (
+                    <>
+                      <Volume2 className="w-3.5 h-3.5 text-cyan-400" /> ON
+                    </>
+                  ) : (
+                    <>
+                      <VolumeX className="w-3.5 h-3.5 text-neutral-500" /> MUTED
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <p className="text-xs text-neutral-200 font-sans leading-relaxed">
+                "{dialog}"
+              </p>
+
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                <button
+                  onClick={onOpenModal}
+                  className="px-3 py-1.5 rounded-lg bg-cyan-400 text-black font-mono font-bold text-xs flex items-center gap-1.5 shadow"
+                >
+                  <Mic className="w-3.5 h-3.5" /> Voice Guide
+                </button>
+                <button
+                  onClick={() => {
+                    const available = LIVING_ROUTINES.filter((r) => r.id !== currentRoutine.id);
+                    const next = available[Math.floor(Math.random() * available.length)];
+                    setCurrentRoutine(next);
+                    setDialog(getHumaneDialogue(next.vibe));
+                    setStatusBadge(next.badge);
+                  }}
+                  className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-neutral-300 text-xs"
+                  title="Shuffle"
+                >
+                  <Shuffle className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Mobile Dock Floating Pill */}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsMobileExpanded((prev) => !prev)}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#0c0d12]/95 border border-cyan-400/40 text-white shadow-2xl backdrop-blur-md"
+        >
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="text-xs font-mono font-medium">Aira Guide</span>
+          <Mic className="w-3.5 h-3.5 text-cyan-400" />
+        </motion.button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -555,15 +659,23 @@ export const AiraCompanion: React.FC<AiraCompanionProps> = ({
         onClick={onOpenModal}
         className="relative w-48 sm:w-56 h-64 sm:h-80 cursor-pointer flex items-center justify-center filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)] pointer-events-auto"
       >
-        <Aira3DModel
-          currentPose={poseName}
-          activity={activity}
-          isCursorOffscreen={isCursorOffscreen}
-          walkDirection={walkDirection}
-          onClickModel={onOpenModal}
-          width={220}
-          height={320}
-        />
+        <Suspense
+          fallback={
+            <div className="w-[220px] h-[320px] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border-2 border-cyan-400/30 border-t-cyan-400 animate-spin" />
+            </div>
+          }
+        >
+          <Aira3DModel
+            currentPose={poseName}
+            activity={activity}
+            isCursorOffscreen={isCursorOffscreen}
+            walkDirection={walkDirection}
+            onClickModel={onOpenModal}
+            width={220}
+            height={320}
+          />
+        </Suspense>
 
         {/* Talk / Voice Trigger Button */}
         <div

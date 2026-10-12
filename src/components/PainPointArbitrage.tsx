@@ -159,11 +159,13 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
 
           <div>
             <div className="flex justify-between items-center text-xs font-mono text-neutral-300 mb-2">
-              <span>Operators Performing Task</span>
+              <label htmlFor="team-size-slider">Operators Performing Task</label>
               <span className="text-base font-bold text-white">{teamSize} {teamSize === 1 ? 'operator' : 'operators'}</span>
             </div>
             <input
+              id="team-size-slider"
               type="range"
+              aria-label="Operators Performing Task"
               min={1}
               max={30}
               value={teamSize}
@@ -172,17 +174,19 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
                 setTeamSize(val);
                 soundEngine.playTick(val / 30, 0.03);
               }}
-              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400"
+              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
           </div>
 
           <div>
             <div className="flex justify-between items-center text-xs font-mono text-neutral-300 mb-2">
-              <span>Task Frequency & Hours Spent (Per Person / Week)</span>
+              <label htmlFor="hours-per-week-slider">Task Frequency & Hours Spent (Per Person / Week)</label>
               <span className="text-base font-bold text-white">{hoursPerWeek} {hoursPerWeek === 1 ? 'hour' : 'hours'} / wk</span>
             </div>
             <input
+              id="hours-per-week-slider"
               type="range"
+              aria-label="Task Frequency & Hours Spent Per Person Per Week"
               min={1}
               max={40}
               value={hoursPerWeek}
@@ -191,17 +195,19 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
                 setHoursPerWeek(val);
                 soundEngine.playTick(val / 40, 0.03);
               }}
-              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400"
+              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
           </div>
 
           <div>
             <div className="flex justify-between items-center text-xs font-mono text-neutral-300 mb-2">
-              <span>Fully Loaded Hourly Labor Rate</span>
+              <label htmlFor="hourly-rate-slider">Fully Loaded Hourly Labor Rate</label>
               <span className="text-base font-bold text-white">${hourlyRate} / hr</span>
             </div>
             <input
+              id="hourly-rate-slider"
               type="range"
+              aria-label="Fully Loaded Hourly Labor Rate"
               min={15}
               max={200}
               value={hourlyRate}
@@ -210,17 +216,19 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
                 setHourlyRate(val);
                 soundEngine.playTick(val / 200, 0.03);
               }}
-              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400"
+              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-red-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
           </div>
 
           <div>
             <div className="flex justify-between items-center text-xs font-mono text-neutral-300 mb-2">
-              <span>Portion of Work Actually Automated</span>
+              <label htmlFor="automation-coverage-slider">Portion of Work Actually Automated</label>
               <span className="text-base font-bold text-emerald-400">{automationCoverage}%</span>
             </div>
             <input
+              id="automation-coverage-slider"
               type="range"
+              aria-label="Portion of Work Actually Automated"
               min={10}
               max={100}
               step={5}
@@ -230,9 +238,9 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
                 setAutomationCoverage(val);
                 soundEngine.playTick(val / 100, 0.03);
               }}
-              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-emerald-400"
+              className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-emerald-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
-            <p className="text-[11px] font-mono text-neutral-500 mt-1">
+            <p className="text-[11px] font-mono text-neutral-400 mt-1">
               {automationCoverage === 100
                 ? "Full replacement: 100% of task time is eliminated."
                 : `Assisted automation: Saves ${automationCoverage}% of time, remaining ${(100 - automationCoverage)}% requires human touch.`}

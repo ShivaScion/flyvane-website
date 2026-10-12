@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Lenis from 'lenis';
 import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { ThreeCanvas } from './components/ThreeCanvas';
+
+const ThreeCanvas = React.lazy(() =>
+  import('./components/ThreeCanvas').then((m) => ({ default: m.ThreeCanvas }))
+);
 import { AiraCompanion } from './components/AiraCompanion';
 import { AiraVoiceModal } from './components/AiraVoiceModal';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
@@ -199,7 +202,9 @@ export function App() {
 
       {/* 3D Three.js Spatial Background Canvas */}
       <ErrorBoundary fallback={null}>
-        <ThreeCanvas mode={mode} />
+        <Suspense fallback={null}>
+          <ThreeCanvas mode={mode} />
+        </Suspense>
       </ErrorBoundary>
       <div className="fixed inset-0 noise-overlay pointer-events-none z-0" />
 

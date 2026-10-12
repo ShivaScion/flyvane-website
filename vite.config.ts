@@ -31,6 +31,43 @@ const scraperApiPlugin = (): Plugin => ({
         res.end(JSON.stringify({ error: err.message || 'Failed to fetch target' }));
       }
     });
+
+    server.middlewares.use('/api/contact', async (req, res) => {
+      if (req.method !== 'POST') {
+        res.statusCode = 405;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        return;
+      }
+
+      let body = '';
+      req.on('data', (chunk) => {
+        body += chunk;
+      });
+
+      req.on('end', () => {
+        try {
+          const parsed = JSON.parse(body || '{}');
+          const receiptId = `FV-${Math.floor(100000 + Math.random() * 900000)}`;
+          console.log(`[DEV CONTACT INTAKE] Receipt: ${receiptId} from ${parsed.name || 'Anonymous'}`);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(
+            JSON.stringify({
+              success: true,
+              receiptId,
+              timestamp: new Date().toISOString(),
+              destination: 'contact@flyvane.com',
+              message: 'Lead received and logged in dev intake queue.'
+            })
+          );
+        } catch (e: any) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+        }
+      });
+    });
   }
 });
 
@@ -43,6 +80,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    minify: 'esbuild'
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'three-vendor': ['three'],
+          'motion-vendor': ['framer-motion'],
+          'icons-vendor': ['lucide-react']
+        }
+      }
+    }
   }
 });

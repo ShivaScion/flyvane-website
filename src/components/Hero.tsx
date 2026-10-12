@@ -17,24 +17,24 @@ export const Hero: React.FC<HeroProps> = ({ mode, onAiraTour, onOpenScraper, onO
   return (
     <section id="hero" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-center">
       
-      {/* Top Telemetry Strip */}
+      {/* Top Telemetry Strip (Responsive flex-col on small screens, flex-row on md+) */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
-        className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-surface-border/60"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8 pb-4 border-b border-surface-border/60 text-xs font-mono"
       >
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-card border border-surface-border text-[11px] font-mono text-neutral-300">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-card border border-surface-border text-[11px] font-mono text-neutral-200">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            FLYVANE // TECHNOLOGY, AUTOMATION & STRATEGY
+            FLYVANE // AUTOMATION & STRATEGY
           </span>
-          <span className="text-xs font-mono text-neutral-500 hidden md:inline">GLOBAL ARCHITECTURE // ENTERPRISE PIPELINES</span>
+          <span className="text-[11px] text-neutral-400 hidden lg:inline">ENTERPRISE PIPELINES</span>
         </div>
-        <div className="text-xs font-mono text-neutral-400 flex items-center gap-4">
-          <span className="text-cyan-400 font-semibold">SECURITY-HARDENED ARCHITECTURE</span>
-          <span className="text-neutral-600">•</span>
-          <span className="text-neutral-300">HIGH-THROUGHPUT PIPELINES</span>
+        <div className="text-[11px] text-neutral-300 flex flex-wrap items-center gap-2 sm:gap-3">
+          <span className="text-cyan-400 font-medium">DEFENSIVE ARCHITECTURE</span>
+          <span className="text-neutral-600 hidden sm:inline">•</span>
+          <span className="text-neutral-300">HIGH-THROUGHPUT RUNTIMES</span>
         </div>
       </motion.div>
 
@@ -92,19 +92,19 @@ export const Hero: React.FC<HeroProps> = ({ mode, onAiraTour, onOpenScraper, onO
             </motion.button>
           </div>
 
-          {/* Mode-Specific Credential Counters */}
-          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-surface-border/60">
-            <div>
+          {/* Mode-Specific Credential Counters (Responsive at narrow breakpoints) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-surface-border/60">
+            <div className="p-3 sm:p-0 rounded-lg bg-surface-card/60 sm:bg-transparent border border-surface-border/40 sm:border-0">
               <span className="block text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">{content.telemetry.metric1Val}</span>
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-[0.1em]">{content.telemetry.metric1Label}</span>
+              <span className="text-[11px] sm:text-xs font-mono text-neutral-300 uppercase tracking-wider block mt-0.5">{content.telemetry.metric1Label}</span>
             </div>
-            <div>
+            <div className="p-3 sm:p-0 rounded-lg bg-surface-card/60 sm:bg-transparent border border-surface-border/40 sm:border-0">
               <span className="block text-2xl sm:text-3xl font-display font-bold text-cyan-400 tracking-tight">{content.telemetry.metric2Val}</span>
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-[0.1em]">{content.telemetry.metric2Label}</span>
+              <span className="text-[11px] sm:text-xs font-mono text-neutral-300 uppercase tracking-wider block mt-0.5">{content.telemetry.metric2Label}</span>
             </div>
-            <div>
+            <div className="p-3 sm:p-0 rounded-lg bg-surface-card/60 sm:bg-transparent border border-surface-border/40 sm:border-0">
               <span className="block text-2xl sm:text-3xl font-display font-bold text-emerald-400 tracking-tight">{content.telemetry.metric3Val}</span>
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-[0.1em]">{content.telemetry.metric3Label}</span>
+              <span className="text-[11px] sm:text-xs font-mono text-neutral-300 uppercase tracking-wider block mt-0.5">{content.telemetry.metric3Label}</span>
             </div>
           </div>
         </motion.div>
