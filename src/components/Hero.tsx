@@ -32,9 +32,9 @@ export const Hero: React.FC<HeroProps> = ({ mode, onAiraTour, onOpenScraper, onO
           <span className="text-xs font-mono text-neutral-500 hidden md:inline">GLOBAL ARCHITECTURE // ENTERPRISE PIPELINES</span>
         </div>
         <div className="text-xs font-mono text-neutral-400 flex items-center gap-4">
-          <span className="text-cyan-400 font-semibold">IITM PRAVARTAK CEH // CYBERSECURITY</span>
+          <span className="text-cyan-400 font-semibold">SECURITY-HARDENED ARCHITECTURE</span>
           <span className="text-neutral-600">•</span>
-          <span className="text-neutral-300">HIGH-THROUGHPUT SYSTEMS</span>
+          <span className="text-neutral-300">HIGH-THROUGHPUT PIPELINES</span>
         </div>
       </motion.div>
 

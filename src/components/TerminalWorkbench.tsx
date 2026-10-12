@@ -177,7 +177,7 @@ if __name__ == "__main__":
       } else if (topic.includes('capab') || topic.includes('stack') || topic.includes('tech') || topic.includes('engine')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO // STUDIO STACK]\n• Core Engine: Python 3.12 AsyncIO, Playwright, Crawl4AI, Pydantic V2\n• Workers & Agents: LangGraph deterministic state machines, Celery, Redis\n• Security: IITM Pravartak CEH Certified, AES-256 encryption at rest, TLS 1.3\n• Availability SLA: 99.98% cluster uptime with automated failover`
+          text: `[VERIFIED INFO // STUDIO STACK]\n• Core Engine: Python 3.12 AsyncIO, Playwright, Crawl4AI, Pydantic V2\n• Workers & Agents: LangGraph deterministic state machines, Celery, Redis\n• Security: Hardened defensive architecture, AES-256 storage, TLS 1.3 in transit\n• Reliability: Multi-worker process pooling with automated health restarts`
         });
       } else if (topic.includes('pric') || topic.includes('cost') || topic.includes('retainer') || topic.includes('roi')) {
         newHist.push({

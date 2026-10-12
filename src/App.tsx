@@ -14,6 +14,7 @@ import { CompanyCapabilities } from './components/CompanyCapabilities';
 import { MindStrategyBoard } from './components/MindStrategyBoard';
 import { ContactSection } from './components/ContactSection';
 import { CommandPalette } from './components/CommandPalette';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 export function App() {
   const [mode, setMode] = useState<'machine' | 'mind' | 'hybrid'>('machine');
@@ -197,7 +198,9 @@ export function App() {
       }} />
 
       {/* 3D Three.js Spatial Background Canvas */}
-      <ThreeCanvas mode={mode} />
+      <ErrorBoundary fallback={null}>
+        <ThreeCanvas mode={mode} />
+      </ErrorBoundary>
       <div className="fixed inset-0 noise-overlay pointer-events-none z-0" />
 
       {/* Navbar */}
@@ -236,25 +239,33 @@ export function App() {
 
         {/* Machine Mode Terminal Workbench (Dedicated Automation Tool) */}
         {mode === 'machine' && (
-          <TerminalWorkbench
-            onSetMode={setMode}
-            onAiraSpeak={(t) => speakText(t, true)}
-          />
+          <ErrorBoundary>
+            <TerminalWorkbench
+              onSetMode={setMode}
+              onAiraSpeak={(t) => speakText(t, true)}
+            />
+          </ErrorBoundary>
         )}
 
         {/* Mind Mode Strategy Board (Dedicated Editorial Brand Strategy Surface) */}
         {mode === 'mind' && (
-          <MindStrategyBoard />
+          <ErrorBoundary>
+            <MindStrategyBoard />
+          </ErrorBoundary>
         )}
 
         {/* Hybrid Mode: Both Integrated System Capabilities */}
         {mode === 'hybrid' && (
           <>
-            <MindStrategyBoard />
-            <TerminalWorkbench
-              onSetMode={setMode}
-              onAiraSpeak={(t) => speakText(t, true)}
-            />
+            <ErrorBoundary>
+              <MindStrategyBoard />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <TerminalWorkbench
+                onSetMode={setMode}
+                onAiraSpeak={(t) => speakText(t, true)}
+              />
+            </ErrorBoundary>
           </>
         )}
 

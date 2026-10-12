@@ -63,15 +63,15 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     ctaPrimary: "Launch Automation Terminal",
     ctaPrimaryHash: "#workbench",
     telemetry: {
-      metric1Val: "100%",
-      metric1Label: "Deterministic Extraction",
-      metric2Val: "99.98%",
-      metric2Label: "Cluster Availability Target",
-      metric3Val: "<200ms",
-      metric3Label: "Median Worker Latency",
+      metric1Val: "Schema",
+      metric1Label: "Strict Pydantic Validation",
+      metric2Val: "High-Availability",
+      metric2Label: "Fault-Tolerant Clusters",
+      metric3Val: "Sub-Second",
+      metric3Label: "Target Queue Dispatch",
       runtimeProtocol: "PYTHON ASYNCIO + PLAYWRIGHT + CELERY",
       positioningMethod: "HEADLESS STEALTH & PROXY ORCHESTRATION",
-      securityPosture: "CEH HARDENED & ENCRYPTED AT REST"
+      securityPosture: "TLS 1.3 & SECRETS VAULT ISOLATION"
     },
     servicesHeading: "Engineering & Technical Capabilities",
     servicesSubheading: "Precision software systems designed for mission-critical reliability and zero operator friction.",
@@ -243,11 +243,11 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
       metric1Label: "Strategy & Code Alignment",
       metric2Val: "End-to-End",
       metric2Label: "Workflow Coverage",
-      metric3Val: "99.98%",
-      metric3Label: "System Reliability Target",
+      metric3Val: "Automated",
+      metric3Label: "Execution Reliability Target",
       runtimeProtocol: "PYTHON ASYNCIO + PLAYWRIGHT + LLM WORKERS",
       positioningMethod: "BEHAVIORAL LOSS-AVERSION CONVERSION",
-      securityPosture: "CEH HARDENED & PRODUCTION CERTIFIED"
+      securityPosture: "HARDENED INFRASTRUCTURE & CREDENTIAL ISOLATION"
     },
     servicesHeading: "Integrated Strategy & Execution Solutions",
     servicesSubheading: "How engineering capabilities directly unlock marketing outcomes and business growth.",

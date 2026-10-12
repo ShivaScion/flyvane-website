@@ -30,14 +30,14 @@ export const Navbar: React.FC<NavbarProps> = ({ mode, setMode, onOpenAira, onOpe
           </div>
         </a>
 
-        {/* 3-State Theme Morphing Machine */}
-        <div className="hidden md:flex items-center bg-surface-card p-1 rounded-full border border-surface-border">
+        {/* 3-State Theme Morphing Machine (Responsive for Mobile & Desktop) */}
+        <div className="flex items-center bg-surface-card p-1 rounded-full border border-surface-border scale-90 sm:scale-100">
           <button
             onClick={() => {
               setMode('machine');
               soundEngine.playModeMorph('machine');
             }}
-            className={`px-3.5 py-1 rounded-full text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'machine'
                 ? 'text-white bg-cyanAccent/20 border border-cyanAccent/40'
                 : 'text-neutral-400 hover:text-white'
@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ mode, setMode, onOpenAira, onOpe
               setMode('mind');
               soundEngine.playModeMorph('mind');
             }}
-            className={`px-3.5 py-1 rounded-full text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'mind'
                 ? 'text-white bg-amberAccent/20 border border-amberAccent/40'
                 : 'text-neutral-400 hover:text-white'
@@ -63,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({ mode, setMode, onOpenAira, onOpe
               setMode('hybrid');
               soundEngine.playModeMorph('hybrid');
             }}
-            className={`px-3.5 py-1 rounded-full text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'hybrid'
                 ? 'text-white bg-emeraldAccent/20 border border-emeraldAccent/40'
                 : 'text-neutral-400 hover:text-white'

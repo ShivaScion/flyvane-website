@@ -34,11 +34,11 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode: 
     },
     {
       icon: <ShieldCheck className="w-5 h-5 text-amber-400" />,
-      category: "ENTERPRISE SECURITY & COMPLIANCE HARDENING",
-      title: "IITM Pravartak CEH Certified Security Hardening",
+      category: "SECURITY HARDENING & DEFENSIVE ARCHITECTURE",
+      title: "Hardened Pipeline Security & Credential Isolation",
       description:
-        "Every deployed automation pipeline undergoes rigorous penetration testing and vulnerability auditing. Architected with end-to-end data encryption (AES-256 at rest, TLS 1.3 in transit), strict secret vault segregation, and zero credential hardcoding.",
-      badges: ["CEH Certified", "SOC 2 Ready", "AES-256", "TLS 1.3", "Vault KMS"]
+        "Every deployed automation pipeline follows strict defense-in-depth principles: end-to-end encryption in transit (TLS 1.3), environment secret isolation, zero hardcoded tokens, and automated least-privilege service roles.",
+      badges: ["AES-256 Storage", "TLS 1.3", "Secret Vault Isolation", "Audit Logging"]
     },
     {
       icon: <Workflow className="w-5 h-5 text-purple-400" />,
@@ -52,15 +52,15 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode: 
 
   const standards = [
     {
-      title: "99.98% System Availability SLA",
-      detail: "Multi-region failover and automatic cluster redeployment on worker degradation."
+      title: "Fault-Tolerant Cluster Architecture",
+      detail: "Multi-worker pools with automated health checks, restart routines, and graceful retry backoffs."
     },
     {
-      title: "Zero-Data-Loss Architecture",
-      detail: "Idempotent queue consumers with dead-letter storage and automated replay capabilities."
+      title: "Idempotent Queue Execution",
+      detail: "Queue consumers with dead-letter storage, message deduplication, and automated replay capabilities."
     },
     {
-      title: "Sub-Second Telemetry & Auditing",
+      title: "Structured Execution Tracing",
       detail: "Full structured logging and distributed tracing across every autonomous execution cycle."
     },
     {

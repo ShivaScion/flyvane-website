@@ -97,17 +97,25 @@ export const Aira3DModel: React.FC<Aira3DModelProps> = ({
     camera.position.set(0, 0.25, 2.7);
 
     // 3. Renderer setup
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    container.innerHTML = '';
-    container.appendChild(renderer.domElement);
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+    } catch (err) {
+      console.warn('Failed to initialize WebGL for Aira 3D model:', err);
+      setLoadError('3D graphics hardware acceleration unavailable.');
+      setIsLoading(false);
+      return;
+    }
 
     // 4. Studio Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);

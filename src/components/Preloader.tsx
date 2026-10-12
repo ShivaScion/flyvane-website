@@ -28,6 +28,17 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
+    // Hard fallback: never allow preloader to trap page or leave overflow hidden for more than 2200ms
+    const safetyTimer = setTimeout(() => {
+      document.body.style.overflow = '';
+      setIsExiting(true);
+      onComplete();
+    }, 2200);
+
+    return () => clearTimeout(safetyTimer);
+  }, [onComplete]);
+
+  useEffect(() => {
     if (index === PRELOADER_WORDS.length - 1) {
       const exitTimeout = setTimeout(() => {
         setIsExiting(true);
