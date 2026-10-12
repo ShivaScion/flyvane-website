@@ -732,7 +732,7 @@ if __name__ == "__main__":
   };
 
   return (
-    <section id="workbench" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="workbench" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
@@ -749,7 +749,7 @@ if __name__ == "__main__":
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] max-w-xl">
+      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4)] max-w-xl">
         <button
           type="button"
           onClick={() => setActiveTab('scraper')}
@@ -780,9 +780,10 @@ if __name__ == "__main__":
       {activeTab === 'terminal' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-4 bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out"
+          className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-4"
         >
-          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
+          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] relative z-10">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -795,7 +796,7 @@ if __name__ == "__main__":
             </div>
           </div>
 
-          <div ref={terminalScrollRef} className="backdrop-blur-xl bg-white/[0.025] rounded-xl border border-white/[0.08] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.1)]">
+          <div ref={terminalScrollRef} className="backdrop-blur-xl bg-white/[0.02] rounded-xl border border-white/[0.08] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 relative z-10">
             {terminalHistory.map((item, i) => (
               <div
                 key={i}
@@ -813,7 +814,7 @@ if __name__ == "__main__":
             ))}
           </div>
 
-          <div className="flex items-center gap-3 backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl p-3 font-mono text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]">
+          <div className="flex items-center gap-3 backdrop-blur-xl bg-white/[0.02] border border-white/[0.08] rounded-xl p-3 font-mono text-xs relative z-10">
             <span className="text-cyan-400 font-semibold">QUERY</span>
             <input
               type="text"
@@ -838,8 +839,9 @@ if __name__ == "__main__":
       {activeTab === 'scraper' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-6 bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out"
+          className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-6"
         >
+          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
             <div>

@@ -63,7 +63,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
     ];
 
     return (
-      <section id="capabilities" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+      <section id="capabilities" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,9 +91,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
               onMouseEnter={() => soundEngine.playHoverHum()}
-              className="tilt-card liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
+              className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between"
             >
-              <div className="space-y-4">
+              <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+              <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
                     {item.icon}
@@ -117,7 +118,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/[0.08] space-y-2">
+              <div className="pt-4 border-t border-white/[0.08] space-y-2 relative z-10">
                 {item.criteria.map((c, cIdx) => (
                   <div key={cIdx} className="flex items-center gap-2 text-xs font-sans text-zinc-300">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
@@ -164,7 +165,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
   ];
 
   return (
-    <section id="capabilities" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="capabilities" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -192,9 +193,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="tilt-card liquid-glass liquid-glass-cyan bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
+            className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between"
           >
-            <div className="space-y-4">
+            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+            <div className="space-y-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
                   {g.icon}

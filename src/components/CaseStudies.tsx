@@ -12,7 +12,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
   const content = MODE_CONTENT[mode];
 
   return (
-    <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="services" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       
       {/* Capabilities Heading (4-Tier Typographic System) */}
       <motion.div
@@ -42,7 +42,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
         </p>
       </motion.div>
 
-      {/* 4 Dedicated Mode Capability Cards in Section 2.1 Liquid Glass Master Tokens */}
+      {/* 4 Dedicated Mode Capability Cards in Section 4.2 & 4.3 Liquid Glass Master Tokens */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {content.services.map((svc, sIdx) => (
           <motion.div
@@ -52,11 +52,10 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: sIdx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className={`tilt-card liquid-glass bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between group ${
-              mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
-            }`}
+            className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between group"
           >
-            <div className="space-y-4">
+            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+            <div className="space-y-4 relative z-10">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[10px] font-sans text-zinc-300 font-semibold tracking-[0.2em] uppercase">
                   {svc.badge}

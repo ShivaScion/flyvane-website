@@ -1,13 +1,10 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-
-const ThreeCanvas = React.lazy(() =>
-  import('./components/ThreeCanvas').then((m) => ({ default: m.ThreeCanvas }))
-);
+import { BackgroundCanvas } from './components/BackgroundCanvas';
 import { AiraCompanion } from './components/AiraCompanion';
 import { AiraVoiceModal } from './components/AiraVoiceModal';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
@@ -166,16 +163,14 @@ export function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#07080B] text-zinc-200 overflow-x-hidden">
+    <div className="relative min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
       <Preloader onComplete={() => {}} />
 
-      {/* 3D Three.js Spatial Background Canvas */}
+      {/* Section 1.1 & 1.2: Global Fixed 3D Background Canvas at Root Layout Level */}
       <ErrorBoundary fallback={null}>
-        <Suspense fallback={null}>
-          <ThreeCanvas mode={mode} />
-        </Suspense>
+        <BackgroundCanvas mode={mode} />
       </ErrorBoundary>
-      <div className="fixed inset-0 noise-overlay pointer-events-none z-0" />
+      <div className="fixed inset-0 noise-overlay pointer-events-none -z-40" />
 
       {/* Navbar */}
       <Navbar
@@ -187,7 +182,7 @@ export function App() {
       />
 
       {/* Main Viewport Content */}
-      <main className="relative z-10 pt-24 pb-24">
+      <main className="relative z-10 pt-24 pb-24 bg-transparent">
         <Hero mode={mode} />
 
         {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}

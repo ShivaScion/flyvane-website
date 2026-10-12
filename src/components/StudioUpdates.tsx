@@ -66,7 +66,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
   const posts = mode === 'mind' ? mindUpdates : machineUpdates;
 
   return (
-    <section id="updates" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="updates" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.025] backdrop-blur-2xl hover:bg-white/[0.045] border border-white/[0.08] hover:border-white/[0.18] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
         >
           <Linkedin className="w-3.5 h-3.5 text-sky-400" />
           <span>Follow Flyvane on LinkedIn</span>
@@ -112,11 +112,10 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className={`tilt-card liquid-glass bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-5 group ${
-              mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
-            }`}
+            className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out flex flex-col justify-between space-y-5 group"
           >
-            <div className="space-y-3.5">
+            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+            <div className="space-y-3.5 relative z-10">
               <div className="flex items-center justify-between text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-zinc-400">
                 <span className={mode === 'mind' ? 'text-amber-400' : 'text-emerald-400'}>
                   {post.category}

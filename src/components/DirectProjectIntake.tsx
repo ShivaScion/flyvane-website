@@ -117,18 +117,17 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
   const scopeOptions = SCOPE_OPTIONS_BY_MODE[mode];
 
   return (
-    <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="contact" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.65, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className={`tilt-card liquid-glass ${
-          mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
-        } rounded-2xl p-6 sm:p-8 lg:p-12 relative overflow-hidden bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out`}
+        className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 lg:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
           
           {/* Left Column: Advisory Overview & Direct LinkedIn Touchpoint (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
@@ -158,7 +157,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                 href="https://www.linkedin.com/company/flyvane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full px-5 py-4 rounded-2xl bg-white/[0.025] backdrop-blur-2xl hover:bg-white/[0.045] border border-white/[0.08] hover:border-white/[0.18] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
+                className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
               >
                 <span className="flex items-center gap-3">
                   <Linkedin className="w-4 h-4 text-sky-400" />
@@ -173,7 +172,8 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
           </div>
 
           {/* Right Column: Liquid Glass Direct Project Intake Form (7 cols) */}
-          <div className="lg:col-span-7 liquid-glass bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8">
+          <div className="lg:col-span-7 liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out">
+            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.08]">
               <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-white font-semibold">
                 Direct Project Intake
@@ -321,7 +321,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                     >
                       {scopeOptions.map((opt) => (
-                        <option key={opt} value={opt} className="bg-zinc-900 text-white">
+                        <option key={opt} value={opt} className="bg-[#050608] text-white">
                           {opt}
                         </option>
                       ))}

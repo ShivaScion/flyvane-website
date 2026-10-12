@@ -85,7 +85,7 @@ export const MindStrategyBoard: React.FC = () => {
   const current = frameworks[activeTab];
 
   return (
-    <section id="strategy-board" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.08]">
+    <section id="strategy-board" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.08]">
       
       {/* Header (Section 1: 4-Tier Typographic System) */}
       <motion.div
@@ -117,8 +117,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'positioning'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
-              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
+              : 'backdrop-blur-xl bg-white/[0.02] hover:bg-white/[0.04] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Compass className="w-3.5 h-3.5 text-amber-400" />
@@ -134,8 +134,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'narrative'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
-              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
+              : 'backdrop-blur-xl bg-white/[0.02] hover:bg-white/[0.04] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <FileText className="w-3.5 h-3.5 text-amber-400" />
@@ -151,8 +151,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'campaign'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
-              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
+              : 'backdrop-blur-xl bg-white/[0.02] hover:bg-white/[0.04] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Target className="w-3.5 h-3.5 text-amber-400" />
@@ -160,16 +160,17 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
       </div>
 
-      {/* Board Presentation Surface in Section 2.1 Liquid Glass Master Tokens */}
+      {/* Board Presentation Surface in Section 4.2 & 4.3 Liquid Glass Master Tokens */}
       <motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className="tilt-card liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-8"
+        className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-8"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+        <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08] relative z-10">
           <div>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 block mb-1">
               {current.badge}
@@ -183,18 +184,19 @@ export const MindStrategyBoard: React.FC = () => {
           </span>
         </div>
 
-        <p className="text-sm sm:text-base font-sans text-zinc-300 max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-base font-sans text-zinc-300 max-w-3xl leading-relaxed relative z-10">
           {current.summary}
         </p>
 
-        {/* 3 Step Editorial Cards in Section 2.1 Liquid Glass */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+        {/* 3 Step Editorial Cards in Section 4.2 & 4.3 Liquid Glass */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 relative z-10">
           {current.pillars.map((p, idx) => (
             <div
               key={idx}
-              className="liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-3 flex flex-col justify-between"
+              className="liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-3 flex flex-col justify-between"
             >
-              <div className="space-y-3">
+              <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+              <div className="space-y-3 relative z-10">
                 <span className="w-7 h-7 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-semibold">
                   0{idx + 1}
                 </span>
@@ -206,7 +208,7 @@ export const MindStrategyBoard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/[0.08] flex items-center gap-1.5 text-xs font-sans font-medium text-amber-400">
+              <div className="pt-3 border-t border-white/[0.08] flex items-center gap-1.5 text-xs font-sans font-medium text-amber-400 relative z-10">
                 <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
                 <span>{p.tone}</span>
               </div>
