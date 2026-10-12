@@ -41,7 +41,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
         </p>
       </motion.div>
 
-      {/* 4 Dedicated Mode Capability Cards */}
+      {/* 4 Dedicated Mode Capability Cards in Liquid Glass */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {content.services.map((svc, sIdx) => (
           <motion.div
@@ -51,7 +51,9 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: sIdx * 0.08, ease: stitchEase }}
             whileHover={{ y: -3 }}
-            className="tilt-card rounded-2xl p-7 space-y-5 flex flex-col justify-between group"
+            className={`tilt-card backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between group ${
+              mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
+            }`}
           >
             <div className="space-y-3.5">
               <div className="flex flex-wrap items-center justify-between gap-2">

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Terminal, Cpu, Calculator, Code, Brain, Mic, Search, User, Mail, Hash, Sparkles } from 'lucide-react';
+import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2 } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 export interface CommandItem {
   id: string;
   title: string;
   subtitle: string;
-  category: 'Navigation' | 'Automation' | 'Theme' | 'Voice' | 'Identity';
+  category: 'Navigation' | 'Automation' | 'Theme' | 'Audio' | 'Identity';
   icon: React.ReactNode;
   shortcut?: string;
   action: string;
@@ -45,31 +45,31 @@ const COMMAND_REGISTRY: CommandItem[] = [
     keywords: ['roi', 'calculator', 'arbitrage', 'loss', 'pricing', 'hours', 'savings', 'pipeline']
   },
   {
+    id: 'cmd-machine',
+    title: 'Switch to Automation Services',
+    subtitle: 'Autonomous engineering & process infrastructure view',
+    category: 'Theme',
+    icon: <Cpu className="w-4 h-4 text-cyan-400" />,
+    shortcut: 'AUTOMATION',
+    action: 'mode machine',
+    keywords: ['machine', 'theme', 'automation', 'cyan', 'technical', 'services']
+  },
+  {
     id: 'cmd-mind',
-    title: 'Switch to Mind Mode',
+    title: 'Switch to Marketing Services',
     subtitle: 'Executive positioning & demand architecture view',
     category: 'Theme',
     icon: <Brain className="w-4 h-4 text-amber-400" />,
-    shortcut: 'MIND',
+    shortcut: 'MARKETING',
     action: 'mode mind',
-    keywords: ['mind', 'theme', 'behavioral', 'psychology', 'amber', 'strategy']
-  },
-  {
-    id: 'cmd-machine',
-    title: 'Switch to Machine Mode',
-    subtitle: 'Autonomous engineering & process infrastructure view',
-    category: 'Theme',
-    icon: <Cpu className="w-4 h-4 text-emerald-400" />,
-    shortcut: 'MACHINE',
-    action: 'mode machine',
-    keywords: ['machine', 'theme', 'automation', 'cyan', 'technical']
+    keywords: ['mind', 'theme', 'marketing', 'behavioral', 'psychology', 'amber', 'strategy']
   },
   {
     id: 'cmd-hybrid',
     title: 'Switch to Hybrid Mode',
     subtitle: 'Unified engineering & executive authority view',
     category: 'Theme',
-    icon: <Hash className="w-4 h-4 text-cyan-400" />,
+    icon: <Hash className="w-4 h-4 text-emerald-400" />,
     shortcut: 'HYBRID',
     action: 'mode hybrid',
     keywords: ['hybrid', 'matrix', 'emerald', 'unified']
@@ -87,12 +87,22 @@ const COMMAND_REGISTRY: CommandItem[] = [
   {
     id: 'cmd-aira',
     title: 'Open Aira Studio Concierge',
-    subtitle: 'Launch interactive voice and navigation assistant',
-    category: 'Voice',
-    icon: <Mic className="w-4 h-4 text-emerald-400" />,
-    shortcut: 'VOICE',
+    subtitle: 'Launch interactive studio navigation assistant',
+    category: 'Navigation',
+    icon: <Sparkles className="w-4 h-4 text-emerald-400" />,
+    shortcut: 'CONCIERGE',
     action: 'aira',
-    keywords: ['aira', 'voice', 'companion', 'speak', 'audio', 'tour']
+    keywords: ['aira', 'concierge', 'companion', 'assistant', 'navigation']
+  },
+  {
+    id: 'cmd-mute',
+    title: 'Toggle Tactile UI Sounds',
+    subtitle: 'Mute or unmute Web Audio mechanical interaction feedback',
+    category: 'Audio',
+    icon: <Volume2 className="w-4 h-4 text-cyan-400" />,
+    shortcut: 'MUTE',
+    action: 'mute',
+    keywords: ['mute', 'sound', 'audio', 'tactile', 'silence']
   },
   {
     id: 'cmd-whoami',
@@ -210,10 +220,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
       aria-label="Command Palette"
     >
       <div
-        className="w-full max-w-2xl bg-zinc-950/90 backdrop-blur-2xl border border-white/[0.08] border-t-white/[0.16] rounded-2xl overflow-hidden shadow-2xl"
+        className="w-full max-w-2xl backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] rounded-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-4 border-b border-white/[0.08] flex items-center gap-3 bg-white/[0.02]">
+        <div className="p-4 border-b border-white/[0.09] flex items-center gap-3 bg-white/[0.02]">
           <Search className="w-5 h-5 text-emerald-400 shrink-0" />
           <input
             ref={inputRef}
@@ -256,14 +266,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`p-3 rounded-xl cursor-pointer flex items-center justify-between transition-all ${
                     isSelected
-                      ? 'bg-white/[0.06] text-white border border-emerald-500/30 shadow-sm'
+                      ? 'bg-white/[0.08] text-white border border-emerald-500/30 shadow-sm'
                       : 'text-zinc-400 hover:text-white border border-transparent'
                   }`}
                   role="option"
                   aria-selected={isSelected}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-black/60 border border-white/10' : 'bg-white/[0.03]'}`}>
+                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-white/[0.08] border border-white/15' : 'bg-white/[0.03]'}`}>
                       {cmd.icon}
                     </div>
                     <div className="min-w-0">
@@ -290,7 +300,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
           )}
         </div>
 
-        <div className="px-4 py-2.5 bg-black/40 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-sans text-zinc-400">
+        <div className="px-4 py-2.5 bg-white/[0.02] border-t border-white/[0.09] flex items-center justify-between text-[11px] font-sans text-zinc-400">
           <div className="flex items-center gap-3">
             <span><strong className="text-zinc-200">↑↓</strong> Navigate</span>
             <span><strong className="text-zinc-200">↵</strong> Execute</span>

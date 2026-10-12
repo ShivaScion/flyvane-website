@@ -46,9 +46,9 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     badge: "ENGINEERING & AUTONOMOUS PROCESS INFRASTRUCTURE",
     heroHeadline: {
       lead: "Automate the",
-      emphasis: "Bottlenecks.",
+      emphasis: "boring.",
       subLead: "Architect the",
-      subEmphasis: "Autonomous."
+      subEmphasis: "autonomous."
     },
     heroDescription:
       "We engineer bespoke data extraction pipelines, intelligent worker swarms, and headless systems that replace fragile manual labor with zero-operator reliability.",
@@ -128,9 +128,9 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     badge: "BEHAVIORAL STRATEGY & EXECUTIVE POSITIONING",
     heroHeadline: {
       lead: "Market the",
-      emphasis: "Brilliant.",
+      emphasis: "brilliant.",
       subLead: "Command the",
-      subEmphasis: "Authority."
+      subEmphasis: "authority."
     },
     heroDescription:
       "Transforming technical complexity into category-defining market authority. We architect founder positioning, high-intent narrative funnels, and enterprise demand engines.",
@@ -210,9 +210,9 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     badge: "INTEGRATED SYSTEMS & COMMERCIAL AUTHORITY",
     heroHeadline: {
       lead: "Automate the",
-      emphasis: "Bottlenecks.",
-      subLead: "Command the",
-      subEmphasis: "Authority."
+      emphasis: "boring.",
+      subLead: "Market the",
+      subEmphasis: "brilliant."
     },
     heroDescription:
       "Flyvane integrates autonomous engineering with executive positioning. We build the technical infrastructure that scales your operations and the strategic authority that captures enterprise demand.",

@@ -84,14 +84,14 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Authority Inputs (6 cols) */}
-        <div className="lg:col-span-6 tilt-card rounded-2xl p-6 sm:p-8 space-y-7">
-          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+        <div className="lg:col-span-6 tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-7">
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.09]">
             <span className="text-xs font-sans font-semibold text-amber-400 uppercase tracking-[0.16em] flex items-center gap-2">
               <Users className="w-4 h-4 text-amber-400" />
               <span>Executive Distribution Inputs</span>
             </span>
             <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
-               CALIBRATED MODEL
+              CALIBRATED MODEL
             </span>
           </div>
 
@@ -118,7 +118,10 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
                 setNetworkReach(val);
                 soundEngine.playTick(val / 100000, 0.03);
               }}
-              className="w-full h-2 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              style={{
+                background: `linear-gradient(to right, #F59E0B ${((networkReach - 1000) / 99000) * 100}%, rgba(255,255,255,0.12) ${((networkReach - 1000) / 99000) * 100}%)`,
+              }}
+              className="luxury-slider w-full h-2 rounded-full appearance-none cursor-grab active:cursor-grabbing"
             />
             <div className="flex justify-between text-[11px] font-mono text-zinc-500">
               <span>1,000</span>
@@ -143,8 +146,8 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
                   }}
                   className={`py-2.5 px-3 rounded-xl text-xs font-sans font-medium transition-all border cursor-pointer ${
                     cadence === option
-                      ? 'bg-amber-500/20 border-amber-400/60 text-white shadow-sm'
-                      : 'bg-white/[0.02] border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
+                      ? 'backdrop-blur-xl bg-amber-500/20 border-amber-400/60 text-white shadow-sm'
+                      : 'backdrop-blur-xl bg-white/[0.03] border-white/[0.09] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   {option}
@@ -176,7 +179,10 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
                 setAverageAcv(val);
                 soundEngine.playTick(val / 100000, 0.03);
               }}
-              className="w-full h-2 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              style={{
+                background: `linear-gradient(to right, #F59E0B ${((averageAcv - 5000) / 95000) * 100}%, rgba(255,255,255,0.12) ${((averageAcv - 5000) / 95000) * 100}%)`,
+              }}
+              className="luxury-slider w-full h-2 rounded-full appearance-none cursor-grab active:cursor-grabbing"
             />
             <div className="flex justify-between text-[11px] font-mono text-zinc-500">
               <span>$5,000</span>
@@ -185,17 +191,17 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs font-sans text-zinc-400 leading-relaxed">
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs font-sans text-zinc-400 leading-relaxed">
             <span className="text-zinc-200 font-medium block mb-1">Methodology Note</span>
             Projections model organic executive distribution combined with loss-aversion category framing and conversion-calibrated profile funnels.
           </div>
         </div>
 
         {/* Right Column: Calculated Authority & Pipeline Outputs (6 cols) */}
-        <div className="lg:col-span-6 tilt-card rounded-2xl p-6 sm:p-8 space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-            <span className="text-xs font-sans font-semibold text-violet-400 uppercase tracking-[0.16em] flex items-center gap-2">
-              <Award className="w-4 h-4 text-violet-400" />
+        <div className="lg:col-span-6 tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.09]">
+            <span className="text-xs font-sans font-semibold text-amber-400 uppercase tracking-[0.16em] flex items-center gap-2">
+              <Award className="w-4 h-4 text-amber-400" />
               <span>Projected Pipeline Yield</span>
             </span>
             <span className="text-[10px] font-mono text-amber-300 px-2.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30">
@@ -204,7 +210,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+            <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-1.5">
               <span className="text-[11px] font-sans text-zinc-400 block">
                 Projected Monthly High-Intent Profile Impressions
               </span>
@@ -216,7 +222,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
               </span>
             </div>
 
-            <div className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1.5">
+            <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-1.5">
               <span className="text-[11px] font-sans text-zinc-400 block">
                 Estimated Qualified Inbound Conversations per Quarter
               </span>
@@ -230,7 +236,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
           </div>
 
           {/* Primary Pipeline Value Output */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-violet-500/5 to-transparent border border-amber-500/30 space-y-2">
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-white/[0.02] to-transparent border border-amber-500/30 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-sans font-semibold uppercase tracking-[0.15em] text-amber-300">
                 Projected Attributable Pipeline Value

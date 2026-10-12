@@ -13,6 +13,8 @@ export const AdvisoryPayloadSchema = z.object({
   projectBrief: z.string().min(10).max(2000),
   activeMode: z.enum(['machine', 'mind', 'hybrid']),
   trapField: z.string().optional().default(''),
+  website_url: z.string().optional().default(''),
+  trap: z.string().optional().default(''),
 });
 
 export type AdvisoryPayload = z.infer<typeof AdvisoryPayloadSchema>;
@@ -93,14 +95,14 @@ function buildProspectAckHtml(payload: AdvisoryPayload, leadId: string): string 
 export async function processAdvisorySubmission(rawBody: unknown): Promise<{ status: number; body: Record<string, unknown> }> {
   try {
     // 1. Check honeypot before or during parsing
-    if (
-      rawBody &&
-      typeof rawBody === 'object' &&
-      'trapField' in rawBody &&
-      typeof (rawBody as Record<string, unknown>).trapField === 'string' &&
-      ((rawBody as Record<string, unknown>).trapField as string).trim().length > 0
-    ) {
-      return { status: 200, body: { success: true } };
+    if (rawBody && typeof rawBody === 'object') {
+      const obj = rawBody as Record<string, unknown>;
+      const hp = [obj.trapField, obj.website_url, obj.trap].find(
+        (v) => typeof v === 'string' && v.trim().length > 0
+      );
+      if (hp) {
+        return { status: 200, body: { success: true } };
+      }
     }
 
     // 2. Zod Input Validation
@@ -116,9 +118,13 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
       };
     }
 
-    const { name, contact, serviceScope, projectBrief, activeMode, trapField } = parsed.data;
+    const { name, contact, serviceScope, projectBrief, activeMode, trapField, website_url, trap } = parsed.data;
 
-    if (trapField && trapField.trim().length > 0) {
+    if (
+      (trapField && trapField.trim().length > 0) ||
+      (website_url && website_url.trim().length > 0) ||
+      (trap && trap.trim().length > 0)
+    ) {
       return { status: 200, body: { success: true } };
     }
 

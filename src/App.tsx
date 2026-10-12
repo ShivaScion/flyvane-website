@@ -25,9 +25,7 @@ export function App() {
   const [mode, setMode] = useState<'machine' | 'mind' | 'hybrid'>('machine');
   const [isAiraModalOpen, setIsAiraModalOpen] = useState(false);
   const [isCmdOpen, setIsCmdOpen] = useState(false);
-  const [airaTranscript, setAiraTranscript] = useState('');
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(false); // SILENT BY DEFAULT
+  const [isMuted, setIsMuted] = useState<boolean>(() => soundEngine.getMuted());
   const [inquiryContext, setInquiryContext] = useState<string>('');
 
   // 1. Initialize Lenis Smooth Momentum Scrolling & Anchor Link Interceptor
@@ -119,38 +117,11 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // 5. Speech Synthesis (Respecting Silence State)
-  const speakText = (text: string, forcePlay = false) => {
-    setAiraTranscript(text);
-    if (!isAudioEnabled && !forcePlay) {
-      return; // Respect silent mode
-    }
-
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.98;
-      utterance.pitch = 1.15;
-      utterance.volume = 0.72;
-
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(v => 
-        (v.name.includes('Google') && v.name.includes('Female')) ||
-        v.name.includes('Samantha') ||
-        v.name.includes('Victoria') ||
-        v.name.includes('Karen') ||
-        v.name.includes('Zira') ||
-        (v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
-      );
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-
-      setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-
-      window.speechSynthesis.speak(utterance);
+  const handleToggleMute = () => {
+    const nextMuted = soundEngine.toggleMute();
+    setIsMuted(nextMuted);
+    if (!nextMuted) {
+      soundEngine.playClick(0.06);
     }
   };
 
@@ -166,46 +137,37 @@ export function App() {
       }
     };
 
-    if (clean.includes('scraper') || clean.includes('terminal') || clean.includes('workbench')) {
+    if (clean === 'mute') {
+      handleToggleMute();
+    } else if (clean.includes('scraper') || clean.includes('terminal') || clean.includes('workbench')) {
       scrollToSection('#workbench');
-      speakText("Opening the live workbench.", true);
     } else if (clean.includes('roi') || clean.includes('calc') || clean.includes('loss') || clean.includes('revenue')) {
       scrollToSection('#roi-arbitrage');
-      speakText("Navigating to the estimator.", true);
     } else if (clean.includes('update')) {
       scrollToSection('#updates');
-      speakText("Navigating to studio updates.", true);
     } else if (clean.includes('contact') || clean.includes('advisory')) {
       scrollToSection('#contact');
-      speakText("Opening direct project intake.", true);
     } else if (clean.includes('mind')) {
       setMode('mind');
       soundEngine.playModeMorph('mind');
-      speakText("Switched to Mind Behavioral Strategy mode.", true);
     } else if (clean.includes('machine')) {
       setMode('machine');
       soundEngine.playModeMorph('machine');
-      speakText("Switched to Machine Technical Automation mode.", true);
     } else if (clean.includes('hybrid')) {
       setMode('hybrid');
       soundEngine.playModeMorph('hybrid');
-      speakText("Switched to Hybrid Unified Matrix.", true);
     } else if (clean.includes('aira')) {
       setIsAiraModalOpen(true);
     } else if (clean.includes('who') || clean.includes('company') || clean.includes('capabilities') || clean.includes('experience')) {
       scrollToSection('#capabilities');
-      speakText("Flyvane is an enterprise studio uniting autonomous process engineering with executive positioning.", true);
     } else {
       scrollToSection('#hero');
-      speakText("Navigating to top of studio.", true);
     }
   };
 
   return (
     <div className="relative min-h-screen bg-[#07080B] text-zinc-200 overflow-x-hidden">
-      <Preloader onComplete={() => {
-        // Silent on completion by default
-      }} />
+      <Preloader onComplete={() => {}} />
 
       {/* 3D Three.js Spatial Background Canvas */}
       <ErrorBoundary fallback={null}>
@@ -219,44 +181,20 @@ export function App() {
       <Navbar
         mode={mode}
         setMode={setMode}
-        onOpenAira={() => setIsAiraModalOpen(true)}
         onOpenCmd={() => setIsCmdOpen(true)}
+        isMuted={isMuted}
+        onToggleMute={handleToggleMute}
       />
 
       {/* Main Viewport Content */}
       <main className="relative z-10 pt-24 pb-24">
-        <Hero
-          mode={mode}
-          onAiraTour={() => {
-            setIsAudioEnabled(true);
-            speakText("Welcome to Flyvane.", true);
-          }}
-          onOpenScraper={() => {
-            const el = document.querySelector('#workbench');
-            if (el && (window as any).__lenis) {
-              (window as any).__lenis.scrollTo(el, { offset: -70, duration: 1.0 });
-            } else {
-              window.location.href = '#workbench';
-            }
-          }}
-          onOpenRoi={() => {
-            const el = document.querySelector('#roi-arbitrage');
-            if (el && (window as any).__lenis) {
-              (window as any).__lenis.scrollTo(el, { offset: -70, duration: 1.0 });
-            } else {
-              window.location.href = '#roi-arbitrage';
-            }
-          }}
-        />
+        <Hero mode={mode} />
 
-        {/* Machine Mode: Dedicated Automation Workbench & Operational ROI Calculator */}
+        {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
         {mode === 'machine' && (
           <>
             <ErrorBoundary>
-              <TerminalWorkbench
-                onSetMode={setMode}
-                onAiraSpeak={(t) => speakText(t, true)}
-              />
+              <TerminalWorkbench onSetMode={setMode} />
             </ErrorBoundary>
             <PainPointArbitrage
               onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
@@ -272,7 +210,7 @@ export function App() {
           </>
         )}
 
-        {/* Mind Mode: Dedicated Editorial Brand Strategy Surface & Brand Authority Estimator */}
+        {/* Marketing Services Mode: Dedicated Editorial Brand Strategy Surface & Authority Estimator */}
         {mode === 'mind' && (
           <>
             <ErrorBoundary>
@@ -291,10 +229,7 @@ export function App() {
               <MindStrategyBoard />
             </ErrorBoundary>
             <ErrorBoundary>
-              <TerminalWorkbench
-                onSetMode={setMode}
-                onAiraSpeak={(t) => speakText(t, true)}
-              />
+              <TerminalWorkbench onSetMode={setMode} />
             </ErrorBoundary>
             <PainPointArbitrage
               onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
@@ -322,29 +257,14 @@ export function App() {
         <ContactSection mode={mode} inquiryContext={inquiryContext} />
       </main>
 
-      {/* Autonomous Traveling Aira Companion */}
-      <AiraCompanion
-        onOpenModal={() => setIsAiraModalOpen(true)}
-        speakText={(t) => speakText(t, true)}
-        isSpeaking={isSpeaking}
-        isAudioEnabled={isAudioEnabled}
-        onToggleAudio={() => {
-          setIsAudioEnabled(prev => !prev);
-          if (!isAudioEnabled) {
-            speakText("Audio enabled.", true);
-          } else {
-            window.speechSynthesis?.cancel();
-            setIsSpeaking(false);
-          }
-        }}
-      />
+      {/* Passive Bottom-Right Aira Concierge Dock */}
+      <AiraCompanion onOpenModal={() => setIsAiraModalOpen(true)} />
 
-      {/* Aira Voice & Speech Modal */}
+      {/* Aira Concierge Text Modal */}
       <AiraVoiceModal
         isOpen={isAiraModalOpen}
         onClose={() => setIsAiraModalOpen(false)}
         onCommand={handleCommand}
-        transcript={airaTranscript}
       />
 
       {/* Cmd+K Command Palette */}

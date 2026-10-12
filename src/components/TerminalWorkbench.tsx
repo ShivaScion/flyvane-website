@@ -28,10 +28,9 @@ export interface ScrapedRecord {
 
 interface TerminalWorkbenchProps {
   onSetMode: (mode: 'machine' | 'mind' | 'hybrid') => void;
-  onAiraSpeak: (text: string) => void;
 }
 
-export const TerminalWorkbench: React.FC<TerminalWorkbenchProps> = ({ onSetMode, onAiraSpeak }) => {
+export const TerminalWorkbench: React.FC<TerminalWorkbenchProps> = ({ onSetMode }) => {
   const [activeTab, setActiveTab] = useState<'scraper' | 'terminal'>('scraper');
 
   // Execution Log State
@@ -145,9 +144,8 @@ if __name__ == "__main__":
         text: `Verified System Commands:
   • info <topic|url> : Retrieve verified information from studio database or live web target
   • scrape <url> : Extract live DOM elements & compile Playwright script (max 3 records)
-  • calc : Launch Automation ROI & Savings Calculator
-  • mode <machine|mind|hybrid> : Switch studio mode
-  • aira speak <text> : Trigger speech synthesis through Aira
+  • calc : Launch Automation Arbitrage & Savings Calculator
+  • mode <machine|mind|hybrid> : Switch studio mode (Automation Services, Marketing Services, Hybrid)
   • capabilities : Inspect studio infrastructure standards & security SLAs
   • contact : View direct communication endpoints & intake instructions
   • clear : Reset execution log`
@@ -180,12 +178,12 @@ if __name__ == "__main__":
       } else if (topic.includes('aira') || topic.includes('mascot') || topic.includes('bot')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO — AIRA CONCIERGE]\nAira is Flyvane's interactive studio concierge providing instant voice and text navigation across our engineering and advisory workflows.`
+          text: `[VERIFIED INFO — AIRA CONCIERGE]\nAira is Flyvane's interactive studio concierge providing instant text navigation and architecture guidance across our engineering and advisory workflows.`
         });
       } else if (topic.includes('contact') || topic.includes('email') || topic.includes('hire')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO — CONTACT]\n• Direct Email: contact@flyvane.com\n• Direct Intake: #contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
+          text: `[VERIFIED INFO — CONTACT]\n• Direct Intake: #contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
         });
       } else {
         newHist.push({
@@ -206,7 +204,7 @@ if __name__ == "__main__":
       } else {
         window.location.href = '#roi-arbitrage';
       }
-      newHist.push({ sender: 'system', text: `[NAVIGATED] Opened Automation ROI & Savings Calculator.` });
+      newHist.push({ sender: 'system', text: `[NAVIGATED] Opened Automation Arbitrage & Savings Calculator.` });
     } else if (action === 'mode') {
       const m = (parts[1] || '').toLowerCase();
       if (m === 'machine' || m === 'mind' || m === 'hybrid') {
@@ -219,14 +217,6 @@ if __name__ == "__main__":
           text: `[UNSUPPORTED MODE] '${parts[1]}' is invalid. Supported modes: 'machine', 'mind', 'hybrid'.`,
           isError: true
         });
-      }
-    } else if (action === 'aira' && parts[1] === 'speak') {
-      const msg = cmd.substring(11).trim();
-      if (!msg) {
-        newHist.push({ sender: 'system', text: `[USAGE] aira speak <text message>` });
-      } else {
-        onAiraSpeak(msg);
-        newHist.push({ sender: 'system', text: `[AUDIO SYNTHESIS] Aira spoke: "${msg}"` });
       }
     } else if (action === 'capabilities') {
       const el = document.getElementById('capabilities');
@@ -243,7 +233,7 @@ if __name__ == "__main__":
       } else {
         window.location.href = '#contact';
       }
-      newHist.push({ sender: 'system', text: `[CONTACT DIRECT] Email: contact@flyvane.com | Intake: #contact | Selective Enterprise Allocation` });
+      newHist.push({ sender: 'system', text: `[CONTACT DIRECT] Intake: #contact | Selective Enterprise Allocation` });
     } else if (action === 'clear') {
       setTerminalHistory([{ sender: 'system', text: 'Execution log cleared. Type "help" for commands.' }]);
       setTerminalInput('');
@@ -759,32 +749,39 @@ if __name__ == "__main__":
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-zinc-950/60 border border-white/[0.08] max-w-xl">
+      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] max-w-xl">
         <button
           type="button"
           onClick={() => setActiveTab('scraper')}
           className={`px-4 py-2 rounded-lg text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer ${
-            activeTab === 'scraper' ? 'bg-white text-black font-semibold' : 'text-zinc-400 hover:text-white'
+            activeTab === 'scraper'
+              ? 'backdrop-blur-xl bg-white/[0.12] border border-white/[0.24] text-white font-semibold shadow-[0_4px_16px_rgba(0,216,255,0.15),inset_0_1px_1px_rgba(255,255,255,0.3)]'
+              : 'text-zinc-400 hover:text-white border border-transparent'
           }`}
         >
-          <Cpu className="w-3.5 h-3.5" />
+          <Cpu className="w-3.5 h-3.5 text-cyan-400" />
           <span>01. Deterministic Extraction Sandbox</span>
         </button>
         <button
           type="button"
           onClick={() => setActiveTab('terminal')}
           className={`px-4 py-2 rounded-lg text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer ${
-            activeTab === 'terminal' ? 'bg-white text-black font-semibold' : 'text-zinc-400 hover:text-white'
+            activeTab === 'terminal'
+              ? 'backdrop-blur-xl bg-white/[0.12] border border-white/[0.24] text-white font-semibold shadow-[0_4px_16px_rgba(0,216,255,0.15),inset_0_1px_1px_rgba(255,255,255,0.3)]'
+              : 'text-zinc-400 hover:text-white border border-transparent'
           }`}
         >
-          <TerminalIcon className="w-3.5 h-3.5" />
+          <TerminalIcon className="w-3.5 h-3.5 text-cyan-400" />
           <span>02. Runtime Execution Inspector</span>
         </button>
       </div>
 
       {/* TAB 2: RUNTIME INSPECTOR */}
       {activeTab === 'terminal' && (
-        <div className="tilt-card rounded-2xl p-6 sm:p-8 space-y-4">
+        <div
+          onMouseEnter={() => soundEngine.playHoverHum()}
+          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-4 backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out"
+        >
           <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
@@ -798,7 +795,7 @@ if __name__ == "__main__":
             </div>
           </div>
 
-          <div ref={terminalScrollRef} className="bg-black/40 rounded-xl border border-white/[0.06] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2">
+          <div ref={terminalScrollRef} className="backdrop-blur-xl bg-white/[0.025] rounded-xl border border-white/[0.08] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.1)]">
             {terminalHistory.map((item, i) => (
               <div
                 key={i}
@@ -816,7 +813,7 @@ if __name__ == "__main__":
             ))}
           </div>
 
-          <div className="flex items-center gap-3 bg-zinc-950/60 border border-white/[0.08] rounded-xl p-3 font-mono text-xs">
+          <div className="flex items-center gap-3 backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl p-3 font-mono text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]">
             <span className="text-cyan-400 font-semibold">QUERY</span>
             <input
               type="text"
@@ -839,7 +836,10 @@ if __name__ == "__main__":
 
       {/* TAB 1: DETERMINISTIC EXTRACTION SANDBOX */}
       {activeTab === 'scraper' && (
-        <div className="tilt-card rounded-2xl p-6 sm:p-8 space-y-6">
+        <div
+          onMouseEnter={() => soundEngine.playHoverHum()}
+          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-6 backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out"
+        >
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
             <div>
@@ -910,7 +910,7 @@ if __name__ == "__main__":
                 value={scraperUrl}
                 onChange={(e) => setScraperUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full bg-zinc-950/60 border border-white/[0.08] rounded-xl pl-20 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyan-400 transition-colors"
+                className="w-full backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl pl-20 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyan-400 transition-colors"
               />
             </div>
           </div>
@@ -928,7 +928,7 @@ if __name__ == "__main__":
                   className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'contacts'
                       ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
+                      : 'backdrop-blur-xl bg-white/[0.03] border-white/[0.09] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   <Mail className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'contacts' ? 'text-cyan-400' : 'text-zinc-500'}`} />
@@ -944,7 +944,7 @@ if __name__ == "__main__":
                   className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'text'
                       ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
+                      : 'backdrop-blur-xl bg-white/[0.03] border-white/[0.09] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   <FileText className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'text' ? 'text-cyan-400' : 'text-zinc-500'}`} />
@@ -960,7 +960,7 @@ if __name__ == "__main__":
                   className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'links'
                       ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
+                      : 'backdrop-blur-xl bg-white/[0.03] border-white/[0.09] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   <Link2 className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'links' ? 'text-cyan-400' : 'text-zinc-500'}`} />
@@ -976,7 +976,7 @@ if __name__ == "__main__":
                   className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'pricing'
                       ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
+                      : 'backdrop-blur-xl bg-white/[0.03] border-white/[0.09] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   <DollarSign className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'pricing' ? 'text-cyan-400' : 'text-zinc-500'}`} />
@@ -1000,7 +1000,7 @@ if __name__ == "__main__":
                     value={keywordFilter}
                     onChange={(e) => setKeywordFilter(e.target.value)}
                     placeholder="Filter records..."
-                    className="w-full bg-zinc-950/60 border border-white/[0.08] rounded-xl pl-8 pr-3 py-2 text-xs font-sans text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl pl-8 pr-3 py-2 text-xs font-sans text-white focus:outline-none focus:border-cyan-400"
                   />
                 </div>
                 {isScraping && (
@@ -1042,7 +1042,7 @@ if __name__ == "__main__":
 
           {/* Results Grid: Clean 3 Records (Left) & Playwright Script (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-7 bg-black/40 rounded-2xl border border-white/[0.08] p-5 text-xs space-y-4">
+            <div className="lg:col-span-7 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-zinc-400">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${isScraping ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
@@ -1057,10 +1057,10 @@ if __name__ == "__main__":
                 {extractedRecords.slice(0, 3).map((record, index) => (
                   <div
                     key={record.id}
-                    className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex items-start justify-between gap-3 group"
+                    className="p-4 rounded-xl backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-500/40 hover:bg-white/[0.05] transition-all flex items-start justify-between gap-3 group"
                   >
                     <div className="flex items-start gap-3 min-w-0 flex-1">
-                      <span className="px-2 py-1 rounded bg-black/60 border border-white/10 text-cyan-400 font-mono text-[11px] font-semibold shrink-0">
+                      <span className="px-2 py-1 rounded bg-white/[0.04] border border-white/10 text-cyan-400 font-mono text-[11px] font-semibold shrink-0">
                         0{index + 1}
                       </span>
                       <div className="min-w-0 flex-1 space-y-1">
@@ -1126,7 +1126,7 @@ if __name__ == "__main__":
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-black/40 rounded-2xl border border-white/[0.08] p-5 text-xs flex flex-col justify-between space-y-3">
+            <div className="lg:col-span-5 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs flex flex-col justify-between space-y-3">
               <div>
                 <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-white/[0.08] text-zinc-400">
                   <span className="flex items-center gap-1.5 text-white font-sans font-semibold">
@@ -1146,7 +1146,7 @@ if __name__ == "__main__":
                     <span>{copiedPy ? "Copied" : "Copy .py"}</span>
                   </button>
                 </div>
-                <pre className="h-64 overflow-y-auto text-cyan-200/90 font-mono text-[11px] leading-relaxed bg-zinc-950/80 p-3.5 rounded-xl border border-white/[0.06]">
+                <pre className="h-64 overflow-y-auto text-cyan-200/90 font-mono text-[11px] leading-relaxed backdrop-blur-xl bg-white/[0.025] p-3.5 rounded-xl border border-white/[0.08] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.1)]">
                   {generatedPy}
                 </pre>
               </div>

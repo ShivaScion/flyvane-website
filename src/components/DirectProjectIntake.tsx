@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Linkedin, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'lucide-react';
+import { Linkedin, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
 
@@ -11,21 +11,23 @@ export interface DirectProjectIntakeProps {
 
 const SCOPE_OPTIONS_BY_MODE: Record<'machine' | 'mind' | 'hybrid', string[]> = {
   machine: [
+    'Automation Services',
     'Autonomous Data Pipelines',
     'Autonomous Pipeline Architecture',
     'Deterministic State Machines & Worker Swarms',
     'Headless Extraction & Webhook Infrastructure'
   ],
   mind: [
+    'Marketing Services',
     'Executive Brand Architecture',
     'Category Positioning & Differentiation Matrix',
     'Loss-Aversion Narrative & Demand Funnels',
-    'Executive Thought Leadership & Syndication',
-    'Autonomous Pipeline Architecture'
+    'Executive Thought Leadership & Syndication'
   ],
   hybrid: [
+    'Automation Services',
+    'Marketing Services',
     'Autonomous Data Pipelines',
-    'Autonomous Pipeline Architecture',
     'Executive Brand Architecture',
     'Integrated Systems & Commercial Authority'
   ]
@@ -38,7 +40,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [serviceScope, setServiceScope] = useState<string>(
-    mode === 'mind' ? 'Executive Brand Architecture' : 'Autonomous Data Pipelines'
+    mode === 'mind' ? 'Marketing Services' : 'Automation Services'
   );
   const [projectBrief, setProjectBrief] = useState(
     inquiryContext ||
@@ -55,7 +57,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
   // Dynamically update default Service Scope when active mode changes
   useEffect(() => {
     const modeDefault =
-      mode === 'mind' ? 'Executive Brand Architecture' : 'Autonomous Data Pipelines';
+      mode === 'mind' ? 'Marketing Services' : 'Automation Services';
     setServiceScope(modeDefault);
     if (!inquiryContext) {
       setProjectBrief(
@@ -100,13 +102,13 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
       } else {
         setErrorDetail(
           data.error ||
-            'We encountered an issue logging your brief. Please connect directly via LinkedIn or our Advisory Desk email.'
+            'We encountered an issue logging your brief. Please connect directly via LinkedIn.'
         );
         setStatus('error');
       }
     } catch {
       setErrorDetail(
-        'Network connection interrupted. Please connect directly with our partners via LinkedIn or email at contact@flyvane.com.'
+        'Network connection interrupted. Please connect directly with our partners via LinkedIn.'
       );
       setStatus('error');
     }
@@ -121,11 +123,14 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.65, ease: stitchEase }}
-        className="tilt-card rounded-2xl p-8 sm:p-12 relative overflow-hidden"
+        onMouseEnter={() => soundEngine.playHoverHum()}
+        className={`tilt-card liquid-glass ${
+          mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
+        } rounded-2xl p-6 sm:p-8 lg:p-12 relative overflow-hidden backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column: Advisory Overview & Structured Public Touchpoints (5 cols) */}
+          {/* Left Column: Advisory Overview & Direct LinkedIn Touchpoint (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <span
               className={`text-[11px] font-sans uppercase tracking-[0.2em] block font-semibold ${
@@ -147,13 +152,13 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                 : 'Partner with Flyvane to engineer fault-tolerant autonomous pipelines, worker swarms, and custom systems architecture.'}
             </p>
 
-            {/* Structured Public Touchpoints (Section 6.1 — Zero raw phone numbers) */}
+            {/* Restricted Public Touchpoint (Section 4.2 — Strictly Direct LinkedIn + Intake Form, Zero phone numbers) */}
             <div className="pt-4 space-y-3 font-sans text-xs">
               <a
                 href="https://www.linkedin.com/company/flyvane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full px-5 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] text-white font-medium transition-all flex items-center justify-between group"
+                className="w-full px-5 py-4 rounded-2xl backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] border border-white/[0.09] hover:border-white/[0.22] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
               >
                 <span className="flex items-center gap-3">
                   <Linkedin className="w-4 h-4 text-sky-400" />
@@ -164,24 +169,11 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </a>
-
-              <a
-                href="mailto:contact@flyvane.com"
-                className="w-full px-5 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] text-white font-medium transition-all flex items-center justify-between group"
-              >
-                <span className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-emerald-400" />
-                  <span>Advisory Desk</span>
-                </span>
-                <span className="text-[10px] text-zinc-400 uppercase tracking-[0.18em] group-hover:text-white">
-                  contact@flyvane.com
-                </span>
-              </a>
             </div>
           </div>
 
-          {/* Right Column: Glassmorphic Direct Project Intake Form (7 cols) */}
-          <div className="lg:col-span-7 bg-zinc-950/60 backdrop-blur-2xl border border-white/[0.08] border-t-white/[0.14] rounded-2xl p-6 sm:p-8 shadow-[0_16px_40px_rgba(0,0,0,0.5)]">
+          {/* Right Column: Liquid Glass Direct Project Intake Form (7 cols) */}
+          <div className="lg:col-span-7 liquid-glass backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8">
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.08]">
               <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-white font-semibold">
                 Direct Project Intake
@@ -202,14 +194,14 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                   transition={{ duration: 0.35, ease: stitchEase }}
                   className="space-y-5 py-6"
                 >
-                  <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-3">
+                  <div className="p-6 rounded-2xl backdrop-blur-xl bg-emerald-500/10 border border-emerald-500/30 space-y-3 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.15)]">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-sans font-semibold text-emerald-400 uppercase tracking-[0.16em] flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                         <span>Advisory Brief Logged</span>
                       </span>
                       {leadId && (
-                        <span className="text-[11px] font-mono text-emerald-300 px-2.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30">
+                        <span className="text-[11px] font-mono text-emerald-300 px-2.5 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30">
                           {leadId.slice(0, 8).toUpperCase()}
                         </span>
                       )}
@@ -220,7 +212,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2 text-xs font-sans">
+                  <div className="p-4 rounded-xl backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] space-y-2 text-xs font-sans">
                     <div className="flex justify-between text-zinc-400">
                       <span>Organization / Partner</span>
                       <span className="text-white font-medium">{name}</span>
@@ -241,7 +233,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       setStatus('idle');
                       setLeadId(null);
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 hover:text-white font-sans text-xs font-medium transition-colors cursor-pointer"
+                    className="px-4 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.09] text-zinc-300 hover:text-white font-sans text-xs font-medium transition-colors cursor-pointer"
                   >
                     Submit Additional Brief
                   </button>
@@ -256,7 +248,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                   onSubmit={handleSubmit}
                   className="space-y-5 font-sans text-xs"
                 >
-                  {/* Invisible Honeypot Input (Section 7.3) */}
+                  {/* Invisible Honeypot Input (Section 5.3) */}
                   <div className="sr-only opacity-0 pointer-events-none h-0 w-0 overflow-hidden" aria-hidden="true">
                     <label htmlFor="intake-trap-field">Leave this field blank</label>
                     <input
@@ -288,7 +280,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g. Alex Mercer / Vanguard Systems"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/[0.08] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                       />
                     </div>
 
@@ -309,7 +301,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
                         placeholder="partner@organization.com or linkedin.com/in/..."
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/[0.08] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                       />
                     </div>
                   </div>
@@ -326,10 +318,10 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       name="serviceScope"
                       value={serviceScope}
                       onChange={(e) => setServiceScope(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/[0.08] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                     >
                       {scopeOptions.map((opt) => (
-                        <option key={opt} value={opt} className="bg-zinc-950 text-white">
+                        <option key={opt} value={opt} className="bg-zinc-900 text-white">
                           {opt}
                         </option>
                       ))}
@@ -341,7 +333,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       htmlFor="intake-brief"
                       className="block text-[11px] font-sans font-semibold text-zinc-300 uppercase tracking-[0.15em] mb-2 flex justify-between items-center"
                     >
-                      <span>Project Overview &amp; Economic Bottlenecks</span>
+                      <span>Project Brief &amp; Bottlenecks</span>
                       {inquiryContext && (
                         <span className="text-[10px] text-emerald-400 font-mono">Model Parameters Attached</span>
                       )}
@@ -356,12 +348,12 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       value={projectBrief}
                       onChange={(e) => setProjectBrief(e.target.value)}
                       placeholder="Describe your target architecture, operational bottlenecks, or commercial positioning objectives..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/[0.08] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs leading-relaxed shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                     />
                   </div>
 
                   {status === 'error' && errorDetail && (
-                    <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/30 flex items-start gap-2.5 text-xs text-rose-200 font-sans">
+                    <div className="p-3.5 rounded-xl backdrop-blur-xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-2.5 text-xs text-rose-200 font-sans">
                       <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
                       <div>
                         <span>{errorDetail} </span>
@@ -372,10 +364,6 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                           className="underline text-white font-medium"
                         >
                           Connect via LinkedIn
-                        </a>{' '}
-                        or email{' '}
-                        <a href="mailto:contact@flyvane.com" className="underline text-white font-medium">
-                          contact@flyvane.com
                         </a>
                         .
                       </div>

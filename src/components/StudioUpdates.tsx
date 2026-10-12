@@ -12,7 +12,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
     {
       date: "OCTOBER 2026",
       category: "AUTONOMOUS INFRASTRUCTURE",
-      title: "EliminatingFragile Cron Jobs with Deterministic LangGraph State Machines",
+      title: "Eliminating Fragile Cron Jobs with Deterministic LangGraph State Machines",
       summary:
         "Why linear scripts fail under production load, and how checkpointed state graphs with dead-letter recovery achieve 99.4% extraction precision.",
       readTime: "4 min technical note"
@@ -76,10 +76,10 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
         <div>
           <span
             className={`text-[11px] font-sans uppercase tracking-[0.2em] block mb-2.5 font-semibold ${
-              mode === 'mind' ? 'text-amber-400' : 'text-emerald-400'
+              mode === 'mind' ? 'text-amber-400' : 'text-cyan-400'
             }`}
           >
-            STUDIO DISPATCHES & LINKEDIN INSIGHTS
+            STUDIO DISPATCHES &amp; LINKEDIN INSIGHTS
           </span>
           <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
             Recent Studio Updates
@@ -90,7 +90,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           href="https://www.linkedin.com/company/flyvane"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-950/60 hover:bg-zinc-900/60 border border-white/[0.08] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-colors self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.08] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
         >
           <Linkedin className="w-3.5 h-3.5 text-sky-400" />
           <span>Follow Flyvane on LinkedIn</span>
@@ -110,7 +110,9 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             whileHover={{ y: -3 }}
-            className="tilt-card rounded-2xl p-7 flex flex-col justify-between space-y-5 group"
+            className={`tilt-card backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-5 group ${
+              mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
+            }`}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">

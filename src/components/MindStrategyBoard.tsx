@@ -106,18 +106,19 @@ export const MindStrategyBoard: React.FC = () => {
         </p>
       </motion.div>
 
-      {/* Segmented Pillar Selector */}
+      {/* Segmented Pillar Selector in Liquid Glass */}
       <div className="flex flex-wrap items-center gap-2.5 mb-8">
         <button
           type="button"
+          onMouseEnter={() => soundEngine.playHoverHum()}
           onClick={() => {
             setActiveTab('positioning');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'positioning'
-              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
-              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
+              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
           }`}
         >
           <Compass className="w-3.5 h-3.5 text-amber-400" />
@@ -126,14 +127,15 @@ export const MindStrategyBoard: React.FC = () => {
 
         <button
           type="button"
+          onMouseEnter={() => soundEngine.playHoverHum()}
           onClick={() => {
             setActiveTab('narrative');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'narrative'
-              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
-              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
+              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
           }`}
         >
           <FileText className="w-3.5 h-3.5 text-amber-400" />
@@ -142,14 +144,15 @@ export const MindStrategyBoard: React.FC = () => {
 
         <button
           type="button"
+          onMouseEnter={() => soundEngine.playHoverHum()}
           onClick={() => {
             setActiveTab('campaign');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'campaign'
-              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
-              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
+              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
           }`}
         >
           <Target className="w-3.5 h-3.5 text-amber-400" />
@@ -157,15 +160,15 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
       </div>
 
-      {/* Board Presentation Surface */}
+      {/* Board Presentation Surface in Liquid Glass */}
       <motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
-        className="tilt-card rounded-2xl p-7 sm:p-10 space-y-8"
+        className="tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-8"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.09]">
           <div>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 block mb-1">
               {current.badge}
@@ -183,12 +186,12 @@ export const MindStrategyBoard: React.FC = () => {
           {current.summary}
         </p>
 
-        {/* 3 Step Editorial Cards */}
+        {/* 3 Step Editorial Cards in Liquid Glass */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           {current.pillars.map((p, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-3 flex flex-col justify-between"
+              className="liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-3 flex flex-col justify-between"
             >
               <div className="space-y-2.5">
                 <span className="w-7 h-7 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-semibold">

@@ -90,11 +90,11 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
               whileHover={{ y: -3 }}
-              className="tilt-card rounded-2xl p-7 space-y-5 flex flex-col justify-between"
+              className="tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.1] flex items-center justify-center">
                     {item.icon}
                   </div>
                   <span className="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20">
@@ -134,7 +134,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
   // Machine & Hybrid Mode: Architecture Guarantees & Fault Tolerance (Section 5.2)
   const guarantees = [
     {
-      icon: <Cpu className="w-5 h-5 text-emerald-400" />,
+      icon: <Cpu className="w-5 h-5 text-cyan-400" />,
       badge: "STATE INTEGRITY",
       title: "Idempotent Execution",
       metric: "Zero Duplicate Side-Effects",
@@ -152,7 +152,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
       specs: ["Isolated Environment Vaults", "End-to-End TLS 1.3 Transit", "Scoped IAM Execution Roles"]
     },
     {
-      icon: <Activity className="w-5 h-5 text-emerald-400" />,
+      icon: <Activity className="w-5 h-5 text-cyan-400" />,
       badge: "OBSERVABILITY",
       title: "Structured Tracing",
       metric: "100% Run Auditability",
@@ -171,7 +171,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
         transition={{ duration: 0.6, ease: stitchEase }}
         className="mb-14"
       >
-        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-400 block mb-2.5 font-semibold">
+        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-cyan-400 block mb-2.5 font-semibold">
           PRODUCTION RELIABILITY & SECURITY STANDARDS
         </span>
         <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
@@ -191,7 +191,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             whileHover={{ y: -3 }}
-            className="tilt-card rounded-2xl p-7 space-y-5 flex flex-col justify-between"
+            className="tilt-card liquid-glass-cyan backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">

@@ -177,6 +177,33 @@ class SoundEngine {
     osc.start(now);
     osc.stop(now + 0.09);
   }
+
+  /**
+   * Subtle sub-bass hover hum (88Hz -> 62Hz sine envelope, 45ms)
+   */
+  public playHoverHum(volume = 0.025) {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(88, now);
+    osc.frequency.exponentialRampToValueAtTime(62, now + 0.045);
+
+    gain.gain.setValueAtTime(volume, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.05);
+  }
 }
 
 export const soundEngine = new SoundEngine();
+
