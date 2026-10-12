@@ -11,13 +11,14 @@ import {
   Target
 } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
+import { soundEngine } from '../utils/soundEngine';
 
 interface CompanyCapabilitiesProps {
   mode: 'machine' | 'mind' | 'hybrid';
 }
 
 export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }) => {
-  // Mind Mode: Positioning Standards & Authority Frameworks (Section 5.3)
+  // Marketing Services Mode: Positioning Standards & Authority Frameworks
   if (mode === 'mind') {
     const positioningStandards = [
       {
@@ -71,10 +72,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
           className="mb-14"
         >
           <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 block mb-2.5 font-semibold">
-            AUTHORITY STANDARDS & COMMERCIAL PROTOCOLS
+            AUTHORITY STANDARDS &amp; COMMERCIAL PROTOCOLS
           </span>
-          <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
-            Positioning Standards & Authority Frameworks
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+            Positioning Standards &amp; Authority Frameworks
           </h2>
           <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
             Every Flyvane advisory engagement adheres to strict commercial clarity benchmarks designed to command executive attention and accelerate deal qualification.
@@ -89,34 +90,34 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
-              whileHover={{ y: -3 }}
-              className="tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
+              onMouseEnter={() => soundEngine.playHoverHum()}
+              className="tilt-card liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.1] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
                     {item.icon}
                   </div>
-                  <span className="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20">
+                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20">
                     {item.metric}
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.18em] text-zinc-500 block mb-1">
+                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
                     {item.badge}
                   </span>
-                  <h3 className="text-xl font-sans font-semibold text-white">
+                  <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
                     {item.title}
                   </h3>
                 </div>
 
-                <p className="text-xs font-sans text-zinc-400 leading-relaxed">
+                <p className="text-sm font-sans text-zinc-400 leading-relaxed">
                   {item.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/[0.06] space-y-2">
+              <div className="pt-4 border-t border-white/[0.08] space-y-2">
                 {item.criteria.map((c, cIdx) => (
                   <div key={cIdx} className="flex items-center gap-2 text-xs font-sans text-zinc-300">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
@@ -131,7 +132,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
     );
   }
 
-  // Machine & Hybrid Mode: Architecture Guarantees & Fault Tolerance (Section 5.2)
+  // Automation Services & Hybrid Mode: Architecture Guarantees & Fault Tolerance
   const guarantees = [
     {
       icon: <Cpu className="w-5 h-5 text-cyan-400" />,
@@ -172,10 +173,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
         className="mb-14"
       >
         <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-cyan-400 block mb-2.5 font-semibold">
-          PRODUCTION RELIABILITY & SECURITY STANDARDS
+          PRODUCTION RELIABILITY &amp; SECURITY STANDARDS
         </span>
-        <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
-          Architecture Guarantees & Fault Tolerance
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+          Architecture Guarantees &amp; Fault Tolerance
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
           Flyvane engineers production-grade autonomous infrastructure designed for continuous operation, strict schema integrity, and defensive security.
@@ -190,34 +191,34 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
-            whileHover={{ y: -3 }}
-            className="tilt-card liquid-glass-cyan backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            className="tilt-card liquid-glass liquid-glass-cyan bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-5 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
                   {g.icon}
                 </div>
-                <span className="text-[10px] font-mono text-emerald-400 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20">
+                <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-emerald-400 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20">
                   {g.metric}
                 </span>
               </div>
 
               <div>
-                <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.18em] text-zinc-500 block mb-1">
+                <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
                   {g.badge}
                 </span>
-                <h3 className="text-xl font-sans font-semibold text-white">
+                <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
                   {g.title}
                 </h3>
               </div>
 
-              <p className="text-xs font-sans text-zinc-400 leading-relaxed">
+              <p className="text-sm font-sans text-zinc-400 leading-relaxed">
                 {g.description}
               </p>
             </div>
 
-            <div className="pt-4 border-t border-white/[0.06] space-y-2">
+            <div className="pt-4 border-t border-white/[0.08] space-y-2">
               {g.specs.map((spec, sIdx) => (
                 <div key={sIdx} className="flex items-center gap-2 text-xs font-sans text-zinc-300">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />

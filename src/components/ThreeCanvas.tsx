@@ -7,7 +7,7 @@ interface ThreeCanvasProps {
 
 export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ mode }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const icosahedronRef = useRef<THREE.Mesh | null>(null);
+  const pointsMaterialRef = useRef<THREE.PointsMaterial | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -21,7 +21,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ mode }) => {
       renderer = new THREE.WebGLRenderer({
         canvas: canvasRef.current,
         alpha: true,
-        antialias: true
+        antialias: true,
       });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -30,50 +30,34 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ mode }) => {
       return;
     }
 
-    // Particle Cloud
-    const particleCount = 220;
+    // Subtle Ambient Depth Dust Particle Field (No wireframe cages or polyhedrons)
+    const particleCount = 180;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 26;
-      positions[i + 1] = (Math.random() - 0.5) * 36;
-      positions[i + 2] = (Math.random() - 0.5) * 16;
-
-      colors[i] = 0.0;
-      colors[i + 1] = 0.85 + Math.random() * 0.15;
-      colors[i + 2] = 1.0;
+      positions[i] = (Math.random() - 0.5) * 28;
+      positions[i + 1] = (Math.random() - 0.5) * 38;
+      positions[i + 2] = (Math.random() - 0.5) * 18;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const pMaterial = new THREE.PointsMaterial({
-      size: 0.08,
-      vertexColors: true,
+      size: 0.065,
+      color: mode === 'mind' ? 0xf59e0b : mode === 'hybrid' ? 0x00d8ff : 0x10b981,
       transparent: true,
-      opacity: 0.65
+      opacity: 0.42,
     });
+    pointsMaterialRef.current = pMaterial;
 
     const particleCloud = new THREE.Points(geometry, pMaterial);
     scene.add(particleCloud);
 
-    // Rotating 3D Icosahedron
-    const icoGeom = new THREE.IcosahedronGeometry(2.4, 1);
-    const icoMat = new THREE.MeshBasicMaterial({
-      color: mode === 'mind' ? 0xf59e0b : mode === 'hybrid' ? 0x10b981 : 0x00f0ff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.14
-    });
-    const icosahedronMesh = new THREE.Mesh(icoGeom, icoMat);
-    icosahedronMesh.position.set(4.5, 0, -2);
-    scene.add(icosahedronMesh);
-    icosahedronRef.current = icosahedronMesh;
-
-    let mouseX = 0, mouseY = 0;
-    let targetX = 0, targetY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
     let currentScroll = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -100,19 +84,15 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ mode }) => {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      targetX += (mouseX - targetX) * 0.05;
-      targetY += (mouseY - targetY) * 0.05;
+      targetX += (mouseX - targetX) * 0.04;
+      targetY += (mouseY - targetY) * 0.04;
 
-      camera.position.x = targetX * 1.5;
-      camera.position.y = (targetY * 1.2) - (currentScroll * 15);
-      camera.position.z = 8 + Math.sin(currentScroll * Math.PI) * 3;
+      camera.position.x = targetX * 1.1;
+      camera.position.y = targetY * 0.9 - currentScroll * 12;
+      camera.position.z = 8 + Math.sin(currentScroll * Math.PI) * 2;
 
-      particleCloud.rotation.y += 0.001;
-      particleCloud.rotation.x = currentScroll * 1.5;
-
-      icosahedronMesh.rotation.x += 0.004;
-      icosahedronMesh.rotation.y += 0.006;
-      icosahedronMesh.position.y = - (currentScroll * 12);
+      particleCloud.rotation.y += 0.0006;
+      particleCloud.rotation.x = currentScroll * 1.1;
 
       renderer.render(scene, camera);
     };
@@ -128,13 +108,11 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ mode }) => {
     };
   }, []);
 
-  // Update mesh color when theme mode changes
   useEffect(() => {
-    if (icosahedronRef.current) {
-      const mat = icosahedronRef.current.material as THREE.MeshBasicMaterial;
-      if (mode === 'mind') mat.color.setHex(0xf59e0b);
-      else if (mode === 'hybrid') mat.color.setHex(0x10b981);
-      else mat.color.setHex(0x00f0ff);
+    if (pointsMaterialRef.current) {
+      if (mode === 'mind') pointsMaterialRef.current.color.setHex(0xf59e0b);
+      else if (mode === 'hybrid') pointsMaterialRef.current.color.setHex(0x00d8ff);
+      else pointsMaterialRef.current.color.setHex(0x10b981);
     }
   }, [mode]);
 

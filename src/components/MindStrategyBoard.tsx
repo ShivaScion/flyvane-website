@@ -87,7 +87,7 @@ export const MindStrategyBoard: React.FC = () => {
   return (
     <section id="strategy-board" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.08]">
       
-      {/* Header */}
+      {/* Header (Section 1: 4-Tier Typographic System) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export const MindStrategyBoard: React.FC = () => {
         <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 block mb-2.5 font-semibold">
           STRATEGIC METHODOLOGY & EXECUTIVE ARCHITECTURE
         </span>
-        <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
           The Flyvane Strategy Board
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
@@ -117,8 +117,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'positioning'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
-              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
+              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Compass className="w-3.5 h-3.5 text-amber-400" />
@@ -134,8 +134,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'narrative'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
-              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
+              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <FileText className="w-3.5 h-3.5 text-amber-400" />
@@ -151,8 +151,8 @@ export const MindStrategyBoard: React.FC = () => {
           }}
           className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all duration-500 ease-out flex items-center gap-2 tactile-btn ${
             activeTab === 'campaign'
-              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.22)]'
-              : 'backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] text-zinc-400 hover:text-white border border-white/[0.09]'
+              ? 'backdrop-blur-2xl bg-amber-500/20 text-white border border-amber-400/50 shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2)]'
+              : 'backdrop-blur-2xl bg-white/[0.025] hover:bg-white/[0.045] text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Target className="w-3.5 h-3.5 text-amber-400" />
@@ -160,24 +160,25 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
       </div>
 
-      {/* Board Presentation Surface in Liquid Glass */}
+      {/* Board Presentation Surface in Section 2.1 Liquid Glass Master Tokens */}
       <motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
-        className="tilt-card liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-8"
+        onMouseEnter={() => soundEngine.playHoverHum()}
+        className="tilt-card liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-8"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.09]">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
           <div>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 block mb-1">
               {current.badge}
             </span>
-            <h3 className="text-2xl sm:text-3xl font-sans font-semibold text-white">
+            <h3 className="text-2xl sm:text-3xl font-sans font-medium tracking-normal text-white">
               {current.title}
             </h3>
           </div>
-          <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-sans font-medium text-amber-300">
+          <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-300">
             Strategy Pillar
           </span>
         </div>
@@ -186,26 +187,26 @@ export const MindStrategyBoard: React.FC = () => {
           {current.summary}
         </p>
 
-        {/* 3 Step Editorial Cards in Liquid Glass */}
+        {/* 3 Step Editorial Cards in Section 2.1 Liquid Glass */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           {current.pillars.map((p, idx) => (
             <div
               key={idx}
-              className="liquid-glass-amber backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-3 flex flex-col justify-between"
+              className="liquid-glass liquid-glass-amber bg-white/[0.025] backdrop-blur-2xl border border-white/[0.08] shadow-[0_16px_40px_0_rgba(0,0,0,0.65),inset_0_1px_1px_0_rgba(255,255,255,0.2),inset_0_0_20px_0_rgba(255,255,255,0.02)] hover:bg-white/[0.045] hover:border-white/[0.18] hover:shadow-[0_24px_56px_0_rgba(0,0,0,0.8),inset_0_1px_2px_0_rgba(255,255,255,0.35)] hover:-translate-y-0.5 transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 space-y-3 flex flex-col justify-between"
             >
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <span className="w-7 h-7 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-semibold">
                   0{idx + 1}
                 </span>
-                <h4 className="text-base font-sans font-semibold text-white leading-snug">
+                <h4 className="text-lg font-sans font-medium text-white leading-snug">
                   {p.label}
                 </h4>
-                <p className="text-xs font-sans text-zinc-400 leading-relaxed">
+                <p className="text-sm font-sans text-zinc-400 leading-relaxed">
                   {p.description}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/[0.06] flex items-center gap-1.5 text-xs font-sans font-medium text-amber-400">
+              <div className="pt-3 border-t border-white/[0.08] flex items-center gap-1.5 text-xs font-sans font-medium text-amber-400">
                 <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
                 <span>{p.tone}</span>
               </div>
@@ -214,14 +215,14 @@ export const MindStrategyBoard: React.FC = () => {
         </div>
 
         {/* Callout Footer */}
-        <div className="p-5 rounded-xl bg-amber-500/[0.06] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-sans">
+        <div className="p-5 rounded-xl bg-amber-500/[0.05] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm font-sans">
           <div className="text-zinc-300 leading-relaxed">
             <span className="text-amber-400 font-semibold">Flyvane Advisory Standard: </span>
             Strategy is never delivered as an abstract slide deck. Every recommendation is architected as actionable market positioning and validated against commercial pipeline objectives.
           </div>
           <a
             href="#contact"
-            className="px-4 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-sans font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+            className="px-4 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black text-xs font-sans font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 self-start sm:self-auto"
           >
             <span>Request Positioning Audit</span>
             <ArrowRight className="w-3.5 h-3.5" />
