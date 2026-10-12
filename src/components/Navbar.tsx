@@ -1,114 +1,128 @@
 import React from 'react';
-import { Mic, Terminal } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 interface NavbarProps {
   mode: 'machine' | 'mind' | 'hybrid';
   setMode: (mode: 'machine' | 'mind' | 'hybrid') => void;
-  onOpenAira: () => void;
+  onOpenAira?: () => void;
   onOpenCmd: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ mode, setMode, onOpenAira, onOpenCmd }) => {
+export const Navbar: React.FC<NavbarProps> = ({ mode, setMode, onOpenCmd }) => {
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-void/85 border-b border-surface-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 backdrop-blur-xl bg-black/40 border-b border-white/[0.08] h-16 px-4 sm:px-6 z-50">
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between gap-3">
         
-        {/* Brand Link */}
-        <a href="#hero" className="flex items-center gap-3 group">
-          <div className="relative w-9 h-9 rounded-xl bg-surface-card border border-surface-border flex items-center justify-center font-mono text-sm font-bold text-white group-hover:border-cyanAccent transition-colors shadow-inner">
+        {/* Left Brand Block */}
+        <a href="#hero" className="flex items-center gap-3 group shrink-0">
+          <div className="relative w-9 h-9 rounded-xl bg-zinc-950/60 border border-white/[0.08] border-t-white/[0.16] flex items-center justify-center font-sans text-xs font-semibold tracking-wider text-white group-hover:border-white/20 transition-colors shadow-inner">
             FV
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-4 ring-void" />
           </div>
-          <div>
-            <span className="font-display font-bold tracking-tight text-white block text-sm sm:text-base leading-none">
+          <div className="hidden xs:block sm:block">
+            <span className="font-sans font-semibold tracking-tight text-white block text-sm sm:text-base leading-none">
               Flyvane
             </span>
-            <span className="text-[10px] font-mono text-neutral-400 block tracking-wider uppercase mt-1">
-              Engineering, Automation & Strategy
+            <span className="text-[10px] font-sans font-medium text-zinc-400 block tracking-[0.16em] uppercase mt-1">
+              {mode === 'machine'
+                ? 'Systems Architecture'
+                : mode === 'mind'
+                ? 'Executive Advisory'
+                : 'Integrated Practice'}
             </span>
           </div>
         </a>
 
-        {/* 3-State Theme Morphing Machine (Responsive for Mobile & Desktop) */}
-        <div className="flex items-center bg-surface-card p-1 rounded-full border border-surface-border scale-90 sm:scale-100">
+        {/* Mode Selector: Segmented Pill Toggle */}
+        <div
+          role="group"
+          aria-label="Studio Mode Selector"
+          className="flex items-center bg-zinc-950/60 p-1 rounded-full border border-white/[0.08]"
+        >
           <button
+            type="button"
             onClick={() => {
               setMode('machine');
               soundEngine.playModeMorph('machine');
             }}
-            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'machine'
-                ? 'text-white bg-cyanAccent/20 border border-cyanAccent/40'
-                : 'text-neutral-400 hover:text-white'
+                ? 'text-white bg-emerald-500/20 border border-emerald-500/40 shadow-sm'
+                : 'text-zinc-400 hover:text-white border border-transparent'
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" /> MACHINE
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span>Machine</span>
           </button>
+
           <button
+            type="button"
             onClick={() => {
               setMode('mind');
               soundEngine.playModeMorph('mind');
             }}
-            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'mind'
-                ? 'text-white bg-amberAccent/20 border border-amberAccent/40'
-                : 'text-neutral-400 hover:text-white'
+                ? 'text-white bg-amber-500/20 border border-amber-500/40 shadow-sm'
+                : 'text-zinc-400 hover:text-white border border-transparent'
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> MIND
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            <span>Mind</span>
           </button>
+
           <button
+            type="button"
             onClick={() => {
               setMode('hybrid');
               soundEngine.playModeMorph('hybrid');
             }}
-            className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-medium transition-all duration-300 flex items-center gap-1.5 tactile-btn ${
               mode === 'hybrid'
-                ? 'text-white bg-emeraldAccent/20 border border-emeraldAccent/40'
-                : 'text-neutral-400 hover:text-white'
+                ? 'text-white bg-cyan-500/20 border border-cyan-500/40 shadow-sm'
+                : 'text-zinc-400 hover:text-white border border-transparent'
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> HYBRID
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <span>Hybrid</span>
           </button>
         </div>
 
-        {/* Quick Action Tools */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={() => {
-              soundEngine.playClick(0.06);
-              onOpenAira();
-            }}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-card hover:bg-surface-elevated border border-surface-border text-xs font-mono text-neutral-300 hover:text-white transition-colors group tactile-btn"
-            title="Talk to Aira (Mascot Companion)"
+        {/* Central / Right Navigation Links */}
+        <nav aria-label="Primary Navigation" className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <a
+            href="#updates"
+            onClick={() => soundEngine.playClick(0.05)}
+            className="text-xs font-sans font-medium text-zinc-300 hover:text-white transition-colors px-2 py-1.5 rounded-lg hover:bg-white/[0.04]"
           >
-            <span className="w-2 h-2 rounded-full bg-cyan-400 group-hover:animate-ping" />
-            <span className="hidden sm:inline">Talk to Aira</span>
-            <Mic className="w-3.5 h-3.5 text-cyan-400" />
-          </button>
+            Updates
+          </a>
 
           <button
+            type="button"
             onClick={() => {
               soundEngine.playClick(0.06);
               onOpenCmd();
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-card hover:bg-surface-elevated border border-surface-border text-xs font-mono text-neutral-400 hover:text-white transition-colors tactile-btn"
+            aria-label="Open Command Palette"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-950/60 hover:bg-zinc-900/60 border border-white/[0.08] text-xs font-sans font-medium text-zinc-300 hover:text-white transition-colors tactile-btn"
           >
-            <Terminal className="w-3.5 h-3.5 text-neutral-400" />
-            <span className="hidden sm:inline">Cmd+K</span>
+            <Search className="w-3.5 h-3.5 text-zinc-400" />
+            <span className="hidden md:inline">Command + K</span>
           </button>
 
           <a
             href="#contact"
             onClick={() => soundEngine.playClick(0.08)}
-            className="px-4 py-1.5 rounded-lg text-xs font-mono font-bold bg-white text-black hover:bg-neutral-200 transition-all shadow-md tactile-btn"
+            className="bg-white text-black hover:bg-zinc-200 font-sans font-medium text-xs tracking-wide px-3.5 sm:px-4 py-2 rounded-lg transition-colors shadow-sm tactile-btn whitespace-nowrap"
           >
             Retain Advisory
           </a>
-        </div>
+        </nav>
 
       </div>
     </header>
   );
 };
+
+export default Navbar;

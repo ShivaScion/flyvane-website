@@ -100,13 +100,13 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
         transition={{ duration: 0.6, ease: stitchEase }}
         className="mb-12"
       >
-        <span className="text-xs font-mono uppercase tracking-[0.1em] text-emerald-400 block mb-2 font-semibold">
-          // TRANSPARENT ECONOMIC VALUE ARBITRAGE
+        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-400 block mb-2.5 font-semibold">
+          TRANSPARENT ECONOMIC VALUE ARBITRAGE
         </span>
-        <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight text-balance">
-          Automation ROI & <span className="font-serif italic font-normal text-neutral-400">Savings Calculator</span>
+        <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
+          Automation ROI & Savings Calculator
         </h2>
-        <p className="text-sm font-mono text-neutral-400 max-w-2xl mt-2 text-pretty">
+        <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
           Accurately calculate the tangible economic return of replacing repetitive manual workflows with custom software. No inflated theoretical metrics—just transparent labor accounting.
         </p>
       </motion.div>
@@ -115,11 +115,11 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
         
         {/* Left Column: Sliders for Manual Labor Inputs (6 cols) */}
         <div className="lg:col-span-6 tilt-card rounded-2xl p-6 sm:p-8 space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-surface-border">
-            <span className="text-xs font-mono font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Flame className="w-4 h-4 text-red-400" /> 1. QUANTIFY CURRENT MANUAL TASK
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+            <span className="text-xs font-sans font-semibold text-rose-400 uppercase tracking-[0.15em] flex items-center gap-1.5">
+              <Flame className="w-4 h-4 text-rose-400" /> 1. Quantify Current Manual Task
             </span>
-            <span className="text-[10px] font-mono text-neutral-500">LABOR VARIABLES</span>
+            <span className="text-[10px] font-mono text-zinc-500">LABOR VARIABLES</span>
           </div>
 
           {/* Preset Buttons for Instant Verification */}

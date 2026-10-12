@@ -4,65 +4,86 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #040406; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+::-webkit-scrollbar-track { background: #07080B; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.28); }
 
 /* Dynamic Theme CSS Variables */
 :root {
-  --accent: #00f0ff;
-  --accent-dim: rgba(0, 240, 255, 0.12);
-  --accent-glow: rgba(0, 240, 255, 0.35);
-  --accent-border: rgba(0, 240, 255, 0.35);
+  --accent: #10B981;
+  --accent-secondary: #06B6D4;
+  --accent-dim: rgba(16, 185, 129, 0.12);
+  --accent-glow: rgba(16, 185, 129, 0.32);
+  --accent-border: rgba(16, 185, 129, 0.32);
 }
 
 [data-mode="mind"] {
-  --accent: #f59e0b;
+  --accent: #F59E0B;
+  --accent-secondary: #8B5CF6;
   --accent-dim: rgba(245, 158, 11, 0.12);
-  --accent-glow: rgba(245, 158, 11, 0.35);
-  --accent-border: rgba(245, 158, 11, 0.35);
+  --accent-glow: rgba(245, 158, 11, 0.32);
+  --accent-border: rgba(245, 158, 11, 0.32);
 }
 
 [data-mode="hybrid"] {
-  --accent: #10b981;
+  --accent: #10B981;
+  --accent-secondary: #06B6D4;
   --accent-dim: rgba(16, 185, 129, 0.12);
-  --accent-glow: rgba(16, 185, 129, 0.35);
-  --accent-border: rgba(16, 185, 129, 0.35);
+  --accent-glow: rgba(16, 185, 129, 0.32);
+  --accent-border: rgba(16, 185, 129, 0.32);
+}
+
+html, body {
+  background-color: #07080B;
+  color: #E4E4E7;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(56, 189, 248, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 .theme-accent { color: var(--accent); }
 .theme-bg-accent { background-color: var(--accent); }
 .theme-border-accent { border-color: var(--accent-border); }
 
-/* 3D Perspective Tilt Cards */
-.tilt-card {
+/* Glassmorphic Container Architecture */
+.tilt-card,
+.luxury-glass {
   transform-style: preserve-3d;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
-  background: radial-gradient(650px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.05), transparent 40%), #0a0b10;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 24px 48px -18px rgba(0, 0, 0, 0.75);
-}
-.tilt-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 28px 56px -16px rgba(0, 0, 0, 0.85);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(650px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.035), transparent 40%), rgba(9, 9, 11, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* Tactile Physical Depression Buttons (Apple/Linear feel) */
+.tilt-card:hover,
+.luxury-glass:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.22);
+  background-color: rgba(24, 24, 27, 0.45);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+}
+
+/* Tactile Physical Depression Buttons */
 .tactile-btn {
   transform: translateZ(0);
-  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease, box-shadow 150ms ease;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease, box-shadow 200ms ease;
   user-select: none;
   cursor: pointer;
 }
 .tactile-btn:hover {
-  transform: translateY(-1px) scale(1.008);
+  transform: translateY(-1px);
 }
 .tactile-btn:active {
-  transform: translateY(1.5px) scale(0.975) !important;
+  transform: translateY(1px) scale(0.985) !important;
   transition-duration: 75ms !important;
 }
 
-/* Global A11y Focus Rings (High Contrast) */
+/* Global A11y Focus Rings */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -87,37 +108,7 @@ textarea:focus-visible {
   }
 }
 
-/* Soundwave Audio Bars for Aira Voice */
-.sound-bar {
-  display: inline-block;
-  width: 3px;
-  height: 12px;
-  margin: 0 1.5px;
-  background: var(--accent);
-  border-radius: 2px;
-  animation: soundPulse 1.2s infinite ease-in-out;
-}
-.sound-bar:nth-child(2) { animation-delay: 0.15s; height: 18px; }
-.sound-bar:nth-child(3) { animation-delay: 0.3s; height: 14px; }
-.sound-bar:nth-child(4) { animation-delay: 0.45s; height: 22px; }
-.sound-bar:nth-child(5) { animation-delay: 0.2s; height: 10px; }
-
-@keyframes soundPulse {
-  0%, 100% { transform: scaleY(0.25); }
-  50% { transform: scaleY(1.4); }
-}
-
-/* Aira Character Floating & Traveling Rig */
-.aira-walking {
-  animation: airaWalkHop 0.45s infinite alternate ease-in-out !important;
-}
-
-@keyframes airaWalkHop {
-  0% { transform: translateY(0px) rotate(-1.5deg); }
-  100% { transform: translateY(-12px) rotate(1.5deg); }
-}
-
 .noise-overlay {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 0);
   background-size: 28px 28px;
 }

@@ -1,5 +1,8 @@
 import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import { processAdvisorySubmission } from './app/api/advisory/route';
+import fs from 'fs';
+import path from 'path';
 
 const scraperApiPlugin = (): Plugin => ({
   name: 'scraper-proxy-api',
@@ -32,6 +35,51 @@ const scraperApiPlugin = (): Plugin => ({
       }
     });
 
+    server.middlewares.use('/api/advisory', async (req, res) => {
+      if (req.method === 'GET') {
+        try {
+          const storePath = path.resolve(process.cwd(), 'supabase', 'advisory_leads_store.json');
+          const records = fs.existsSync(storePath)
+            ? JSON.parse(fs.readFileSync(storePath, 'utf8') || '[]')
+            : [];
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ table: 'advisory_leads', records }));
+        } catch {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ table: 'advisory_leads', records: [] }));
+        }
+        return;
+      }
+
+      if (req.method !== 'POST') {
+        res.statusCode = 405;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        return;
+      }
+
+      let body = '';
+      req.on('data', (chunk) => {
+        body += chunk;
+      });
+
+      req.on('end', async () => {
+        try {
+          const parsed = JSON.parse(body || '{}');
+          const result = await processAdvisorySubmission(parsed);
+          res.statusCode = result.status;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(result.body));
+        } catch {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: false, error: 'Invalid JSON payload' }));
+        }
+      });
+    });
+
     server.middlewares.use('/api/contact', async (req, res) => {
       if (req.method !== 'POST') {
         res.statusCode = 405;
@@ -45,23 +93,21 @@ const scraperApiPlugin = (): Plugin => ({
         body += chunk;
       });
 
-      req.on('end', () => {
+      req.on('end', async () => {
         try {
           const parsed = JSON.parse(body || '{}');
-          const receiptId = `FV-${Math.floor(100000 + Math.random() * 900000)}`;
-          console.log(`[DEV CONTACT INTAKE] Receipt: ${receiptId} from ${parsed.name || 'Anonymous'}`);
-          res.statusCode = 200;
+          const result = await processAdvisorySubmission({
+            name: parsed.name || 'Partner',
+            contact: parsed.contact || parsed.contactInfo || 'contact@flyvane.com',
+            serviceScope: parsed.serviceScope || parsed.projectType || 'Autonomous Data Pipelines',
+            projectBrief: parsed.projectBrief || parsed.message || 'Advisory project inquiry submitted.',
+            activeMode: parsed.activeMode || 'machine',
+            trapField: parsed.trapField || '',
+          });
+          res.statusCode = result.status;
           res.setHeader('Content-Type', 'application/json');
-          res.end(
-            JSON.stringify({
-              success: true,
-              receiptId,
-              timestamp: new Date().toISOString(),
-              destination: 'contact@flyvane.com',
-              message: 'Lead received and logged in dev intake queue.'
-            })
-          );
-        } catch (e: any) {
+          res.end(JSON.stringify(result.body));
+        } catch {
           res.statusCode = 400;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ error: 'Invalid JSON payload' }));

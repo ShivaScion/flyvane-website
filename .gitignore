@@ -31,3 +31,5 @@ dist-ssr
 # Temporary folders
 .temp
 .cache
+supabase/advisory_leads_store.json
+

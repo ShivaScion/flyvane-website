@@ -3,12 +3,10 @@ import { soundEngine } from '../utils/soundEngine';
 import {
   Terminal as TerminalIcon,
   Cpu,
-  Brain,
   Code,
   Copy,
   Download,
   Play,
-  Zap,
   Mail,
   FileText,
   Link2,
@@ -22,7 +20,7 @@ export type ScraperTargetType = 'contacts' | 'text' | 'links' | 'pricing';
 
 export interface ScrapedRecord {
   id: number;
-  badge: string; // e.g. "EMAIL", "PHONE", "HEADLINE", "LINK", "PRICING"
+  badge: string;
   value: string;
   context: string;
   rawType?: string;
@@ -34,16 +32,16 @@ interface TerminalWorkbenchProps {
 }
 
 export const TerminalWorkbench: React.FC<TerminalWorkbenchProps> = ({ onSetMode, onAiraSpeak }) => {
-  const [activeTab, setActiveTab] = useState<'terminal' | 'scraper' | 'teardown'>('terminal');
+  const [activeTab, setActiveTab] = useState<'scraper' | 'terminal'>('scraper');
 
-  // Terminal State
+  // Execution Log State
   const [terminalHistory, setTerminalHistory] = useState<Array<{ sender: string; text: string; isError?: boolean }>>([
-    { sender: 'system', text: "Type 'help' to inspect automation commands. Try: 'scrape https://news.ycombinator.com', 'audit <text>', 'mode mind', 'calc', or 'aira speak hello'." },
-    { sender: 'user', text: "welcome --init" },
-    { sender: 'system', text: "[OK] Python automation core loaded. Aira companion listening." }
+    { sender: 'system', text: "Type 'help' to inspect automation commands. Try: 'scrape https://news.ycombinator.com', 'info stack', 'calc', or 'capabilities'." },
+    { sender: 'user', text: "runtime.status" },
+    { sender: 'system', text: "[OK] Python AsyncIO execution core online. Ready for target dispatch." }
   ]);
   const [terminalInput, setTerminalInput] = useState('');
-  const [commandHistory, setCommandHistory] = useState<string[]>(['welcome --init']);
+  const [commandHistory, setCommandHistory] = useState<string[]>(['runtime.status']);
   const [historyPointer, setHistoryPointer] = useState<number>(-1);
   const terminalScrollRef = useRef<HTMLDivElement>(null);
 
@@ -130,14 +128,6 @@ async def extract_contacts():
 if __name__ == "__main__":
     asyncio.run(extract_contacts())`);
 
-  // Teardown State
-  const [teardownInput, setTeardownInput] = useState("We are a passionate, cutting-edge platform delivering revolutionary AI-driven solutions to seamlessly maximize your team's innovative workflows.");
-  const [teardownScore, setTeardownScore] = useState(42);
-  const [metricHook, setMetricHook] = useState(40);
-  const [metricLoss, setMetricLoss] = useState(20);
-  const [fluffPenalty, setFluffPenalty] = useState('-40 pts (4 buzzwords)');
-  const [teardownSuggestion, setTeardownSuggestion] = useState("Eliminate 15 hours of manual repetitive data entry every week with custom automated Python pipelines. Stop losing client deals to slow response times.");
-
   const handleTerminalSubmit = async () => {
     if (!terminalInput.trim()) return;
     const cmd = terminalInput.trim();
@@ -155,13 +145,12 @@ if __name__ == "__main__":
         text: `Verified System Commands:
   • info <topic|url> : Retrieve verified information from studio database or live web target
   • scrape <url> : Extract live DOM elements & compile Playwright script (max 3 records)
-  • audit <text> : Run 5-point psychological loss-aversion copy teardown
-  • calc : Launch Automation ROI & Arbitrage Calculator
-  • mode <machine|mind|hybrid> : Switch studio mode, copy, and 3D palette
+  • calc : Launch Automation ROI & Savings Calculator
+  • mode <machine|mind|hybrid> : Switch studio mode
   • aira speak <text> : Trigger speech synthesis through Aira
   • capabilities : Inspect studio infrastructure standards & security SLAs
   • contact : View direct communication endpoints & intake instructions
-  • clear : Reset terminal log`
+  • clear : Reset execution log`
       });
     } else if (action === 'info') {
       const topic = parts.slice(1).join(" ").trim().toLowerCase();
@@ -181,22 +170,22 @@ if __name__ == "__main__":
       } else if (topic.includes('capab') || topic.includes('stack') || topic.includes('tech') || topic.includes('engine')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO // STUDIO STACK]\n• Core Engine: Python 3.12 AsyncIO, Playwright, Crawl4AI, Pydantic V2\n• Workers & Agents: LangGraph deterministic state machines, Celery, Redis\n• Security: Hardened defensive architecture, AES-256 storage, TLS 1.3 in transit\n• Reliability: Multi-worker process pooling with automated health restarts`
+          text: `[VERIFIED INFO — STUDIO STACK]\n• Core Engine: Python 3.12 AsyncIO, Playwright, Crawl4AI, Pydantic V2\n• Workers & Agents: LangGraph deterministic state machines, Celery, Redis\n• Security: Hardened defensive architecture, AES-256 storage, TLS 1.3 in transit\n• Reliability: Multi-worker process pooling with automated health restarts`
         });
       } else if (topic.includes('pric') || topic.includes('cost') || topic.includes('retainer') || topic.includes('roi')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO // PRICING & ROI]\n• One-Time Automations: Custom scoped from low-frequency task scripts to enterprise pipelines\n• Managed Retainers: Dedicated autonomous systems sentry and continuous pipeline monitoring\n• Calculation Logic: Weekly labor = operators × hours × hourly rate × automated%\n• To compute exact ROI: type 'calc' or scroll to the Calculator section`
+          text: `[VERIFIED INFO — PRICING & ROI]\n• One-Time Automations: Custom scoped from low-frequency task scripts to enterprise pipelines\n• Managed Retainers: Dedicated autonomous systems sentry and continuous pipeline monitoring\n• Calculation Logic: Weekly labor = operators × hours × hourly rate × automated%\n• To compute exact ROI: type 'calc' or scroll to the Calculator section`
         });
       } else if (topic.includes('aira') || topic.includes('mascot') || topic.includes('bot')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO // AIRA 3D RIG]\nAira is Flyvane's interactive companion rig. She features skeletal bone tracking, responsive head and eye gaze following, organic walking physics, and zero-emoji real-time conversational audio.`
+          text: `[VERIFIED INFO — AIRA CONCIERGE]\nAira is Flyvane's interactive studio concierge providing instant voice and text navigation across our engineering and advisory workflows.`
         });
       } else if (topic.includes('contact') || topic.includes('email') || topic.includes('hire')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO // CONTACT]\n• Direct Email: contact@flyvane.com\n• Direct Portal: flyvane.com/#contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
+          text: `[VERIFIED INFO — CONTACT]\n• Direct Email: contact@flyvane.com\n• Direct Intake: #contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
         });
       } else {
         newHist.push({
@@ -209,20 +198,7 @@ if __name__ == "__main__":
       setScraperUrl(target);
       setActiveTab('scraper');
       executeScrape(target);
-      newHist.push({ sender: 'system', text: `[PARSING] Executing live extraction on ${target}. Switched to Scraper tab.` });
-    } else if (action === 'audit') {
-      const text = cmd.substring(6).trim();
-      if (!text) {
-        newHist.push({
-          sender: 'system',
-          text: `[AUDIT REQ] Missing copy text. Please provide the copy you want to audit:\nUsage: 'audit <your marketing copy here>'`
-        });
-      } else {
-        setTeardownInput(text);
-        setActiveTab('teardown');
-        runAudit(text);
-        newHist.push({ sender: 'system', text: `[AUDIT COMPLETE] Analyzed copy for buzzwords and loss aversion. Switched to Teardown tab.` });
-      }
+      newHist.push({ sender: 'system', text: `[PARSING] Executing live extraction on ${target}. Switched to Extraction view.` });
     } else if (action === 'calc') {
       const el = document.getElementById('roi-arbitrage');
       if (el && (window as any).__lenis) {
@@ -259,7 +235,7 @@ if __name__ == "__main__":
       } else {
         window.location.href = '#capabilities';
       }
-      newHist.push({ sender: 'system', text: `[CAPABILITIES] Flyvane // Defensive Architecture, Fault-Tolerant Worker Pooling, Distributed Autonomous Pipelines.` });
+      newHist.push({ sender: 'system', text: `[CAPABILITIES] Flyvane — Defensive Architecture, Fault-Tolerant Worker Pooling, Distributed Autonomous Pipelines.` });
     } else if (action === 'contact') {
       const el = document.getElementById('contact');
       if (el && (window as any).__lenis) {
@@ -267,15 +243,15 @@ if __name__ == "__main__":
       } else {
         window.location.href = '#contact';
       }
-      newHist.push({ sender: 'system', text: `[CONTACT DIRECT] Email: contact@flyvane.com | Portal: flyvane.com/#contact | Selective Enterprise Allocation` });
+      newHist.push({ sender: 'system', text: `[CONTACT DIRECT] Email: contact@flyvane.com | Intake: #contact | Selective Enterprise Allocation` });
     } else if (action === 'clear') {
-      setTerminalHistory([{ sender: 'system', text: 'Terminal cleared. Type "help" for commands.' }]);
+      setTerminalHistory([{ sender: 'system', text: 'Execution log cleared. Type "help" for commands.' }]);
       setTerminalInput('');
       return;
     } else {
       newHist.push({
         sender: 'system',
-        text: `[UNSUPPORTED OPERATION] '${cmd}' is not a recognized command. The terminal executes only implemented capabilities.\nType 'help' for verified commands or 'info' to request information.`,
+        text: `[UNSUPPORTED OPERATION] '${cmd}' is not a recognized command. Type 'help' for verified commands or 'info' to request information.`,
         isError: true
       });
     }
@@ -765,91 +741,64 @@ if __name__ == "__main__":
     updatePlaywrightScript(cleanUrl, targetType, customQuery);
   };
 
-  const runAudit = (text: string) => {
-    const buzzwords = ["cutting-edge", "passionate", "seamless", "revolutionize", "revolutionary", "innovative", "delve", "tapestry"];
-    let count = 0;
-    buzzwords.forEach(bw => {
-      if (text.toLowerCase().includes(bw)) count++;
-    });
-
-    const hook = Math.max(20, 100 - (count * 20));
-    const loss = text.toLowerCase().includes("lose") || text.toLowerCase().includes("stop") || text.toLowerCase().includes("hours") || text.toLowerCase().includes("cost") ? 85 : 30;
-    const total = Math.round((hook * 0.4) + (loss * 0.4) + (100 - count * 25) * 0.2);
-
-    setTeardownScore(total);
-    setMetricHook(hook);
-    setMetricLoss(loss);
-    setFluffPenalty(`-${count * 15} pts (${count} buzzwords)`);
-
-    if (total < 60) {
-      setTeardownSuggestion("Eliminate 15 hours of manual repetitive data entry every week with custom automated Python pipelines. Stop losing client deals to slow response times.");
-    } else {
-      setTeardownSuggestion("Strong positioning detected: clear economic value proposition with minimal cognitive friction.");
-    }
-  };
-
   return (
-    <section id="workbench" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-surface-border">
+    <section id="workbench" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
-          <span className="text-xs font-mono uppercase tracking-[0.15em] text-cyanAccent block mb-2">// EXECUTABLE SANDBOX</span>
-          <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight">
-            Live Terminal & <span className="font-serif italic font-normal text-neutral-400">Workbench</span>
+          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-400 block mb-2.5 font-semibold">
+            AUTONOMOUS EXECUTION SANDBOX
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight">
+            Live Pipeline & Extraction Workbench
           </h2>
         </div>
-        <p className="text-sm font-mono text-neutral-400 max-w-md mt-4 md:mt-0">
-          Real client-side DOM parsers, interactive CLI command executions, and Playwright code generation in real time.
+        <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-md mt-4 md:mt-0 leading-relaxed">
+          Interactive DOM extraction engine, live runtime inspection, and automated Python Playwright script compilation.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-surface-card border border-surface-border max-w-3xl">
+      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-zinc-950/60 border border-white/[0.08] max-w-xl">
         <button
-          onClick={() => setActiveTab('terminal')}
-          className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-1.5 ${
-            activeTab === 'terminal' ? 'bg-white text-black font-semibold' : 'text-neutral-400 hover:text-white'
-          }`}
-        >
-          <TerminalIcon className="w-3.5 h-3.5" /> 01. Interactive Shell (CLI)
-        </button>
-        <button
+          type="button"
           onClick={() => setActiveTab('scraper')}
-          className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-1.5 ${
-            activeTab === 'scraper' ? 'bg-white text-black font-semibold' : 'text-neutral-400 hover:text-white'
+          className={`px-4 py-2 rounded-lg text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'scraper' ? 'bg-white text-black font-semibold' : 'text-zinc-400 hover:text-white'
           }`}
         >
-          <Cpu className="w-3.5 h-3.5" /> 02. Deterministic Scraper
+          <Cpu className="w-3.5 h-3.5" />
+          <span>01. Deterministic Extraction Sandbox</span>
         </button>
         <button
-          onClick={() => setActiveTab('teardown')}
-          className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-1.5 ${
-            activeTab === 'teardown' ? 'bg-white text-black font-semibold' : 'text-neutral-400 hover:text-white'
+          type="button"
+          onClick={() => setActiveTab('terminal')}
+          className={`px-4 py-2 rounded-lg text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'terminal' ? 'bg-white text-black font-semibold' : 'text-zinc-400 hover:text-white'
           }`}
         >
-          <Brain className="w-3.5 h-3.5" /> 03. Copy Teardown
+          <TerminalIcon className="w-3.5 h-3.5" />
+          <span>02. Runtime Execution Inspector</span>
         </button>
       </div>
 
-      {/* TAB 1: TERMINAL */}
+      {/* TAB 2: RUNTIME INSPECTOR */}
       {activeTab === 'terminal' && (
         <div className="tilt-card rounded-2xl p-6 sm:p-8 space-y-4">
           <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-                <span className="text-[10px] font-mono tracking-wider text-neutral-300 uppercase">RUNNING</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="text-[10px] font-mono tracking-wider text-zinc-300 uppercase">ONLINE</span>
               </div>
-              <span className="text-xs font-mono text-neutral-400 tracking-tight">flyvane@runtime // session: tty-live-01</span>
+              <span className="text-xs font-sans text-zinc-400 tracking-tight">Flyvane Runtime Inspector</span>
             </div>
-            <div className="flex items-center gap-2 font-mono text-[10px] text-neutral-500 uppercase tracking-widest">
-              <span>LATENCY &lt;1ms</span>
-              <span className="text-neutral-700">•</span>
-              <span className="text-neutral-300">UTF-8 / XTERM</span>
+            <div className="flex items-center gap-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+              <span>ASYNCIO CORE</span>
             </div>
           </div>
 
-          <div ref={terminalScrollRef} className="bg-void rounded-xl border border-surface-border p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 scrollbar-thin">
+          <div ref={terminalScrollRef} className="bg-black/40 rounded-xl border border-white/[0.06] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2">
             {terminalHistory.map((item, i) => (
               <div
                 key={i}
@@ -857,59 +806,57 @@ if __name__ == "__main__":
                   item.sender === 'user'
                     ? 'text-cyan-300'
                     : item.isError
-                    ? 'text-red-400 pl-2 border-l border-red-500/40 my-1'
-                    : 'text-neutral-300 pl-2 border-l border-surface-border my-1 whitespace-pre-wrap'
+                    ? 'text-rose-400 pl-2 border-l border-rose-500/40 my-1'
+                    : 'text-zinc-300 pl-2 border-l border-white/10 my-1 whitespace-pre-wrap'
                 }
               >
-                {item.sender === 'user' && <span className="font-bold">flyvane@engine:~$ </span>}
+                {item.sender === 'user' && <span className="font-semibold text-cyan-400">[QUERY] </span>}
                 {item.text}
               </div>
             ))}
           </div>
 
-          <div className="flex items-center gap-3 bg-surface-elevated border border-surface-border rounded-xl p-3 font-mono text-xs">
-            <span className="text-cyan-400 font-bold">flyvane@engine:~$</span>
+          <div className="flex items-center gap-3 bg-zinc-950/60 border border-white/[0.08] rounded-xl p-3 font-mono text-xs">
+            <span className="text-cyan-400 font-semibold">QUERY</span>
             <input
               type="text"
               value={terminalInput}
               onChange={(e) => setTerminalInput(e.target.value)}
               onKeyDown={handleTerminalKeyDown}
-              placeholder="Type a command (e.g. 'help', 'scrape https://example.com', 'aira speak hello')..."
-              className="flex-1 bg-transparent text-white focus:outline-none placeholder:text-neutral-600"
+              placeholder="Enter runtime query (e.g. 'help', 'scrape https://example.com', 'info stack')..."
+              className="flex-1 bg-transparent text-white focus:outline-none placeholder:text-zinc-500 font-sans"
             />
             <button
+              type="button"
               onClick={handleTerminalSubmit}
-              className="px-4 py-1.5 rounded-lg bg-cyan-500 text-black font-bold text-xs uppercase tracking-wider hover:bg-cyan-400 transition-colors tactile-btn"
+              className="px-4 py-1.5 rounded-lg bg-cyan-400 text-black font-sans font-semibold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors tactile-btn"
             >
-              Run
+              Execute
             </button>
           </div>
         </div>
       )}
 
-      {/* TAB 2: SCRAPER */}
+      {/* TAB 1: DETERMINISTIC EXTRACTION SANDBOX */}
       {activeTab === 'scraper' && (
         <div className="tilt-card rounded-2xl p-6 sm:p-8 space-y-6">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-surface-border">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
             <div>
-              <h3 className="text-xl font-display font-bold text-white flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-cyanAccent" />
-                Live Deterministic Scraper & Playwright Generator
+              <h3 className="text-xl font-sans font-semibold text-white flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-cyan-400" />
+                <span>Deterministic Extraction & Playwright Compiler</span>
               </h3>
-              <p className="text-xs font-mono text-neutral-400 mt-1">
-                Real DOM extraction engine. Select what to extract, apply optional keyword filters, and view clean capped records.
+              <p className="text-xs font-sans text-zinc-400 mt-1">
+                Live DOM extraction sandbox. Select an extraction target, apply optional filters, and inspect structured records.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-neutral-300">
-                <span className="text-cyan-400 font-bold">INTERACTIVE DEMO:</span> CLIENT-SIDE DOM & PROXY
+              <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[10px] font-mono text-zinc-300">
+                <span className="text-cyan-400 font-semibold">SANDBOX:</span> LIVE DOM PARSER
               </span>
-              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-neutral-300">
-                <span className="text-emerald-400 font-bold">PRODUCTION PIPELINE:</span> PLAYWRIGHT ASYNC FLEET
-              </span>
-              <span className="px-3 py-1 rounded bg-cyan-950/60 border border-cyan-800 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 CAPPED AT 3 RECORDS
               </span>
             </div>
@@ -917,17 +864,17 @@ if __name__ == "__main__":
 
           {/* Step 1: Input URL & Presets */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono text-neutral-400">
-              <span className="uppercase tracking-wider">Target Destination URL</span>
+            <div className="flex items-center justify-between text-xs font-sans text-zinc-400">
+              <span className="uppercase tracking-[0.15em] font-semibold text-[11px]">Target Destination URL</span>
               <div className="flex items-center gap-1.5">
-                <span className="text-neutral-500 text-[10px]">PRESETS:</span>
+                <span className="text-zinc-500 text-[10px] font-mono">PRESETS:</span>
                 <button
                   type="button"
                   onClick={() => {
                     setScraperUrl('https://news.ycombinator.com');
                     setScrapeTargetType('contacts');
                   }}
-                  className="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white text-[10px] border border-white/10"
+                  className="px-2.5 py-1 rounded-md bg-white/[0.03] hover:bg-white/[0.08] text-zinc-300 hover:text-white text-[11px] font-sans border border-white/[0.08] cursor-pointer"
                 >
                   Hacker News
                 </button>
@@ -937,7 +884,7 @@ if __name__ == "__main__":
                     setScraperUrl('https://github.com/trending');
                     setScrapeTargetType('text');
                   }}
-                  className="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white text-[10px] border border-white/10"
+                  className="px-2.5 py-1 rounded-md bg-white/[0.03] hover:bg-white/[0.08] text-zinc-300 hover:text-white text-[11px] font-sans border border-white/[0.08] cursor-pointer"
                 >
                   GitHub Trending
                 </button>
@@ -947,7 +894,7 @@ if __name__ == "__main__":
                     setScraperUrl('https://stripe.com/pricing');
                     setScrapeTargetType('pricing');
                   }}
-                  className="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white text-[10px] border border-white/10"
+                  className="px-2.5 py-1 rounded-md bg-white/[0.03] hover:bg-white/[0.08] text-zinc-300 hover:text-white text-[11px] font-sans border border-white/[0.08] cursor-pointer"
                 >
                   Stripe Pricing
                 </button>
@@ -955,114 +902,112 @@ if __name__ == "__main__":
             </div>
 
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 font-mono text-xs text-neutral-500">
-                URL //
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 font-mono text-xs text-zinc-500">
+                TARGET
               </span>
               <input
                 type="url"
                 value={scraperUrl}
                 onChange={(e) => setScraperUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full bg-surface-elevated border border-surface-border rounded-xl pl-16 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyanAccent transition-colors"
+                className="w-full bg-zinc-950/60 border border-white/[0.08] rounded-xl pl-20 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyan-400 transition-colors"
               />
             </div>
           </div>
 
           {/* Step 2: What to Scrape (Target Mode) & Keyword Filter */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            {/* Mode Selector (8 cols) */}
             <div className="md:col-span-8 space-y-1.5">
-              <span className="block text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                Select Extraction Target //
+              <span className="block text-[11px] font-sans font-semibold text-zinc-400 uppercase tracking-[0.15em]">
+                Select Extraction Target
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <button
                   type="button"
                   onClick={() => setScrapeTargetType('contacts')}
-                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'contacts'
-                      ? 'bg-cyan-500/15 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                      : 'bg-surface-elevated border-surface-border text-neutral-400 hover:text-white hover:border-white/20'
+                      ? 'bg-cyan-500/15 border-cyan-400 text-white'
+                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
-                  <Mail className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'contacts' ? 'text-cyan-400' : 'text-neutral-500'}`} />
+                  <Mail className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'contacts' ? 'text-cyan-400' : 'text-zinc-500'}`} />
                   <div>
-                    <span className="block text-xs font-mono font-bold leading-none">Contacts</span>
-                    <span className="text-[10px] text-neutral-500">Emails & Phones</span>
+                    <span className="block text-xs font-sans font-semibold leading-none">Contacts</span>
+                    <span className="text-[10px] font-sans text-zinc-500">Emails & Endpoints</span>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setScrapeTargetType('text')}
-                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'text'
-                      ? 'bg-cyan-500/15 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                      : 'bg-surface-elevated border-surface-border text-neutral-400 hover:text-white hover:border-white/20'
+                      ? 'bg-cyan-500/15 border-cyan-400 text-white'
+                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
-                  <FileText className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'text' ? 'text-cyan-400' : 'text-neutral-500'}`} />
+                  <FileText className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'text' ? 'text-cyan-400' : 'text-zinc-500'}`} />
                   <div>
-                    <span className="block text-xs font-mono font-bold leading-none">Text & Headings</span>
-                    <span className="text-[10px] text-neutral-500">Titles & Copies</span>
+                    <span className="block text-xs font-sans font-semibold leading-none">Structured Text</span>
+                    <span className="text-[10px] font-sans text-zinc-500">Titles & Nodes</span>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setScrapeTargetType('links')}
-                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'links'
-                      ? 'bg-cyan-500/15 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                      : 'bg-surface-elevated border-surface-border text-neutral-400 hover:text-white hover:border-white/20'
+                      ? 'bg-cyan-500/15 border-cyan-400 text-white'
+                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
-                  <Link2 className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'links' ? 'text-cyan-400' : 'text-neutral-500'}`} />
+                  <Link2 className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'links' ? 'text-cyan-400' : 'text-zinc-500'}`} />
                   <div>
-                    <span className="block text-xs font-mono font-bold leading-none">Links & URLs</span>
-                    <span className="text-[10px] text-neutral-500">Outbound Targets</span>
+                    <span className="block text-xs font-sans font-semibold leading-none">Links & URLs</span>
+                    <span className="text-[10px] font-sans text-zinc-500">Outbound Anchors</span>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setScrapeTargetType('pricing')}
-                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     scrapeTargetType === 'pricing'
-                      ? 'bg-cyan-500/15 border-cyan-400 text-white shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                      : 'bg-surface-elevated border-surface-border text-neutral-400 hover:text-white hover:border-white/20'
+                      ? 'bg-cyan-500/15 border-cyan-400 text-white'
+                      : 'bg-zinc-950/60 border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20'
                   }`}
                 >
-                  <DollarSign className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'pricing' ? 'text-cyan-400' : 'text-neutral-500'}`} />
+                  <DollarSign className={`w-4 h-4 shrink-0 ${scrapeTargetType === 'pricing' ? 'text-cyan-400' : 'text-zinc-500'}`} />
                   <div>
-                    <span className="block text-xs font-mono font-bold leading-none">Pricing & Stats</span>
-                    <span className="text-[10px] text-neutral-500">Rates & Figures</span>
+                    <span className="block text-xs font-sans font-semibold leading-none">Pricing & Tiers</span>
+                    <span className="text-[10px] font-sans text-zinc-500">Rates & Figures</span>
                   </div>
                 </button>
               </div>
             </div>
 
-            {/* Keyword Filter & Execute Button (4 cols) */}
             <div className="md:col-span-4 space-y-1.5">
-              <span className="block text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                Keyword Filter (Optional) //
+              <span className="block text-[11px] font-sans font-semibold text-zinc-400 uppercase tracking-[0.15em]">
+                Keyword Filter (Optional)
               </span>
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
                   <input
                     type="text"
                     value={keywordFilter}
                     onChange={(e) => setKeywordFilter(e.target.value)}
-                    placeholder="e.g. founder, price..."
-                    className="w-full bg-surface-elevated border border-surface-border rounded-xl pl-8 pr-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyanAccent"
+                    placeholder="Filter records..."
+                    className="w-full bg-zinc-950/60 border border-white/[0.08] rounded-xl pl-8 pr-3 py-2 text-xs font-sans text-white focus:outline-none focus:border-cyan-400"
                   />
                 </div>
                 {isScraping && (
                   <button
                     type="button"
                     onClick={cancelScrape}
-                    className="px-3.5 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center shrink-0 cursor-pointer"
+                    className="px-3.5 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-sans text-xs font-medium transition-all flex items-center justify-center shrink-0 cursor-pointer"
                     title="Cancel in-flight request"
                   >
                     Cancel
@@ -1072,7 +1017,7 @@ if __name__ == "__main__":
                   type="button"
                   disabled={isScraping}
                   onClick={() => executeScrape(scraperUrl, scrapeTargetType, keywordFilter)}
-                  className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 text-black font-sans font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-lg cursor-pointer"
                 >
                   {isScraping ? (
                     <>
@@ -1097,35 +1042,33 @@ if __name__ == "__main__":
 
           {/* Results Grid: Clean 3 Records (Left) & Playwright Script (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Left Column: CLEAN 3 RECORDS FORMAT (NOT JSON) */}
-            <div className="lg:col-span-7 bg-void rounded-2xl border border-surface-border p-5 font-mono text-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-surface-border/60 text-neutral-400">
+            <div className="lg:col-span-7 bg-black/40 rounded-2xl border border-white/[0.08] p-5 text-xs space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-zinc-400">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${isScraping ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
-                  <span className="text-white font-bold tracking-wider">{scrapeStatus}</span>
+                  <span className="text-white font-mono font-semibold tracking-wider">{scrapeStatus}</span>
                 </div>
-                <span className="text-[10px] text-cyan-400 px-2.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800 font-bold uppercase">
-                  {scrapeTargetType} // STRICT CAP 3
+                <span className="text-[10px] font-mono text-cyan-300 px-2.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 font-semibold uppercase">
+                  {scrapeTargetType} — MAX 3 RECORDS
                 </span>
               </div>
 
-              {/* 3 Clean Output Cards */}
               <div className="space-y-3">
                 {extractedRecords.slice(0, 3).map((record, index) => (
                   <div
                     key={record.id}
-                    className="p-4 rounded-xl bg-surface-elevated border border-surface-border hover:border-cyan-500/40 transition-all flex items-start justify-between gap-3 group"
+                    className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex items-start justify-between gap-3 group"
                   >
                     <div className="flex items-start gap-3 min-w-0 flex-1">
-                      <span className="px-2 py-1 rounded bg-black/60 border border-white/10 text-cyan-400 font-mono text-[11px] font-bold shrink-0">
+                      <span className="px-2 py-1 rounded bg-black/60 border border-white/10 text-cyan-400 font-mono text-[11px] font-semibold shrink-0">
                         0{index + 1}
                       </span>
                       <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-800 text-cyan-300 font-semibold">
+                          <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-medium">
                             {record.badge}
                           </span>
-                          <span className="text-[11px] font-mono text-neutral-500 truncate">
+                          <span className="text-[11px] font-sans text-zinc-400 truncate">
                             {record.context}
                           </span>
                         </div>
@@ -1142,7 +1085,7 @@ if __name__ == "__main__":
                         setCopiedRecordId(record.id);
                         setTimeout(() => setCopiedRecordId(null), 2000);
                       }}
-                      className="p-2 rounded-lg bg-surface-card hover:bg-white/10 border border-surface-border text-neutral-400 hover:text-white transition-colors shrink-0"
+                      className="p-2 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-colors shrink-0 cursor-pointer"
                       title="Copy this record"
                     >
                       {copiedRecordId === record.id ? (
@@ -1155,8 +1098,7 @@ if __name__ == "__main__":
                 ))}
               </div>
 
-              {/* Action Strip: Plaintext Export */}
-              <div className="pt-3 border-t border-surface-border/60 flex flex-wrap items-center justify-between gap-2">
+              <div className="pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -1168,28 +1110,28 @@ if __name__ == "__main__":
                     setCopiedAll(true);
                     setTimeout(() => setCopiedAll(false), 2200);
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 hover:text-white flex items-center gap-1.5 transition-all text-[11px] font-mono"
+                  className="px-3 py-1.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all text-xs font-sans cursor-pointer"
                 >
                   {copiedAll ? (
                     <Check className="w-3.5 h-3.5 text-emerald-400" />
                   ) : (
                     <Copy className="w-3.5 h-3.5 text-cyan-400" />
                   )}
-                  {copiedAll ? "Copied 3 Records!" : "Copy Top 3 Records as Text"}
+                  <span>{copiedAll ? "Copied 3 Records" : "Copy Top 3 Records"}</span>
                 </button>
 
-                <span className="text-[10px] font-mono text-neutral-500">
-                  Clean Human Format • JSON Suppressed
+                <span className="text-[11px] font-sans text-zinc-500">
+                  Normalized Schema Output
                 </span>
               </div>
             </div>
 
-            {/* Right Column: Tailored Playwright Python Script */}
-            <div className="lg:col-span-5 bg-surface-elevated rounded-2xl border border-surface-border p-5 font-mono text-xs flex flex-col justify-between space-y-3">
+            <div className="lg:col-span-5 bg-black/40 rounded-2xl border border-white/[0.08] p-5 text-xs flex flex-col justify-between space-y-3">
               <div>
-                <div className="flex items-center justify-between pb-2 mb-3 border-b border-surface-border/60 text-neutral-400">
-                  <span className="flex items-center gap-1.5 text-white font-semibold">
-                    <Code className="w-3.5 h-3.5 text-emerald-400" /> Tailored Playwright Script
+                <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-white/[0.08] text-zinc-400">
+                  <span className="flex items-center gap-1.5 text-white font-sans font-semibold">
+                    <Code className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Compiled Playwright Worker</span>
                   </span>
                   <button
                     type="button"
@@ -1198,13 +1140,13 @@ if __name__ == "__main__":
                       setCopiedPy(true);
                       setTimeout(() => setCopiedPy(false), 2000);
                     }}
-                    className="text-[11px] text-cyan-400 hover:text-white flex items-center gap-1"
+                    className="text-[11px] font-mono text-cyan-400 hover:text-white flex items-center gap-1 cursor-pointer"
                   >
                     {copiedPy ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                    {copiedPy ? "Copied!" : "Copy .py"}
+                    <span>{copiedPy ? "Copied" : "Copy .py"}</span>
                   </button>
                 </div>
-                <pre className="h-64 overflow-y-auto text-emerald-300 text-[11px] leading-relaxed scrollbar-thin bg-black/40 p-3 rounded-xl border border-white/5">
+                <pre className="h-64 overflow-y-auto text-cyan-200/90 font-mono text-[11px] leading-relaxed bg-zinc-950/80 p-3.5 rounded-xl border border-white/[0.06]">
                   {generatedPy}
                 </pre>
               </div>
@@ -1218,109 +1160,11 @@ if __name__ == "__main__":
                   a.download = `scraper_${scrapeTargetType}_3records.py`;
                   a.click();
                 }}
-                className="w-full py-2.5 rounded-xl bg-surface-card hover:bg-surface border border-surface-border text-xs text-neutral-300 hover:text-white flex items-center justify-center gap-2 transition-colors font-mono"
+                className="w-full py-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs text-zinc-300 hover:text-white flex items-center justify-center gap-2 transition-colors font-sans font-medium cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5 text-emerald-400" /> Download Python Automation Script (.py)
+                <Download className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Download Python Worker Script (.py)</span>
               </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: TEARDOWN */}
-      {activeTab === 'teardown' && (
-        <div className="tilt-card rounded-2xl p-6 sm:p-8 space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-surface-border">
-            <div>
-              <h3 className="text-xl font-display font-bold text-white flex items-center gap-2">
-                <Brain className="w-5 h-5 text-amberAccent" />
-                Psychological Copy Teardown & Friction Analyzer
-              </h3>
-              <p className="text-xs font-mono text-neutral-400 mt-1">
-                Evaluates conversion velocity, loss aversion weight, cognitive friction, and flags buzzwords.
-              </p>
-            </div>
-            <span className="px-3 py-1 rounded bg-amber-950/60 border border-amber-800 text-[11px] font-mono text-amber-300">
-              ENGINE: BEHAVIORAL LINGUISTICS
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-6 space-y-4">
-              <label className="block text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                Paste Landing Page Headline or Pitch Copy
-              </label>
-              <textarea
-                rows={6}
-                value={teardownInput}
-                onChange={(e) => setTeardownInput(e.target.value)}
-                className="w-full bg-surface-elevated border border-surface-border rounded-xl p-4 text-sm font-sans text-white focus:outline-none focus:border-amberAccent transition-colors leading-relaxed"
-              />
-
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    const sample = "We are an innovative, passionate digital agency revolutionizing seamless cloud solutions.";
-                    setTeardownInput(sample);
-                    runAudit(sample);
-                  }}
-                  className="text-xs font-mono text-neutral-400 hover:text-white underline"
-                >
-                  Load Sample AI Pitch
-                </button>
-                <button
-                  onClick={() => runAudit(teardownInput)}
-                  className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2"
-                >
-                  <Zap className="w-4 h-4 fill-black" /> Run Behavioral Audit
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 bg-surface-elevated rounded-xl border border-surface-border p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-surface-border">
-                <span className="text-xs font-mono uppercase text-neutral-400">Psychological Audit Score</span>
-                <span className="text-2xl font-display font-bold text-amber-400">{teardownScore} / 100</span>
-              </div>
-
-              <div className="space-y-3 font-mono text-xs">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-neutral-300">Hook Velocity & Clarity</span>
-                    <span className="text-amber-400">{metricHook}%</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-void rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{ width: `${metricHook}%` }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-neutral-300">Loss Aversion Framing</span>
-                    <span className="text-amber-400">{metricLoss}%</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-void rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{ width: `${metricLoss}%` }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-neutral-300">Fluff & Buzzword Penalty</span>
-                    <span className="text-red-400">{fluffPenalty}</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-void rounded-full overflow-hidden">
-                    <div className="h-full bg-red-500 rounded-full transition-all duration-500" style={{ width: '75%' }} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-lg bg-void border border-surface-border mt-4">
-                <span className="text-[10px] font-mono text-emerald-400 block mb-1 uppercase">// Flyvane Strategic Rewrite Architecture</span>
-                <p className="text-xs font-sans text-neutral-200 leading-relaxed italic">
-                  "{teardownSuggestion}"
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -1329,3 +1173,4 @@ if __name__ == "__main__":
     </section>
   );
 };
+

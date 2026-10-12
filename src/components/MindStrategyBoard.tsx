@@ -17,43 +17,43 @@ export const MindStrategyBoard: React.FC = () => {
     positioning: {
       title: "Category Framing & Positioning Matrix",
       badge: "DIFFERENTIATION ARCHITECTURE",
-      summary: "How Flyvane structures high-contrast positioning to elevate clients out of commoditized price wars.",
+      summary: "How Flyvane structures high-contrast positioning to elevate enterprise organizations out of commoditized price wars.",
       pillars: [
         {
           label: "Current State (The Commoditized Trap)",
-          description: "Competing on incremental features, responding to RFP price wars, and sounding indistinguishable from five other vendors.",
+          description: "Competing on incremental features, responding to RFP price wars, and sounding indistinguishable from legacy vendors.",
           tone: "Vulnerable to fee compression"
         },
         {
           label: "Category Diagnosis",
-          description: "Exposing the fundamental flaw in the standard industry consensus and revealing why traditional approaches create hidden costs.",
+          description: "Exposing the fundamental flaw in the standard industry consensus and revealing why conventional approaches create hidden costs.",
           tone: "Intellectual authority"
         },
         {
           label: "High-Contrast Position",
-          description: "Framing your business around a singular high-leverage outcome that makes legacy alternatives appear obsolete.",
+          description: "Framing your organization around a singular high-leverage outcome that makes legacy alternatives appear obsolete.",
           tone: "Premium pricing power"
         }
       ]
     },
     narrative: {
       title: "Loss-Aversion Messaging & Narrative Architecture",
-      badge: "PSYCHOLOGICAL COMMUNICATION",
-      summary: "Transforming vague feature lists into urgent commercial imperatives structured around the cost of inaction.",
+      badge: "EXECUTIVE COMMUNICATION",
+      summary: "Transforming complex capabilities into urgent commercial imperatives structured around the quantified cost of inaction.",
       pillars: [
         {
           label: "Quantified Cost of Inaction",
-          description: "Decision-makers rarely act on minor potential gains; they act decisively to eliminate compounded operational hemorrhage.",
+          description: "Decision-makers rarely act on minor potential gains; they act decisively to eliminate compounded commercial leakage.",
           tone: "Measurable urgency"
         },
         {
           label: "Zero-Jargon Transparency",
-          description: "Purging generic buzzwords ('cutting-edge', 'innovative', 'seamless') in favor of plainspoken, precise commercial language.",
+          description: "Purging generic buzzwords in favor of plainspoken, high-precision commercial language tailored for C-suite buyers.",
           tone: "Earned credibility"
         },
         {
           label: "Executive Proof Architecture",
-          description: "Structuring claims with transparent formulas, verified technical boundaries, and documented return horizons.",
+          description: "Structuring claims with transparent commercial models, verified market benchmarks, and documented return horizons.",
           tone: "Reduced decision risk"
         }
       ]
@@ -65,17 +65,17 @@ export const MindStrategyBoard: React.FC = () => {
       pillars: [
         {
           label: "Proprietary Insight Extraction",
-          description: "Interviewing technical leaders to extract raw, counter-intuitive observations from real client projects.",
+          description: "Interviewing leadership teams to extract counter-intuitive market observations and authoritative industry perspectives.",
           tone: "Uncopyable substance"
         },
         {
           label: "Multi-Tier Distribution Cadence",
-          description: "Translating deep technical insights into executive summaries, industry teardowns, and actionable case frameworks.",
+          description: "Translating core thesis statements into executive briefs, industry position papers, and high-intent social syndication.",
           tone: "Consistent visibility"
         },
         {
           label: "Inbound Conversion Calibration",
-          description: "Ensuring every published piece connects seamlessly to structured intake briefs and qualification paths.",
+          description: "Ensuring every published piece connects seamlessly to structured advisory intake briefs and qualification paths.",
           tone: "Commercial pipeline velocity"
         }
       ]
@@ -85,7 +85,7 @@ export const MindStrategyBoard: React.FC = () => {
   const current = frameworks[activeTab];
 
   return (
-    <section id="strategy-board" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-surface-border">
+    <section id="strategy-board" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.08]">
       
       {/* Header */}
       <motion.div
@@ -95,28 +95,29 @@ export const MindStrategyBoard: React.FC = () => {
         transition={{ duration: 0.6, ease: stitchEase }}
         className="mb-12"
       >
-        <span className="text-xs font-mono uppercase tracking-[0.1em] text-amber-400 block mb-2 font-semibold">
-          // STRATEGIC METHODOLOGY & BRAND ARCHITECTURE
+        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 block mb-2.5 font-semibold">
+          STRATEGIC METHODOLOGY & EXECUTIVE ARCHITECTURE
         </span>
-        <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight text-balance">
+        <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
           The Flyvane Strategy Board
         </h2>
-        <p className="text-sm font-mono text-neutral-400 max-w-2xl mt-3 text-pretty">
-          A visual walkthrough of our strategic marketing methodology. We build commercial positioning designed for senior buyers, not developer sandboxes.
+        <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
+          A structured walkthrough of our executive positioning methodology. We architect category authority and demand frameworks engineered for senior decision-makers.
         </p>
       </motion.div>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-8">
+      {/* Segmented Pillar Selector */}
+      <div className="flex flex-wrap items-center gap-2.5 mb-8">
         <button
+          type="button"
           onClick={() => {
             setActiveTab('positioning');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
             activeTab === 'positioning'
-              ? 'bg-amber-950/70 text-amber-300 border border-amber-600/60 shadow-lg'
-              : 'bg-surface-card text-neutral-400 hover:text-white border border-surface-border'
+              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
+              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Compass className="w-3.5 h-3.5 text-amber-400" />
@@ -124,14 +125,15 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
 
         <button
+          type="button"
           onClick={() => {
             setActiveTab('narrative');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
             activeTab === 'narrative'
-              ? 'bg-amber-950/70 text-amber-300 border border-amber-600/60 shadow-lg'
-              : 'bg-surface-card text-neutral-400 hover:text-white border border-surface-border'
+              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
+              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <FileText className="w-3.5 h-3.5 text-amber-400" />
@@ -139,18 +141,19 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
 
         <button
+          type="button"
           onClick={() => {
             setActiveTab('campaign');
             soundEngine.playClick(0.06);
           }}
-          className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all flex items-center gap-2 tactile-btn ${
+          className={`px-4 py-2.5 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-2 tactile-btn ${
             activeTab === 'campaign'
-              ? 'bg-amber-950/70 text-amber-300 border border-amber-600/60 shadow-lg'
-              : 'bg-surface-card text-neutral-400 hover:text-white border border-surface-border'
+              ? 'bg-amber-500/20 text-white border border-amber-500/50 shadow-lg'
+              : 'bg-zinc-950/60 text-zinc-400 hover:text-white border border-white/[0.08]'
           }`}
         >
           <Target className="w-3.5 h-3.5 text-amber-400" />
-          <span>Editorial Program</span>
+          <span>Editorial Authority Program</span>
         </button>
       </div>
 
@@ -160,23 +163,23 @@ export const MindStrategyBoard: React.FC = () => {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
-        className="tilt-card rounded-2xl p-7 sm:p-10 bg-gradient-to-br from-[#120e07] via-[#090806] to-[#040406] border border-amber-500/20 shadow-2xl space-y-8"
+        className="tilt-card rounded-2xl p-7 sm:p-10 space-y-8"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-amber-400 block mb-1">
+            <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 block mb-1">
               {current.badge}
             </span>
-            <h3 className="text-2xl sm:text-3xl font-display font-bold text-white">
+            <h3 className="text-2xl sm:text-3xl font-sans font-semibold text-white">
               {current.title}
             </h3>
           </div>
-          <span className="px-3 py-1 rounded-full bg-amber-950/60 border border-amber-700/50 text-xs font-mono text-amber-300">
-            STRATEGY PILLAR
+          <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-sans font-medium text-amber-300">
+            Strategy Pillar
           </span>
         </div>
 
-        <p className="text-sm font-sans text-neutral-300 max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-base font-sans text-zinc-300 max-w-3xl leading-relaxed">
           {current.summary}
         </p>
 
@@ -185,21 +188,21 @@ export const MindStrategyBoard: React.FC = () => {
           {current.pillars.map((p, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-xl bg-black/40 border border-amber-500/15 space-y-3 flex flex-col justify-between"
+              className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-3 flex flex-col justify-between"
             >
-              <div className="space-y-2">
-                <span className="w-6 h-6 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-bold">
+              <div className="space-y-2.5">
+                <span className="w-7 h-7 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-semibold">
                   0{idx + 1}
                 </span>
-                <h4 className="text-base font-display font-bold text-white leading-snug">
+                <h4 className="text-base font-sans font-semibold text-white leading-snug">
                   {p.label}
                 </h4>
-                <p className="text-xs font-sans text-neutral-400 leading-relaxed">
+                <p className="text-xs font-sans text-zinc-400 leading-relaxed">
                   {p.description}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-amber-400">
+              <div className="pt-3 border-t border-white/[0.06] flex items-center gap-1.5 text-xs font-sans font-medium text-amber-400">
                 <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
                 <span>{p.tone}</span>
               </div>
@@ -208,16 +211,16 @@ export const MindStrategyBoard: React.FC = () => {
         </div>
 
         {/* Callout Footer */}
-        <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-700/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono">
-          <div className="text-neutral-300">
-            <span className="text-amber-400 font-bold">Flyvane Standard: </span>
-            Strategy is never delivered as an abstract slide deck. Every recommendation is written as actionable positioning and validated against commercial objectives.
+        <div className="p-5 rounded-xl bg-amber-500/[0.06] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-sans">
+          <div className="text-zinc-300 leading-relaxed">
+            <span className="text-amber-400 font-semibold">Flyvane Advisory Standard: </span>
+            Strategy is never delivered as an abstract slide deck. Every recommendation is architected as actionable market positioning and validated against commercial pipeline objectives.
           </div>
           <a
             href="#contact"
-            className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+            className="px-4 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-sans font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 self-start sm:self-auto"
           >
-            <span>Request Brand Strategy Audit</span>
+            <span>Request Positioning Audit</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>

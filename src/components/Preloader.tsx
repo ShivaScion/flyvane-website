@@ -100,9 +100,9 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           {/* Word presentation */}
           <div className="relative z-20 text-center px-4">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-neutral-400">
-                System Initializing // Automation Core
+              <span className="inline-block w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
+              <span className="text-xs uppercase font-sans font-semibold tracking-[0.14em] text-zinc-400">
+                Flyvane Advisory Studio
               </span>
             </div>
             <motion.h1
@@ -111,12 +111,12 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -14 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold text-white tracking-tight min-h-[90px] flex items-center justify-center"
+              className="text-4xl sm:text-6xl md:text-7xl font-sans font-semibold text-white tracking-tight min-h-[90px] flex items-center justify-center"
             >
               {PRELOADER_WORDS[index]}
             </motion.h1>
-            <p className="text-[11px] font-mono text-neutral-500 mt-4 tracking-widest">
-              [ AUTOMATE THE BORING // MARKET THE BRILLIANT ]
+            <p className="text-xs font-sans font-medium text-zinc-500 mt-4 tracking-[0.14em] uppercase">
+              Autonomous Systems &amp; Executive Positioning
             </p>
           </div>
 

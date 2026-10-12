@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Terminal, Cpu, Calculator, Code, Brain, Mic, Search, User, Mail, Hash } from 'lucide-react';
+import { Terminal, Cpu, Calculator, Code, Brain, Mic, Search, User, Mail, Hash, Sparkles } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 export interface CommandItem {
@@ -16,93 +16,103 @@ export interface CommandItem {
 const COMMAND_REGISTRY: CommandItem[] = [
   {
     id: 'cmd-workbench',
-    title: 'Open Interactive Shell & Terminal',
-    subtitle: 'Run live CLI commands, scrapers, and copy audits',
+    title: 'Open Execution Sandbox',
+    subtitle: 'Run live pipelines and extraction workflows',
     category: 'Automation',
     icon: <Terminal className="w-4 h-4 text-cyan-400" />,
-    shortcut: '#workbench',
+    shortcut: 'SANDBOX',
     action: 'workbench',
-    keywords: ['shell', 'cli', 'terminal', 'sandbox', 'run', 'python']
+    keywords: ['shell', 'sandbox', 'run', 'python', 'workbench']
   },
   {
     id: 'cmd-scraper',
-    title: 'Launch Live Web Scraper & DOM Engine',
+    title: 'Launch Extraction Engine',
     subtitle: 'Extract live web elements into capped 3-record format',
     category: 'Automation',
     icon: <Code className="w-4 h-4 text-cyan-400" />,
-    shortcut: 'SCRAPE',
+    shortcut: 'EXTRACT',
     action: 'scrape',
-    keywords: ['scraper', 'playwright', 'dom', 'extract', 'crawl', 'contacts', 'emails']
+    keywords: ['dom', 'extract', 'crawl', 'contacts', 'emails']
   },
   {
     id: 'cmd-roi',
-    title: 'Calculate Automation ROI & Bottleneck Losses',
-    subtitle: 'Quantify wasted payroll hours vs automation savings',
+    title: 'Open Economic & Pipeline Calculator',
+    subtitle: 'Quantify workflow savings or executive pipeline value',
     category: 'Navigation',
     icon: <Calculator className="w-4 h-4 text-emerald-400" />,
-    shortcut: '#roi',
+    shortcut: 'CALC',
     action: 'roi',
-    keywords: ['roi', 'calculator', 'arbitrage', 'loss', 'pricing', 'hours', 'savings']
+    keywords: ['roi', 'calculator', 'arbitrage', 'loss', 'pricing', 'hours', 'savings', 'pipeline']
   },
   {
     id: 'cmd-mind',
-    title: 'Switch to "MIND" Behavioral Mode',
-    subtitle: 'Warm amber palette & psychological conversion architecture',
+    title: 'Switch to Mind Mode',
+    subtitle: 'Executive positioning & demand architecture view',
     category: 'Theme',
     icon: <Brain className="w-4 h-4 text-amber-400" />,
     shortcut: 'MIND',
     action: 'mode mind',
-    keywords: ['mind', 'theme', 'behavioral', 'psychology', 'amber']
+    keywords: ['mind', 'theme', 'behavioral', 'psychology', 'amber', 'strategy']
   },
   {
     id: 'cmd-machine',
-    title: 'Switch to "MACHINE" Technical Mode',
-    subtitle: 'Electric cyan palette & systems automation view',
+    title: 'Switch to Machine Mode',
+    subtitle: 'Autonomous engineering & process infrastructure view',
     category: 'Theme',
-    icon: <Cpu className="w-4 h-4 text-cyan-400" />,
+    icon: <Cpu className="w-4 h-4 text-emerald-400" />,
     shortcut: 'MACHINE',
     action: 'mode machine',
     keywords: ['machine', 'theme', 'automation', 'cyan', 'technical']
   },
   {
     id: 'cmd-hybrid',
-    title: 'Switch to "HYBRID" Unified Matrix',
-    subtitle: 'Emerald palette combining engineering & psychology',
+    title: 'Switch to Hybrid Mode',
+    subtitle: 'Unified engineering & executive authority view',
     category: 'Theme',
-    icon: <Hash className="w-4 h-4 text-emerald-400" />,
+    icon: <Hash className="w-4 h-4 text-cyan-400" />,
     shortcut: 'HYBRID',
     action: 'mode hybrid',
     keywords: ['hybrid', 'matrix', 'emerald', 'unified']
   },
   {
+    id: 'cmd-updates',
+    title: 'View Studio Updates & Insights',
+    subtitle: 'Recent LinkedIn dispatches and architectural notes',
+    category: 'Navigation',
+    icon: <Sparkles className="w-4 h-4 text-amber-400" />,
+    shortcut: 'UPDATES',
+    action: 'updates',
+    keywords: ['updates', 'insights', 'linkedin', 'posts', 'news']
+  },
+  {
     id: 'cmd-aira',
-    title: 'Voice Session: Speak with Aira Companion',
-    subtitle: 'Initiate voice speech synthesis & direct companion tour',
+    title: 'Open Aira Studio Concierge',
+    subtitle: 'Launch interactive voice and navigation assistant',
     category: 'Voice',
-    icon: <Mic className="w-4 h-4 text-cyan-400" />,
+    icon: <Mic className="w-4 h-4 text-emerald-400" />,
     shortcut: 'VOICE',
     action: 'aira',
     keywords: ['aira', 'voice', 'companion', 'speak', 'audio', 'tour']
   },
   {
     id: 'cmd-whoami',
-    title: 'Inspect Studio Architecture & Standards (capabilities)',
-    subtitle: 'Flyvane // Engineering, Automation & Strategy Practice',
+    title: 'Inspect Studio Capabilities & Standards',
+    subtitle: 'Flyvane — Engineering, Automation & Strategy Practice',
     category: 'Identity',
-    icon: <User className="w-4 h-4 text-neutral-300" />,
-    shortcut: '#capabilities',
+    icon: <User className="w-4 h-4 text-zinc-300" />,
+    shortcut: 'STANDARDS',
     action: 'capabilities',
     keywords: ['capabilities', 'architecture', 'standards', 'security', 'sla', 'flyvane']
   },
   {
     id: 'cmd-contact',
-    title: 'Retain Advisory & Enterprise Intake',
-    subtitle: 'Selective 2-slot retainer intake and direct brief dispatch',
+    title: 'Retain Advisory & Direct Project Intake',
+    subtitle: 'Submit project scope brief for 24-hour partner review',
     category: 'Navigation',
     icon: <Mail className="w-4 h-4 text-emerald-400" />,
-    shortcut: '#contact',
+    shortcut: 'INTAKE',
     action: 'contact',
-    keywords: ['contact', 'retain', 'hire', 'email', 'phone', 'call', 'consulting']
+    keywords: ['contact', 'retain', 'hire', 'email', 'advisory', 'consulting']
   }
 ];
 
@@ -118,11 +128,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  // Filter commands dynamically with fuzzy keyword matching
   const filteredCommands = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return COMMAND_REGISTRY;
-    return COMMAND_REGISTRY.filter(cmd => 
+    return COMMAND_REGISTRY.filter(cmd =>
       cmd.title.toLowerCase().includes(q) ||
       cmd.subtitle.toLowerCase().includes(q) ||
       cmd.category.toLowerCase().includes(q) ||
@@ -130,12 +139,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
     );
   }, [query]);
 
-  // Keep selectedIndex in bounds
   useEffect(() => {
     setSelectedIndex(0);
   }, [query]);
 
-  // Auto-focus input when palette opens & play modal sweep sound
   useEffect(() => {
     if (isOpen) {
       soundEngine.playModalSweep(true);
@@ -145,7 +152,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
     }
   }, [isOpen]);
 
-  // Scroll active item into view
   useEffect(() => {
     if (listRef.current && listRef.current.children[selectedIndex]) {
       const activeEl = listRef.current.children[selectedIndex] as HTMLElement;
@@ -153,7 +159,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
     }
   }, [selectedIndex]);
 
-  // Keyboard navigation & escape listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -162,6 +167,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
         e.preventDefault();
         soundEngine.playModalSweep(false);
         onClose();
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        inputRef.current?.focus();
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         soundEngine.playClick(0.04);
@@ -191,7 +199,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4"
       onClick={() => {
         soundEngine.playModalSweep(false);
@@ -201,41 +209,38 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
       aria-modal="true"
       aria-label="Command Palette"
     >
-      <div 
-        className="w-full max-w-2xl bg-surface-card border border-surface-border rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+      <div
+        className="w-full max-w-2xl bg-zinc-950/90 backdrop-blur-2xl border border-white/[0.08] border-t-white/[0.16] rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search Input Bar */}
-        <div className="p-4 border-b border-surface-border flex items-center gap-3 bg-surface-elevated/40">
-          <Search className="w-5 h-5 text-cyan-400 shrink-0" />
+        <div className="p-4 border-b border-white/[0.08] flex items-center gap-3 bg-white/[0.02]">
+          <Search className="w-5 h-5 text-emerald-400 shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search commands, tools, or run actions... (e.g. 'scrape', 'roi', 'mind')"
-            className="w-full bg-transparent text-sm font-mono text-white focus:outline-none placeholder:text-neutral-500"
+            placeholder="Search studio actions, modes, or sections..."
+            className="w-full bg-transparent text-sm font-sans text-white focus:outline-none placeholder:text-zinc-500"
             role="combobox"
             aria-expanded={filteredCommands.length > 0}
             aria-autocomplete="list"
           />
           <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-[10px] font-mono text-neutral-400 px-2 py-0.5 rounded bg-surface-elevated border border-surface-border">
+            <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
               ESC
             </span>
           </div>
         </div>
 
-        {/* Dynamic Command List */}
-        <div 
+        <div
           ref={listRef}
-          className="p-2 max-h-80 overflow-y-auto font-mono text-xs space-y-1"
+          className="p-2 max-h-80 overflow-y-auto font-sans text-xs space-y-1"
           role="listbox"
         >
           {filteredCommands.length === 0 ? (
-            <div className="p-8 text-center text-neutral-500 font-mono text-xs">
+            <div className="p-8 text-center text-zinc-400 font-sans text-xs">
               No matching commands found for <span className="text-white">"{query}"</span>.
-              <p className="text-[11px] text-neutral-600 mt-1">Press <strong className="text-neutral-400">Enter</strong> to send directly to shell engine.</p>
             </div>
           ) : (
             filteredCommands.map((cmd, idx) => {
@@ -251,35 +256,32 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`p-3 rounded-xl cursor-pointer flex items-center justify-between transition-all ${
                     isSelected
-                      ? 'bg-surface-elevated text-white border border-cyan-500/40 shadow-sm'
-                      : 'text-neutral-400 hover:text-white border border-transparent'
+                      ? 'bg-white/[0.06] text-white border border-emerald-500/30 shadow-sm'
+                      : 'text-zinc-400 hover:text-white border border-transparent'
                   }`}
                   role="option"
                   aria-selected={isSelected}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-black/60 border border-white/10' : 'bg-surface'}`}>
+                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-black/60 border border-white/10' : 'bg-white/[0.03]'}`}>
                       {cmd.icon}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-white truncate text-xs">{cmd.title}</span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-neutral-400 uppercase">
+                        <span className="font-medium text-white truncate text-xs font-sans">{cmd.title}</span>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-400 uppercase tracking-wider font-sans">
                           {cmd.category}
                         </span>
                       </div>
-                      <p className="text-[11px] text-neutral-500 truncate mt-0.5">{cmd.subtitle}</p>
+                      <p className="text-[11px] text-zinc-400 truncate mt-0.5 font-sans">{cmd.subtitle}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     {cmd.shortcut && (
-                      <span className="text-[10px] font-mono text-neutral-400 px-2 py-0.5 rounded bg-surface border border-surface-border">
+                      <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded bg-white/[0.03] border border-white/[0.08]">
                         {cmd.shortcut}
                       </span>
-                    )}
-                    {isSelected && (
-                      <span className="text-[10px] text-cyan-400 font-bold">↵</span>
                     )}
                   </div>
                 </div>
@@ -288,14 +290,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
           )}
         </div>
 
-        {/* Footer Hint Bar */}
-        <div className="px-4 py-2.5 bg-void border-t border-surface-border flex items-center justify-between text-[11px] font-mono text-neutral-500">
+        <div className="px-4 py-2.5 bg-black/40 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-sans text-zinc-400">
           <div className="flex items-center gap-3">
-            <span><strong className="text-neutral-300">↑↓</strong> Navigate</span>
-            <span><strong className="text-neutral-300">↵</strong> Execute</span>
-            <span><strong className="text-neutral-300">Esc</strong> Dismiss</span>
+            <span><strong className="text-zinc-200">↑↓</strong> Navigate</span>
+            <span><strong className="text-zinc-200">↵</strong> Execute</span>
+            <span><strong className="text-zinc-200">Esc</strong> Dismiss</span>
           </div>
-          <span className="text-cyan-400/80">Raycast / Linear Architecture</span>
+          <span className="text-emerald-400/80 font-medium">Flyvane Command</span>
         </div>
       </div>
     </div>

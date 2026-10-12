@@ -12,9 +12,11 @@ import { AiraCompanion } from './components/AiraCompanion';
 import { AiraVoiceModal } from './components/AiraVoiceModal';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
 import { PainPointArbitrage } from './components/PainPointArbitrage';
+import { BrandAuthorityEstimator } from './components/BrandAuthorityEstimator';
 import { CaseStudies } from './components/CaseStudies';
 import { CompanyCapabilities } from './components/CompanyCapabilities';
 import { MindStrategyBoard } from './components/MindStrategyBoard';
+import { StudioUpdates } from './components/StudioUpdates';
 import { ContactSection } from './components/ContactSection';
 import { CommandPalette } from './components/CommandPalette';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -127,12 +129,11 @@ export function App() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.98; // Natural, calm pacing
-      utterance.pitch = 1.15; // Gentle, pleasant feminine tone
-      utterance.volume = 0.72; // Reduced default volume to prevent harsh playback
+      utterance.rate = 0.98;
+      utterance.pitch = 1.15;
+      utterance.volume = 0.72;
 
       const voices = window.speechSynthesis.getVoices();
-      // Select natural, premium feminine voices (Google UK English Female, Samantha, Victoria, Karen, Zira, etc.)
       const femaleVoice = voices.find(v => 
         (v.name.includes('Google') && v.name.includes('Female')) ||
         v.name.includes('Samantha') ||
@@ -167,10 +168,16 @@ export function App() {
 
     if (clean.includes('scraper') || clean.includes('terminal') || clean.includes('workbench')) {
       scrollToSection('#workbench');
-      speakText("Opening the live workbench. Enter your target URL or run live automation scripts.", true);
+      speakText("Opening the live workbench.", true);
     } else if (clean.includes('roi') || clean.includes('calc') || clean.includes('loss') || clean.includes('revenue')) {
       scrollToSection('#roi-arbitrage');
-      speakText("Navigating to the Pain-Point & ROI Arbitrage matrix.", true);
+      speakText("Navigating to the estimator.", true);
+    } else if (clean.includes('update')) {
+      scrollToSection('#updates');
+      speakText("Navigating to studio updates.", true);
+    } else if (clean.includes('contact') || clean.includes('advisory')) {
+      scrollToSection('#contact');
+      speakText("Opening direct project intake.", true);
     } else if (clean.includes('mind')) {
       setMode('mind');
       soundEngine.playModeMorph('mind');
@@ -187,15 +194,15 @@ export function App() {
       setIsAiraModalOpen(true);
     } else if (clean.includes('who') || clean.includes('company') || clean.includes('capabilities') || clean.includes('experience')) {
       scrollToSection('#capabilities');
-      speakText("Flyvane is an enterprise studio uniting engineering and automation with strategic brand growth.", true);
+      speakText("Flyvane is an enterprise studio uniting autonomous process engineering with executive positioning.", true);
     } else {
       scrollToSection('#hero');
-      speakText("Automate the boring. Market the brilliant.", true);
+      speakText("Navigating to top of studio.", true);
     }
   };
 
   return (
-    <div className="relative min-h-screen bg-void text-neutral-200">
+    <div className="relative min-h-screen bg-[#07080B] text-zinc-200 overflow-x-hidden">
       <Preloader onComplete={() => {
         // Silent on completion by default
       }} />
@@ -217,12 +224,12 @@ export function App() {
       />
 
       {/* Main Viewport Content */}
-      <main className="relative z-10 pt-28 pb-24">
+      <main className="relative z-10 pt-24 pb-24">
         <Hero
           mode={mode}
           onAiraTour={() => {
             setIsAudioEnabled(true);
-            speakText("Welcome to Flyvane. We combine engineering and automation with strategic brand growth. Explore our live tools and services below.", true);
+            speakText("Welcome to Flyvane.", true);
           }}
           onOpenScraper={() => {
             const el = document.querySelector('#workbench');
@@ -242,24 +249,42 @@ export function App() {
           }}
         />
 
-        {/* Machine Mode Terminal Workbench (Dedicated Automation Tool) */}
+        {/* Machine Mode: Dedicated Automation Workbench & Operational ROI Calculator */}
         {mode === 'machine' && (
-          <ErrorBoundary>
-            <TerminalWorkbench
-              onSetMode={setMode}
-              onAiraSpeak={(t) => speakText(t, true)}
+          <>
+            <ErrorBoundary>
+              <TerminalWorkbench
+                onSetMode={setMode}
+                onAiraSpeak={(t) => speakText(t, true)}
+              />
+            </ErrorBoundary>
+            <PainPointArbitrage
+              onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                setInquiryContext(
+                  `[ENTERPRISE SCOPE BRIEF]\n` +
+                  `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                  `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                  `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                  `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
+                );
+              }}
             />
-          </ErrorBoundary>
+          </>
         )}
 
-        {/* Mind Mode Strategy Board (Dedicated Editorial Brand Strategy Surface) */}
+        {/* Mind Mode: Dedicated Editorial Brand Strategy Surface & Brand Authority Estimator */}
         {mode === 'mind' && (
-          <ErrorBoundary>
-            <MindStrategyBoard />
-          </ErrorBoundary>
+          <>
+            <ErrorBoundary>
+              <MindStrategyBoard />
+            </ErrorBoundary>
+            <BrandAuthorityEstimator
+              onSelectBrief={(brief) => setInquiryContext(brief)}
+            />
+          </>
         )}
 
-        {/* Hybrid Mode: Both Integrated System Capabilities */}
+        {/* Hybrid Mode: Integrated System Capabilities */}
         {mode === 'hybrid' && (
           <>
             <ErrorBoundary>
@@ -271,26 +296,30 @@ export function App() {
                 onAiraSpeak={(t) => speakText(t, true)}
               />
             </ErrorBoundary>
+            <PainPointArbitrage
+              onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                setInquiryContext(
+                  `[ENTERPRISE SCOPE BRIEF]\n` +
+                  `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                  `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                  `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                  `• Objective: Unified technical automation & brand authority system.`
+                );
+              }}
+            />
+            <BrandAuthorityEstimator
+              onSelectBrief={(brief) => setInquiryContext(brief)}
+            />
           </>
         )}
-
-        <PainPointArbitrage
-          onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
-            setInquiryContext(
-              `[ENTERPRISE SCOPE BRIEF]\n` +
-              `• Quantified Bottleneck: ${teamSize} operators bleeding ${hours} hrs/wk each at $${rate}/hr\n` +
-              `• Annualized Labor Waste: $${loss.toLocaleString()} / year (Cost of Inaction: ~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
-              `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
-              `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
-            );
-          }}
-        />
 
         <CaseStudies mode={mode} />
 
         <CompanyCapabilities mode={mode} />
 
-        <ContactSection inquiryContext={inquiryContext} />
+        <StudioUpdates mode={mode} />
+
+        <ContactSection mode={mode} inquiryContext={inquiryContext} />
       </main>
 
       {/* Autonomous Traveling Aira Companion */}
