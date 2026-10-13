@@ -33,7 +33,13 @@ export function QuantumSingularity() {
   useFrame((state, delta) => {
     if (!groupRef.current) return;
 
-    groupRef.current.rotation.y += delta * 0.15;
+    // Continuously decrement Z rotation of main group
+    groupRef.current.rotation.z -= delta * 0.15;
+
+    // Continuously increment Y rotation of inner core rapidly
+    if (coreRef.current) {
+      coreRef.current.rotation.y += delta * 0.8;
+    }
 
     // Parallax cursor tracking
     groupRef.current.position.x = THREE.MathUtils.lerp(
@@ -50,11 +56,11 @@ export function QuantumSingularity() {
 
   return (
     <group ref={groupRef}>
-      {/* Dense golden core */}
+      {/* Dense golden singularity core */}
       <Points ref={coreRef} positions={corePoints} stride={3}>
         <PointMaterial
           transparent
-          color="#F5C542"
+          color="#F59E0B"
           size={0.05}
           sizeAttenuation
           depthWrite={false}

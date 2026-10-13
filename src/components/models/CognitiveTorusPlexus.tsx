@@ -47,8 +47,17 @@ export function CognitiveTorusPlexus() {
   useFrame((state, delta) => {
     if (!groupRef.current) return;
 
-    groupRef.current.rotation.y -= delta * 0.2;
-    groupRef.current.rotation.x += delta * 0.06;
+    // Continuously increment Z and Y rotation for tumbling effect
+    groupRef.current.rotation.y += delta * 0.2;
+    groupRef.current.rotation.z += delta * 0.1;
+
+    // Dynamic tilt based on mouse X coordinate manipulating rotation.x
+    const targetRotX = 0.3 + state.pointer.x * 0.25;
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      targetRotX,
+      0.05
+    );
 
     // Parallax cursor tracking
     groupRef.current.position.x = THREE.MathUtils.lerp(
