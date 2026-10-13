@@ -142,8 +142,15 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
     };
 
     // 3. Database Ingestion (Supabase + Local Persistence Mirror for Sandbox Resilience)
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+    const supabaseUrl =
+      process.env.SUPABASE_URL ||
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      process.env.VITE_SUPABASE_URL;
+    const supabaseKey =
+      process.env.SUPABASE_SECRET_KEY ||
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.VITE_SUPABASE_ANON_KEY ||
+      process.env.SUPABASE_PUBLISHABLE_KEY;
 
     if (supabaseUrl && supabaseKey) {
       try {
@@ -199,12 +206,24 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
 
       if (adminEmail) {
         dispatchTasks.push(
-          resend.emails.send({
-            from: fromEmail,
-            to: adminEmail,
-            subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${name}`,
-            html: buildAdminEmailHtml(parsed.data, leadId),
-          })
+          (async () => {
+            // Attempt primary fromEmail, fallback to onboarding@resend.dev if custom domain unverified
+            const res = await resend.emails.send({
+              from: fromEmail,
+              to: adminEmail,
+              subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${name}`,
+              html: buildAdminEmailHtml(parsed.data, leadId),
+            });
+            if (res.error && res.error.message?.includes('domain')) {
+              return resend.emails.send({
+                from: 'onboarding@resend.dev',
+                to: adminEmail,
+                subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${name}`,
+                html: buildAdminEmailHtml(parsed.data, leadId),
+              });
+            }
+            return res;
+          })()
         );
       }
 
@@ -223,10 +242,13 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
     // Channel B: Twilio WhatsApp Notification
     const twilioSid = process.env.TWILIO_ACCOUNT_SID;
     const twilioToken = process.env.TWILIO_AUTH_TOKEN;
-    const twilioFrom = process.env.TWILIO_WHATSAPP_NUMBER;
+    const rawTwilioFrom = process.env.TWILIO_WHATSAPP_NUMBER || '';
     const personalWhatsapp = process.env.MY_PERSONAL_WHATSAPP;
 
-    if (twilioSid && twilioToken && twilioFrom && personalWhatsapp) {
+    if (twilioSid && twilioToken && rawTwilioFrom && personalWhatsapp) {
+      const cleanTwilioFrom = rawTwilioFrom.replace('whatsapp:++', 'whatsapp:+');
+      const cleanPersonalWhatsapp = personalWhatsapp.replace('whatsapp:++', 'whatsapp:+');
+
       const whatsappBody =
         `*Flyvane Advisory Alert*\n\n` +
         `*Client:* ${name}\n` +
@@ -239,8 +261,8 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
         (async () => {
           const client = twilio(twilioSid, twilioToken);
           return client.messages.create({
-            from: twilioFrom.startsWith('whatsapp:') ? twilioFrom : `whatsapp:${twilioFrom}`,
-            to: personalWhatsapp.startsWith('whatsapp:') ? personalWhatsapp : `whatsapp:${personalWhatsapp}`,
+            from: cleanTwilioFrom.startsWith('whatsapp:') ? cleanTwilioFrom : `whatsapp:${cleanTwilioFrom}`,
+            to: cleanPersonalWhatsapp.startsWith('whatsapp:') ? cleanPersonalWhatsapp : `whatsapp:${cleanPersonalWhatsapp}`,
             body: whatsappBody,
           });
         })()
