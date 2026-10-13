@@ -1,3 +1,5 @@
+import { processAdvisorySubmission } from '../app/api/advisory/route';
+
 export default async function handler(req: any, res: any) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,25 +15,27 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
-    const { name, contactInfo, projectType, message } = body;
+    const rawBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
+    const name = rawBody.name || 'Partner';
+    const contact = rawBody.contact || rawBody.contactInfo || '';
+    const serviceScope = rawBody.serviceScope || rawBody.projectType || 'Autonomous Pipeline Architecture';
+    const projectBrief = rawBody.projectBrief || rawBody.message || 'Direct contact form inquiry.';
+    const activeMode = rawBody.activeMode || 'machine';
 
-    if (!name?.trim() || !contactInfo?.trim()) {
-      return res.status(400).json({ error: 'Name and contact info are required.' });
+    if (!contact.trim()) {
+      return res.status(400).json({ error: 'Contact email or handle is required.' });
     }
 
-    const receiptId = `FV-${Math.floor(100000 + Math.random() * 900000)}`;
-    const timestamp = new Date().toISOString();
-
-    console.log(`[FLYVANE CLIENT INTAKE] Receipt: ${receiptId} | Lead: ${name} (${contactInfo}) | Scope: ${projectType}`);
-
-    return res.status(200).json({
-      success: true,
-      receiptId,
-      timestamp,
-      destination: 'contact@flyvane.com',
-      message: 'Project brief received and registered in Flyvane client intake queue.'
+    const result = await processAdvisorySubmission({
+      name,
+      contact: contact.trim(),
+      serviceScope,
+      projectBrief: projectBrief.trim(),
+      activeMode,
+      trapField: rawBody.trapField || rawBody.trap || '',
     });
+
+    return res.status(result.status).json(result.body);
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Internal server error' });
   }
