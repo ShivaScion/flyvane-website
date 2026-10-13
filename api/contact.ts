@@ -16,6 +16,12 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
   }
 
+  // OWASP Resource Exhaustion & DoS Defense: Strict 50KB Payload Cap
+  const rawBodyStr = typeof req.body === 'string' ? req.body : JSON.stringify(req.body || {});
+  if (rawBodyStr.length > 50 * 1024) {
+    return res.status(413).json({ success: false, error: 'Payload exceeds maximum limit (50KB).' });
+  }
+
   try {
     const rawBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
     const name = rawBody.name || 'Partner';

@@ -25,7 +25,8 @@ if (!globalStore.__flyvane_sessions) {
 }
 
 export function generateAndStoreOtp(userId = 'owner'): string {
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  // Cryptographically secure 6-digit integer generation (OWASP A02)
+  const code = crypto.randomInt(100000, 1000000).toString();
   const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
   globalStore.__flyvane_otps!.set(userId, { code, expiresAt });
   return code;

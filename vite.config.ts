@@ -9,6 +9,7 @@ import verifyOtpHandler from './api/auth/verify-otp';
 import adminContentHandler from './api/admin/content';
 import adminBlogsHandler from './api/admin/blogs';
 import adminLeadsHandler from './api/admin/leads';
+import { validateAdminSession } from './app/api/auth/otpStore';
 import fs from 'fs';
 import path from 'path';
 
@@ -105,7 +106,17 @@ const backendApiPlugin = (): Plugin => ({
 
     // 2. Advisory Leads Ingestion
     server.middlewares.use('/api/advisory', async (req, res) => {
+      // OWASP A01: Broken Access Control & BOLA Prevention
       if (req.method === 'GET') {
+        const authHeader = req.headers['authorization'] || '';
+        const token = (typeof authHeader === 'string' ? authHeader : '').replace(/^Bearer\s+/i, '').trim();
+        if (!validateAdminSession(token)) {
+          res.statusCode = 401;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: false, error: 'Unauthorized: Admin authentication required.' }));
+          return;
+        }
+
         try {
           const storePath = path.resolve(process.cwd(), 'supabase', 'advisory_leads_store.json');
           const records = fs.existsSync(storePath)
@@ -130,11 +141,21 @@ const backendApiPlugin = (): Plugin => ({
       }
 
       let body = '';
+      let isTooLarge = false;
       req.on('data', (chunk) => {
         body += chunk;
+        if (body.length > 50 * 1024) {
+          isTooLarge = true;
+        }
       });
 
       req.on('end', async () => {
+        if (isTooLarge) {
+          res.statusCode = 413;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: false, error: 'Payload exceeds maximum limit (50KB)' }));
+          return;
+        }
         try {
           const parsed = JSON.parse(body || '{}');
           const result = await processAdvisorySubmission(parsed);

@@ -179,6 +179,7 @@ export default async function handler(req: any, res: any) {
     try {
       const { id, ...updates } = rawBody;
       if (!id) return res.status(400).json({ success: false, error: 'Missing post id' });
+      const safeId = sanitizeServerText(id, 64);
 
       const safeUpdates: Record<string, any> = { ...updates };
       if (updates.title) safeUpdates.title = sanitizeServerText(updates.title, 200);
@@ -192,10 +193,10 @@ export default async function handler(req: any, res: any) {
 
       const supabase = getSupabase();
       if (supabase) {
-        await supabase.from('blog_posts').update(safeUpdates).eq('id', id);
+        await supabase.from('blog_posts').update(safeUpdates).eq('id', safeId);
       }
 
-      const local = getLocalBlogs().map((b) => (b.id === id ? { ...b, ...safeUpdates } : b));
+      const local = getLocalBlogs().map((b) => (b.id === safeId ? { ...b, ...safeUpdates } : b));
       saveLocalBlogs(local);
 
       return res.status(200).json({ success: true, message: 'Post updated successfully' });
@@ -204,18 +205,19 @@ export default async function handler(req: any, res: any) {
     }
   }
 
-  // DELETE: Remove post
+  // DELETE: Remove post (OWASP Object-level verification)
   if (req.method === 'DELETE') {
     try {
       const id = req.query?.id || rawBody.id;
       if (!id) return res.status(400).json({ success: false, error: 'Missing post id' });
+      const safeId = sanitizeServerText(id, 64);
 
       const supabase = getSupabase();
       if (supabase) {
-        await supabase.from('blog_posts').delete().eq('id', id);
+        await supabase.from('blog_posts').delete().eq('id', safeId);
       }
 
-      const local = getLocalBlogs().filter((b) => b.id !== id);
+      const local = getLocalBlogs().filter((b) => b.id !== safeId);
       saveLocalBlogs(local);
 
       return res.status(200).json({ success: true, message: 'Post deleted successfully' });
