@@ -4,7 +4,7 @@ import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import CinematicBackground from './components/CinematicBackground';
+import BackgroundCanvas from './components/BackgroundCanvas';
 import { AiraCompanion } from './components/AiraCompanion';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
 import { PainPointArbitrage } from './components/PainPointArbitrage';
@@ -172,8 +172,8 @@ export function App() {
     <div className="relative isolate min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
       <Preloader onComplete={() => {}} />
 
-      {/* Phase 2.2: Global Fixed Cinematic Background at Root Layout Level */}
-      <CinematicBackground activeMode={activeModeLabel} />
+      {/* Phase 3 & 7: Global Fixed Procedural WebGL Background Canvas */}
+      <BackgroundCanvas activeMode={activeModeLabel} />
 
       {/* Navbar */}
       <Navbar
