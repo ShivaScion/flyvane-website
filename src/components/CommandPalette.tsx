@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2, BookOpen, ShieldCheck } from 'lucide-react';
+import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2, BookOpen, ShieldCheck, FileText } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 export interface CommandItem {
@@ -123,6 +123,26 @@ const COMMAND_REGISTRY: CommandItem[] = [
     shortcut: 'BLOG',
     action: 'blog',
     keywords: ['blog', 'publications', 'articles', 'posts', 'insights', 'reading', 'manifesto']
+  },
+  {
+    id: 'cmd-about',
+    title: 'About Flyvane & Founder',
+    subtitle: 'Meet Ansh Rudra, our ethics, practice capabilities & trajectory',
+    category: 'Identity',
+    icon: <User className="w-4 h-4 text-emerald-400" />,
+    shortcut: 'ABOUT',
+    action: 'about',
+    keywords: ['about', 'founder', 'ansh', 'rudra', 'ethics', 'vision', 'story', 'team']
+  },
+  {
+    id: 'cmd-terms',
+    title: 'Terms of Engagement & Standards',
+    subtitle: 'Client IP sovereignty, deterministic SLAs & architecture protocols',
+    category: 'Identity',
+    icon: <FileText className="w-4 h-4 text-cyan-400" />,
+    shortcut: 'TERMS',
+    action: 'terms',
+    keywords: ['terms', 'legal', 'conditions', 'sla', 'ip', 'privacy', 'security', 'governance']
   },
   {
     id: 'cmd-admin',

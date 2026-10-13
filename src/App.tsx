@@ -20,6 +20,8 @@ import { NotFoundPage } from './components/NotFoundPage';
 import { BlogIndex, BlogPost } from './components/BlogIndex';
 import { BlogSlugRoute } from './components/BlogSlugRoute';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { TermsPage } from './components/TermsPage';
+import { AboutPage } from './components/AboutPage';
 import { MODE_CONTENT, ModeConfig } from './data/modeContent';
 
 export function App() {
@@ -119,9 +121,13 @@ export function App() {
     document.body.setAttribute('data-mode', mode);
   }, [mode]);
 
-  // 5. Pointer move for subtle 3D card tilt & perimeter glow
+  // 5. Global pointer move: subtle 3D card tilt & cursor tracing coordinates
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
+      // Global 2D cursor tracing spotlight coordinates
+      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+
       const cards = document.querySelectorAll<HTMLElement>('.tilt-card');
       cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
@@ -143,7 +149,7 @@ export function App() {
       });
     };
 
-    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', handlePointerMove);
   }, []);
 
@@ -194,6 +200,10 @@ export function App() {
       navigate('/admin');
     } else if (clean === 'blog' || clean === 'publications') {
       navigate('/blog');
+    } else if (clean === 'about' || clean.includes('founder') || clean.includes('ethics')) {
+      navigate('/about');
+    } else if (clean === 'terms' || clean.includes('legal') || clean.includes('conditions')) {
+      navigate('/terms');
     } else if (clean === 'home' || clean === 'studio') {
       navigate('/');
     } else if (clean === 'mute') {
@@ -236,7 +246,7 @@ export function App() {
       <div className="relative isolate min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
         {currentPath === '/' && <Preloader onComplete={() => {}} />}
 
-        {/* Global Fixed Procedural WebGL Background Canvas */}
+        {/* Global Fixed Procedural WebGL Background Canvas with 3D Cursor Tracing */}
         <BackgroundCanvas activeMode={activeModeLabel} />
 
         {/* Dynamic Studio Navbar with Native Routing */}
@@ -253,6 +263,21 @@ export function App() {
         {/* Route Engine */}
         {currentPath === '/admin' ? (
           <AdminDashboard onNavigateHome={() => navigate('/')} />
+        ) : currentPath === '/about' ? (
+          <AboutPage
+            onNavigateHome={() => navigate('/')}
+            onNavigateContact={() => {
+              navigate('/');
+              setTimeout(() => {
+                const el = document.querySelector('#contact');
+                if (el && (window as any).__lenis) {
+                  (window as any).__lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.0 });
+                }
+              }, 100);
+            }}
+          />
+        ) : currentPath === '/terms' ? (
+          <TermsPage onNavigateHome={() => navigate('/')} />
         ) : currentPath === '/blog' ? (
           <BlogIndex
             onNavigateHome={() => navigate('/')}
@@ -337,6 +362,44 @@ export function App() {
             <StudioUpdates mode={mode} />
 
             <ContactSection mode={mode} inquiryContext={inquiryContext} />
+
+            {/* Studio Global Footer */}
+            <footer className="mt-20 pt-10 pb-16 border-t border-white/[0.08] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs font-sans text-zinc-500">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center font-sans font-bold text-[10px] text-white">
+                    FV
+                  </div>
+                  <span>© 2026 Flyvane — Systems Engineering & Behavioral Strategy Practice</span>
+                </div>
+                <div className="flex items-center gap-6">
+                  <button
+                    onClick={() => navigate('/about')}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    About & Founder
+                  </button>
+                  <button
+                    onClick={() => navigate('/blog')}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    Publications
+                  </button>
+                  <button
+                    onClick={() => navigate('/terms')}
+                    className="hover:text-white transition-colors cursor-pointer"
+                  >
+                    Terms & Governance
+                  </button>
+                  <button
+                    onClick={() => navigate('/admin')}
+                    className="hover:text-amber-400 transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>Admin Vault</span>
+                  </button>
+                </div>
+              </div>
+            </footer>
           </main>
         ) : (
           <NotFoundPage onNavigateHome={() => navigate('/')} />

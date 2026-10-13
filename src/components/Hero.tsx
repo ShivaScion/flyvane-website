@@ -4,6 +4,7 @@ import { stitchEase } from '../utils/motion';
 import { MODE_CONTENT, ModeConfig, ProofMetric } from '../data/modeContent';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { Layers, TrendingUp, Brain, Sparkles } from 'lucide-react';
 
 interface HeroProps {
   mode: 'machine' | 'mind' | 'hybrid';
@@ -84,11 +85,118 @@ export const Hero: React.FC<HeroProps> = ({ mode, contentOverride }) => {
           </div>
         </div>
 
-        {/* Right Spatial Viewport: Open window allowing the Global Fixed CinematicBackground to command depth */}
-        <div
-          aria-hidden="true"
-          className="w-full lg:w-[45%] min-h-[380px] sm:min-h-[460px] pointer-events-none relative"
-        />
+        {/* Right Spatial Architecture Panel Card */}
+        <div className="w-full lg:w-[46%] z-10">
+          <InteractiveTiltWrapper
+            className="p-6 sm:p-8 space-y-6 relative overflow-hidden"
+            maxTilt={6}
+          >
+            {/* Header row with overline and status badge */}
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-400 font-semibold">
+                {content.architecturePanel.overline}
+              </span>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider uppercase border ${
+                  mode === 'machine'
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                    : mode === 'mind'
+                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                    : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
+                }`}
+              >
+                {content.architecturePanel.statusLabel}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl sm:text-2xl font-display font-medium text-white tracking-tight">
+              {content.architecturePanel.title}
+            </h3>
+
+            {/* Spec list */}
+            <div className="space-y-2.5">
+              {content.architecturePanel.specs.map((spec: { label: string; value: string }, sIdx: number) => (
+                <div
+                  key={sIdx}
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs hover:border-white/[0.12] transition-colors"
+                >
+                  <span className="font-mono text-zinc-400">{spec.label}</span>
+                  <span className="font-mono text-zinc-200 font-medium text-right ml-2">{spec.value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Summary description */}
+            <p className="text-xs font-sans text-zinc-400 leading-relaxed">
+              {content.architecturePanel.summary}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 pt-1">
+              {mode === 'machine' && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#workbench')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+                    <span>Live Sandbox ↗</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#roi-arbitrage')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                    <span>Value Model ↗</span>
+                  </button>
+                </>
+              )}
+              {mode === 'mind' && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#strategy-board')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <Brain className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+                    <span>Strategy Board ↗</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#contact')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+                    <span>Authority Model ↗</span>
+                  </button>
+                </>
+              )}
+              {mode === 'hybrid' && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#capabilities')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+                    <span>Unified Stack ↗</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollToHash('#contact')}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                    <span>Retain Advisory ↗</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </InteractiveTiltWrapper>
+        </div>
       </div>
 
       {/* Phase 3.1: 3-Column Proof Bar using .liquid-glass-card */}

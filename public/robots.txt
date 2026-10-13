@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /about
 Allow: /blog
+Allow: /terms
 Disallow: /admin
 Disallow: /api/
 

@@ -116,6 +116,25 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Navigation Links & Tactile Audio Mute Toggle */}
         <nav aria-label="Primary Navigation" className="flex items-center gap-2 sm:gap-3 shrink-0">
           <a
+            href="/about"
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                soundEngine.playClick(0.05);
+                onNavigate('/about');
+              }
+            }}
+            className={`hidden sm:inline-block text-xs font-sans font-medium transition-colors px-2.5 py-1.5 rounded-lg ${
+              currentPath === '/about'
+                ? 'text-cyan-400 bg-white/[0.08] border border-cyan-400/20'
+                : 'text-zinc-300 hover:text-white hover:bg-white/[0.05]'
+            }`}
+          >
+            About
+          </a>
+
+          <a
             href="/blog"
             onMouseEnter={() => soundEngine.playHoverHum()}
             onClick={(e) => {
