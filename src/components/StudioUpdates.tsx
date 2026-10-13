@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, Linkedin } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface StudioUpdatesProps {
   mode: 'machine' | 'mind' | 'hybrid';
@@ -102,43 +103,43 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {posts.map((post, idx) => (
-          <motion.a
+          <InteractiveTiltWrapper
             key={`${mode}-update-${idx}`}
-            href="https://www.linkedin.com/company/flyvane"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="liquid-glass-card p-6 sm:p-8 flex flex-col justify-between space-y-5 group relative overflow-hidden"
+            className="p-6 sm:p-8 flex flex-col justify-between space-y-5 group relative overflow-hidden"
           >
-            <div className="space-y-3.5 relative z-10">
-              <div className="flex items-center justify-between text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-zinc-400">
-                <span className={mode === 'mind' ? 'text-amber-400' : 'text-emerald-400'}>
-                  {post.category}
-                </span>
-                <span>{post.date}</span>
+            <a
+              href="https://www.linkedin.com/company/flyvane"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col justify-between h-full space-y-5"
+            >
+              <div className="space-y-3.5 relative z-10">
+                <div className="flex items-center justify-between text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-zinc-400">
+                  <span className={mode === 'mind' ? 'text-amber-400' : 'text-emerald-400'}>
+                    {post.category}
+                  </span>
+                  <span>{post.date}</span>
+                </div>
+
+                <h3 className="text-xl font-sans font-medium tracking-normal text-white group-hover:text-zinc-200 transition-colors leading-snug">
+                  {post.title}
+                </h3>
+
+                <p className="text-sm font-sans text-zinc-400 leading-relaxed">
+                  {post.summary}
+                </p>
               </div>
 
-              <h3 className="text-xl font-sans font-medium tracking-normal text-white group-hover:text-zinc-200 transition-colors leading-snug">
-                {post.title}
-              </h3>
-
-              <p className="text-sm font-sans text-zinc-400 leading-relaxed">
-                {post.summary}
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-sans text-zinc-300">
-              <span className="text-[11px] font-semibold tracking-wide text-zinc-500">{post.readTime}</span>
-              <span className="flex items-center gap-1 font-medium group-hover:text-white transition-colors">
-                <span>Read on LinkedIn</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
-            </div>
-          </motion.a>
+              <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-sans text-zinc-300">
+                <span className="text-[11px] font-semibold tracking-wide text-zinc-500">{post.readTime}</span>
+                <span className="flex items-center gap-1 font-medium group-hover:text-white transition-colors">
+                  <span>Read on LinkedIn</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
+            </a>
+          </InteractiveTiltWrapper>
         ))}
       </div>
     </section>

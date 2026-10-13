@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { stitchEase } from '../utils/motion';
 import { MODE_CONTENT } from '../data/modeContent';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface HeroProps {
   mode: 'machine' | 'mind' | 'hybrid';
@@ -164,10 +165,10 @@ export const Hero: React.FC<HeroProps> = ({ mode }) => {
         className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 pt-10 border-t border-white/[0.08]"
       >
         {content.proofBar.map((item, idx) => (
-          <div
+          <InteractiveTiltWrapper
             key={idx}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="liquid-glass-card p-6 sm:p-8 space-y-2.5 relative overflow-hidden"
+            className="p-6 sm:p-8 space-y-2.5 relative overflow-hidden"
           >
             <div className="flex items-baseline justify-between gap-2 relative z-10">
               <span className="text-3xl sm:text-4xl font-mono font-semibold text-white tracking-tight">
@@ -183,7 +184,7 @@ export const Hero: React.FC<HeroProps> = ({ mode }) => {
             <p className="text-sm font-sans text-zinc-400 leading-relaxed relative z-10">
               {item.description}
             </p>
-          </div>
+          </InteractiveTiltWrapper>
         ))}
       </motion.div>
     </section>

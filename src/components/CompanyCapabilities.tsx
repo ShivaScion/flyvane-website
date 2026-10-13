@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface CompanyCapabilitiesProps {
   mode: 'machine' | 'mind' | 'hybrid';
@@ -84,14 +85,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {positioningStandards.map((item, idx) => (
-            <motion.div
+            <InteractiveTiltWrapper
               key={idx}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
               onMouseEnter={() => soundEngine.playHoverHum()}
-              className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
+              className="p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
             >
               <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
@@ -125,7 +122,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </InteractiveTiltWrapper>
           ))}
         </div>
       </section>
@@ -185,14 +182,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {guarantees.map((g, idx) => (
-          <motion.div
+          <InteractiveTiltWrapper
             key={idx}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
+            className="p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
           >
             <div className="space-y-4 relative z-10">
               <div className="flex items-center justify-between">
@@ -226,7 +219,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
                 </div>
               ))}
             </div>
-          </motion.div>
+          </InteractiveTiltWrapper>
         ))}
       </div>
     </section>

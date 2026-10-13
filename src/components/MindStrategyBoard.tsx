@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 export const MindStrategyBoard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'positioning' | 'narrative' | 'campaign'>('positioning');
@@ -160,14 +161,11 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
       </div>
 
-      {/* Phase 3.1: Strategy Board Main Container with .liquid-glass-card */}
-      <motion.div
+      {/* Phase 2.3: Strategy Board Main Container wrapped in InteractiveTiltWrapper */}
+      <InteractiveTiltWrapper
         key={activeTab}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className="liquid-glass-card p-6 sm:p-8 space-y-8 relative overflow-hidden"
+        className="p-6 sm:p-8 space-y-8 relative overflow-hidden"
       >
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08] relative z-10">
           <div>
@@ -228,7 +226,7 @@ export const MindStrategyBoard: React.FC = () => {
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
-      </motion.div>
+      </InteractiveTiltWrapper>
 
     </section>
   );

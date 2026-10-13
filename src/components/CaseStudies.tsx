@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { stitchEase } from '../utils/motion';
 import { MODE_CONTENT } from '../data/modeContent';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface CaseStudiesProps {
   mode?: 'machine' | 'mind' | 'hybrid';
@@ -42,17 +43,13 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
         </p>
       </motion.div>
 
-      {/* 4 Dedicated Mode Capability Cards in Phase 3.1 .liquid-glass-card */}
+      {/* 4 Dedicated Mode Capability Cards in InteractiveTiltWrapper */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {content.services.map((svc, sIdx) => (
-          <motion.div
+          <InteractiveTiltWrapper
             key={`${mode}-${sIdx}`}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: sIdx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between group relative overflow-hidden"
+            className="p-6 sm:p-8 space-y-5 flex flex-col justify-between group relative overflow-hidden"
           >
             <div className="space-y-4 relative z-10">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -109,7 +106,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </InteractiveTiltWrapper>
         ))}
       </div>
 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Linkedin, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 export interface DirectProjectIntakeProps {
   mode?: 'machine' | 'mind' | 'hybrid';
@@ -118,13 +119,9 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
 
   return (
     <section id="contact" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.65, ease: stitchEase }}
+      <InteractiveTiltWrapper
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className="liquid-glass-card p-6 sm:p-8 lg:p-12 relative overflow-hidden"
+        className="p-6 sm:p-8 lg:p-12 relative overflow-hidden"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
           
@@ -391,7 +388,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
           </div>
 
         </div>
-      </motion.div>
+      </InteractiveTiltWrapper>
     </section>
   );
 };

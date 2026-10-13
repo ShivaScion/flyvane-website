@@ -98,17 +98,27 @@ body, #root {
     backdrop-filter: blur(32px) saturate(180%);
     -webkit-backdrop-filter: blur(32px) saturate(180%);
     border-radius: 1.5rem;
-    
-    /* Complex stacked shadows for thick optical volume and rim lighting */
     box-shadow: 
       0 30px 60px -15px rgba(0, 0, 0, 0.8),
       inset 0 2px 3px rgba(255, 255, 255, 0.3),
       inset 0 -10px 20px rgba(0, 0, 0, 0.5),
-      inset 0 20px 40px -10px rgba(255, 200, 100, 0.15); /* Warm ambient bleed */
-      
+      inset 0 20px 40px -10px rgba(255, 200, 100, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: 1px solid rgba(255, 230, 150, 0.3);
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* 3D Hardware Acceleration and Perspective */
+    transform-style: preserve-3d;
+    transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px));
+    transition: transform 0.1s ease-out, box-shadow 0.4s ease;
+    will-change: transform;
+  }
+
+  /* Reset transitions on mouse leave for smooth snapping back to origin */
+  .liquid-glass-card.leaving {
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+    --rx: 0deg;
+    --ry: 0deg;
+    --ty: 0px;
   }
 
   .liquid-glass-card:hover {
@@ -119,7 +129,6 @@ body, #root {
       inset 0 -10px 20px rgba(0, 0, 0, 0.5),
       inset 0 20px 40px -10px rgba(255, 200, 100, 0.25);
     border-top: 1px solid rgba(255, 230, 150, 0.5);
-    transform: translateY(-2px);
   }
 
   /* Inner frosted cards for nested content */

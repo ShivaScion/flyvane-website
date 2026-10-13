@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 import {
   Terminal as TerminalIcon,
   Cpu,
@@ -778,9 +779,9 @@ if __name__ == "__main__":
 
       {/* TAB 2: RUNTIME INSPECTOR */}
       {activeTab === 'terminal' && (
-        <div
+        <InteractiveTiltWrapper
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="liquid-glass-card p-6 sm:p-8 space-y-4 relative overflow-hidden"
+          className="p-6 sm:p-8 space-y-4 relative overflow-hidden"
         >
           <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] relative z-10">
             <div className="flex items-center gap-3">
@@ -831,14 +832,14 @@ if __name__ == "__main__":
               Execute
             </button>
           </div>
-        </div>
+        </InteractiveTiltWrapper>
       )}
 
       {/* TAB 1: DETERMINISTIC EXTRACTION SANDBOX */}
       {activeTab === 'scraper' && (
-        <div
+        <InteractiveTiltWrapper
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
+          className="p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
@@ -1167,7 +1168,7 @@ if __name__ == "__main__":
               </button>
             </div>
           </div>
-        </div>
+        </InteractiveTiltWrapper>
       )}
 
     </section>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Flame, ShieldCheck, ArrowRight } from 'lucide-react';
 import { stitchEase, stitchSpring } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
+import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface PainPointArbitrageProps {
   onDeployPlan?: (
@@ -100,9 +101,9 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Sliders for Manual Labor Inputs (6 cols) */}
-        <div
+        <InteractiveTiltWrapper
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
+          className="lg:col-span-6 p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-cyan-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
@@ -265,12 +266,12 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
               <span className="text-rose-400 font-mono font-semibold">${(weeklyLaborCostTotal * 52).toLocaleString()} / yr</span>
             </div>
           </div>
-        </div>
+        </InteractiveTiltWrapper>
 
         {/* Right Column: Automation Investment & ROI Yield (6 cols) */}
-        <div
+        <InteractiveTiltWrapper
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
+          className="lg:col-span-6 p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-emerald-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
@@ -373,7 +374,7 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
             <span>Lock Architecture Scope &amp; Generate Intake Brief</span>
             <ArrowRight className="w-4 h-4" />
           </motion.button>
-        </div>
+        </InteractiveTiltWrapper>
 
       </div>
     </section>
