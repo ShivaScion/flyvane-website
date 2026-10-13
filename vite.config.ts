@@ -1,5 +1,7 @@
 import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 import { processAdvisorySubmission } from './app/api/advisory/route';
 import fs from 'fs';
 import path from 'path';
@@ -119,6 +121,11 @@ const scraperApiPlugin = (): Plugin => ({
 
 export default defineConfig({
   plugins: [react(), scraperApiPlugin()],
+  css: {
+    postcss: {
+      plugins: [tailwindcss(), autoprefixer()],
+    },
+  },
   server: {
     port: 3000,
     open: true
@@ -130,7 +137,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'three-vendor': ['three'],
           'motion-vendor': ['framer-motion'],
           'icons-vendor': ['lucide-react']
         }

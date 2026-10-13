@@ -117,18 +117,16 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
   const scopeOptions = SCOPE_OPTIONS_BY_MODE[mode];
 
   return (
-    <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="contact" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.65, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className={`tilt-card liquid-glass ${
-          mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
-        } rounded-2xl p-6 sm:p-8 lg:p-12 relative overflow-hidden backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out`}
+        className="liquid-glass-card p-6 sm:p-8 lg:p-12 relative overflow-hidden"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
           
           {/* Left Column: Advisory Overview & Direct LinkedIn Touchpoint (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
@@ -140,7 +138,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
               INITIATE ENGAGEMENT
             </span>
 
-            <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-[-0.03em] leading-[1.08] text-balance">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-white tracking-normal leading-[1.15] text-balance">
               {mode === 'mind'
                 ? 'Command your category authority.'
                 : 'Eliminate operational bottlenecks.'}
@@ -158,13 +156,13 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                 href="https://www.linkedin.com/company/flyvane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full px-5 py-4 rounded-2xl backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.06] border border-white/[0.09] hover:border-white/[0.22] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
+                className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
               >
                 <span className="flex items-center gap-3">
                   <Linkedin className="w-4 h-4 text-sky-400" />
                   <span>Connect on LinkedIn</span>
                 </span>
-                <span className="text-[10px] text-zinc-400 uppercase tracking-[0.18em] group-hover:text-white flex items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-semibold group-hover:text-white flex items-center gap-1">
                   <span>Direct Network</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
@@ -172,8 +170,8 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Liquid Glass Direct Project Intake Form (7 cols) */}
-          <div className="lg:col-span-7 liquid-glass backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8">
+          {/* Right Column: Liquid Glass Inner Direct Project Intake Form (7 cols) */}
+          <div className="lg:col-span-7 liquid-glass-inner relative overflow-hidden">
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.08]">
               <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-white font-semibold">
                 Direct Project Intake
@@ -321,7 +319,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-xl backdrop-blur-xl bg-white/[0.035] border border-white/[0.09] text-white font-sans focus:outline-none focus:border-emerald-400 transition-colors text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]"
                     >
                       {scopeOptions.map((opt) => (
-                        <option key={opt} value={opt} className="bg-zinc-900 text-white">
+                        <option key={opt} value={opt} className="bg-[#050608] text-white">
                           {opt}
                         </option>
                       ))}
