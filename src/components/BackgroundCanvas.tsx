@@ -1,10 +1,9 @@
-'use client';
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
-import { JarvisAtomicNetwork } from './models/JarvisAtomicNetwork';
-import { DNASpiral } from './models/DNASpiral';
-import { HybridCore } from './models/HybridCore';
+import { CyberneticDysonSphere } from './models/CyberneticDysonSphere';
+import { CognitiveTorusPlexus } from './models/CognitiveTorusPlexus';
+import { QuantumSingularity } from './models/QuantumSingularity';
 
 interface BackgroundProps {
   activeMode:
@@ -30,20 +29,20 @@ export default function BackgroundCanvas({ activeMode }: BackgroundProps) {
     <div className="fixed top-0 left-0 w-screen h-screen -z-50 pointer-events-none bg-[#030406] overflow-hidden">
       <Canvas
         camera={{ position: [0, 0, 15], fov: 45 }}
-        eventSource={typeof document !== 'undefined' ? document.body : undefined}
-        eventPrefix="client"
+        gl={{ antialias: true, alpha: false, preserveDrawingBuffer: true }}
+        dpr={[1, 2]}
       >
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.15} />
         <Suspense fallback={null}>
-          <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5}>
-            {normalizedMode === 'Automation Services' && <JarvisAtomicNetwork />}
-            {normalizedMode === 'Marketing Services' && <DNASpiral />}
-            {normalizedMode === 'Hybrid' && <HybridCore />}
+          <Float speed={1.5} rotationIntensity={0.4} floatIntensity={1.2}>
+            {normalizedMode === 'Automation Services' && <CyberneticDysonSphere />}
+            {normalizedMode === 'Marketing Services' && <CognitiveTorusPlexus />}
+            {normalizedMode === 'Hybrid' && <QuantumSingularity />}
           </Float>
         </Suspense>
       </Canvas>
-      {/* Global Vignette to ensure extreme contrast for foreground typography */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030406_100%)] opacity-80 mix-blend-multiply" />
+      {/* Subtle vignette for foreground type contrast */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030406_100%)] opacity-60 mix-blend-multiply" />
     </div>
   );
 }

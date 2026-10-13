@@ -10,7 +10,7 @@ interface TiltProps extends React.HTMLAttributes<HTMLDivElement> {
 export const InteractiveTiltWrapper: React.FC<TiltProps> = ({
   children,
   className = '',
-  maxTilt = 5,
+  maxTilt = 4,
   onMouseMove: externalOnMouseMove,
   onMouseLeave: externalOnMouseLeave,
   ...rest
