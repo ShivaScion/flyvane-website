@@ -101,7 +101,7 @@ export function BlogIndex({ onNavigateHome, onSelectPost }: BlogIndexProps) {
         <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 font-semibold block">
           DISPATCHES FROM THE ENGINE ROOM
         </span>
-        <h1 className="text-4xl sm:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-medium text-white tracking-tight leading-[1.15]">
           Autonomous Architecture Publications for Technical Leaders
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">

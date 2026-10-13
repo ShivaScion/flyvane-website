@@ -129,7 +129,7 @@ export function TermsPage({ onNavigateHome }: TermsPageProps) {
             TERMS OF ENGAGEMENT & ARCHITECTURE GOVERNANCE
           </span>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-medium text-white tracking-tight leading-[1.15]">
           Autonomous Systems Service Terms & Engineering Governance
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">

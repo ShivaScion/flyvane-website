@@ -83,7 +83,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           >
             STUDIO DISPATCHES &amp; LINKEDIN INSIGHTS
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
             Recent Studio Updates
           </h2>
         </div>
@@ -122,7 +122,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
                   <span>{post.date}</span>
                 </div>
 
-                <h3 className="text-xl font-sans font-medium tracking-normal text-white group-hover:text-zinc-200 transition-colors leading-snug">
+                <h3 className="text-lg sm:text-xl font-sans font-semibold tracking-tight text-white group-hover:text-zinc-200 transition-colors leading-snug">
                   {post.title}
                 </h3>
 

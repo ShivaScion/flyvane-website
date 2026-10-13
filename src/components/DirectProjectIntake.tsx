@@ -155,7 +155,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
               INITIATE ENGAGEMENT
             </span>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-white tracking-normal leading-[1.15] text-balance">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
               {mode === 'mind'
                 ? 'Command your category authority.'
                 : 'Eliminate operational bottlenecks.'}

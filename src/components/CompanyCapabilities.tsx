@@ -127,7 +127,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
                 <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
                   {g.badge}
                 </span>
-                <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
+                <h3 className="text-xl sm:text-2xl font-sans font-semibold tracking-tight text-white">
                   {g.title}
                 </h3>
               </div>
@@ -187,7 +187,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
                 <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
                   {item.badge}
                 </span>
-                <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
+                <h3 className="text-xl sm:text-2xl font-sans font-semibold tracking-tight text-white">
                   {item.title}
                 </h3>
               </div>
@@ -235,7 +235,7 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
               ? 'THE DUAL PRACTICE: SYSTEMS RIGOR & MARKET AUTHORITY'
               : 'PRODUCTION RELIABILITY & SECURITY STANDARDS'}
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
           {mode === 'mind'
             ? 'Positioning Standards & Authority Frameworks'
             : mode === 'hybrid'

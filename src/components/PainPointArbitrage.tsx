@@ -90,7 +90,7 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
         <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-cyan-400 block mb-2.5 font-semibold">
           TRANSPARENT ECONOMIC VALUE ARBITRAGE
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
           Automation Arbitrage &amp; Savings Calculator
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
@@ -106,9 +106,9 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
           className="lg:col-span-6 p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
-            <span className="text-[11px] font-sans font-semibold text-cyan-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
+            <h3 className="text-sm font-sans font-semibold text-cyan-400 uppercase tracking-[0.15em] flex items-center gap-1.5">
               <Flame className="w-4 h-4 text-cyan-400" /> 1. Quantify Current Manual Task
-            </span>
+            </h3>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-400">LABOR VARIABLES</span>
           </div>
 
@@ -274,9 +274,9 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
           className="lg:col-span-6 p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
-            <span className="text-[11px] font-sans font-semibold text-emerald-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
+            <h3 className="text-sm font-sans font-semibold text-emerald-400 uppercase tracking-[0.15em] flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-400" /> 2. Automation Costs &amp; Net Arbitrage
-            </span>
+            </h3>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-emerald-300 px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">
               NET CALCULATOR
             </span>

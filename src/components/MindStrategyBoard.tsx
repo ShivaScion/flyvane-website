@@ -99,7 +99,7 @@ export const MindStrategyBoard: React.FC = () => {
         <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 block mb-2.5 font-semibold">
           STRATEGIC METHODOLOGY & EXECUTIVE ARCHITECTURE
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
           The Flyvane Strategy Board
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">

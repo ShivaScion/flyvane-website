@@ -741,7 +741,7 @@ if __name__ == "__main__":
           <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-400 block mb-2.5 font-semibold">
             AUTONOMOUS EXECUTION SANDBOX
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-white tracking-normal">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
             Live Pipeline & Extraction Workbench
           </h2>
         </div>

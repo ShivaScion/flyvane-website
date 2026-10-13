@@ -53,17 +53,17 @@ export const Hero: React.FC<HeroProps> = ({ mode, contentOverride }) => {
             </span>
           </div>
 
-          <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05] mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-3">
             {content.heroHeadline.lead}{' '}
             <span className={accentColor}>{content.heroHeadline.emphasis}</span>
           </h1>
 
-          <h2 className={`text-3xl lg:text-4xl font-medium tracking-tight mb-8 ${accentColor}`}>
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight mb-6 ${accentColor}`}>
             {content.heroHeadline.subLead}{' '}
             <span className="text-white">{content.heroHeadline.subEmphasis}</span>
           </h2>
 
-          <p className="text-base lg:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-10">
+          <p className="text-base sm:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-8">
             {content.heroDescription}
           </p>
 

@@ -36,7 +36,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine', cont
             ? 'EXECUTIVE POSITIONING CAPABILITIES'
             : 'INTEGRATED PRACTICE CAPABILITIES'}
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
           {content.servicesHeading}
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
@@ -66,7 +66,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine', cont
                 </span>
               </div>
 
-              <h3 className="text-2xl font-sans font-medium tracking-normal text-white group-hover:text-zinc-100 transition-colors">
+              <h3 className="text-xl sm:text-2xl font-sans font-semibold tracking-tight text-white group-hover:text-zinc-100 transition-colors">
                 {svc.title}
               </h3>
 

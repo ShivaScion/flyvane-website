@@ -169,7 +169,7 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
             ABOUT FLYVANE & LEADERSHIP
           </span>
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium text-white tracking-tight leading-[1.08] text-balance">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-medium text-white tracking-tight leading-[1.15] text-balance">
           The AI Systems Engineering Practice Built for Deterministic Leverage
         </h1>
         <p className="text-lg font-sans text-zinc-300 leading-relaxed">
@@ -220,8 +220,8 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-emerald-400 font-semibold block">
             CORE OPERATING DOCTRINE
           </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-medium text-white tracking-tight">
-            Our Ethics & Operating Standards
+          <h2 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight">
+            Our Ethics &amp; Operating Standards
           </h2>
           <p className="text-sm font-sans text-zinc-400 max-w-2xl leading-relaxed">
             Divided into two non-negotiable disciplines: mathematical software engineering rigor paired with uncompromised commercial integrity.
@@ -293,7 +293,7 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-cyan-400 font-semibold block">
             PRACTICE CAPABILITIES & SERVICES
           </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-medium text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight">
             What We Do: Two Complementary Disciplines
           </h2>
           <p className="text-sm font-sans text-zinc-400 max-w-2xl leading-relaxed">
@@ -378,7 +378,7 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-400 font-semibold block">
             MISSION & 5-YEAR TRAJECTORY
           </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-medium text-white tracking-tight leading-[1.15]">
+          <h2 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight leading-[1.15]">
             Eliminating 1,000,000 hours of soul-crushing human operational toil.
           </h2>
           <p className="text-sm sm:text-base font-sans text-zinc-300 leading-relaxed">
