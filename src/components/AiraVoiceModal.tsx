@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, ArrowRight, Sparkles } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
+import { Aira3DModel, CompanionPose, CompanionActivity } from './Aira3DModel';
 
 interface AiraVoiceModalProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
   onCommand,
 }) => {
   const [textInput, setTextInput] = useState('');
+  const [pose, setPose] = useState<CompanionPose>('idle');
+  const [activity, setActivity] = useState<CompanionActivity>('none');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -44,6 +47,7 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
   const handleSubmitQuery = () => {
     if (!textInput.trim()) return;
     soundEngine.playPop(0.08);
+    setPose('agree');
     onCommand(textInput.trim());
     setTextInput('');
     onClose();
@@ -62,6 +66,13 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
     { label: 'Direct Project Intake', cmd: 'contact' },
   ];
 
+  const rigPoses: { label: string; pose: CompanionPose; activity: CompanionActivity }[] = [
+    { label: 'Idle Track', pose: 'idle', activity: 'none' },
+    { label: 'Nod / Agree', pose: 'agree', activity: 'none' },
+    { label: 'Hacking Rig', pose: 'idle', activity: 'hacking_laptop' },
+    { label: 'Espresso', pose: 'idle', activity: 'sipping_coffee' },
+  ];
+
   return (
     <div
       role="dialog"
@@ -75,7 +86,7 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-[380px] max-w-[90vw] backdrop-blur-2xl bg-white/[0.04] border border-white/[0.12] shadow-[0_8px_32px_0_rgba(0,0,0,0.55),inset_0_1px_1px_0_rgba(255,255,255,0.2)] rounded-2xl p-6 space-y-5 relative mb-16"
+        className="w-[380px] max-w-[90vw] backdrop-blur-2xl bg-white/[0.04] border border-white/[0.12] shadow-[0_8px_32px_0_rgba(0,0,0,0.55),inset_0_1px_1px_0_rgba(255,255,255,0.2)] rounded-2xl p-6 space-y-4 relative mb-16"
       >
         <button
           type="button"
@@ -84,7 +95,7 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
             onClose();
           }}
           aria-label="Close Aira assistant"
-          className="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer"
+          className="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] transition-colors cursor-pointer z-10"
         >
           <X className="w-4 h-4" />
         </button>
@@ -98,13 +109,51 @@ export const AiraVoiceModal: React.FC<AiraVoiceModalProps> = ({
               Aira Studio Concierge
             </h3>
             <p className="text-xs font-sans text-zinc-400">
-              Interactive Navigation &amp; Advisory Guide
+              Live Skeletal 3D Rig &amp; Navigation Guide
             </p>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
-          <p className="text-xs sm:text-sm font-sans text-zinc-200 leading-relaxed">
+        {/* Live 3D Skeletal Rig Viewport (xbot.glb Mixamo Animations + Bone Cursor Tracking) */}
+        <div className="relative rounded-xl bg-black/40 border border-white/[0.08] overflow-hidden flex flex-col items-center justify-center">
+          <Aira3DModel
+            currentPose={pose}
+            activity={activity}
+            isCursorOffscreen={false}
+            width={330}
+            height={200}
+            onClickModel={() => {
+              soundEngine.playClick(0.05);
+              setPose((prev) => (prev === 'idle' ? 'flirting' : 'agree'));
+            }}
+          />
+          <div className="w-full px-2.5 py-2 bg-black/50 border-t border-white/[0.06] flex items-center justify-between gap-1.5">
+            {rigPoses.map((item, idx) => {
+              const isActive = pose === item.pose && activity === item.activity;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    soundEngine.playClick(0.05);
+                    setPose(item.pose);
+                    setActivity(item.activity);
+                  }}
+                  className={`flex-1 py-1 px-1.5 rounded-lg text-[10px] font-mono tracking-wider uppercase transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-cyan-400/20 text-cyan-300 border border-cyan-400/40'
+                      : 'bg-white/[0.03] text-zinc-400 hover:text-white border border-white/[0.06]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+          <p className="text-xs font-sans text-zinc-200 leading-relaxed">
             Welcome to Flyvane. Select a studio destination below or enter a direct query to switch service modes, inspect estimators, or open project intake.
           </p>
         </div>

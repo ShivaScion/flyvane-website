@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, MeshTransmissionMaterial, Float } from '@react-three/drei';
+import { useGLTF, useAnimations, MeshTransmissionMaterial, Float } from '@react-three/drei';
 import { useScroll } from 'framer-motion';
 import * as THREE from 'three';
 
@@ -22,15 +22,25 @@ if (typeof window !== 'undefined') {
 }
 
 // ============================================================================
-// 2.1 AUTOMATION SERVICES: TRUE CYBERNETIC ANDROID (.glb + MeshPhysicalMaterial + Custom Shader)
+// 2.1 AUTOMATION SERVICES: ARTICULATED CYBERNETIC ANDROID RIG (.glb + useAnimations + Multi-Part Servo Kinematics)
 // ============================================================================
 export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<number> }> = ({
   scrollProgress,
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/cybernetic_android.glb');
+  const ring1Ref = useRef<THREE.Mesh>(null);
+  const ring2Ref = useRef<THREE.Mesh>(null);
+  const ring3Ref = useRef<THREE.Mesh>(null);
+  const swarmGroupRef = useRef<THREE.Group>(null);
 
-  const { clonedScene, chassisMaterial, visorAccentMaterial } = useMemo(() => {
+  const { scene, animations } = useGLTF('/models/cybernetic_android.glb');
+
+  const {
+    clonedScene,
+    chassisMaterial,
+    visorAccentMaterial,
+    parts,
+  } = useMemo(() => {
     const cloned = scene.clone(true);
 
     // Chassis: metalness: 0.9, roughness: 0.2, color: '#111'
@@ -57,7 +67,12 @@ export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<num
       opacity: 0.96,
     });
 
+    const rigParts: Record<string, THREE.Object3D> = {};
+
     cloned.traverse((child) => {
+      if (child.name) {
+        rigParts[child.name] = child;
+      }
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         if (mesh.name.startsWith('Visor') || mesh.name.startsWith('Accent')) {
@@ -70,8 +85,21 @@ export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<num
       }
     });
 
-    return { clonedScene: cloned, chassisMaterial: chassisMat, visorAccentMaterial: visorMat };
+    return {
+      clonedScene: cloned,
+      chassisMaterial: chassisMat,
+      visorAccentMaterial: visorMat,
+      parts: rigParts,
+    };
   }, [scene]);
+
+  // Play embedded GLTF AnimationClips via @react-three/drei useAnimations
+  const { actions } = useAnimations(animations, clonedScene);
+  useEffect(() => {
+    Object.values(actions).forEach((action) => {
+      action?.reset().fadeIn(0.3).play();
+    });
+  }, [actions]);
 
   // Custom WebGL ShaderMaterial simulating an electromagnetic telemetry field around the bust
   const telemetryShaderMaterial = useMemo(() => {
@@ -101,28 +129,132 @@ export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<num
         varying vec2 vUv;
         varying vec3 vNormal;
         void main() {
-          float scan = sin(vUv.y * 80.0 - uTime * 4.0) * 0.5 + 0.5;
+          float scan = sin(vUv.y * 80.0 - uTime * 5.0) * 0.5 + 0.5;
           float fresnel = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 2.5);
-          float alpha = (fresnel * 0.35 + scan * 0.06) * uFade;
+          float alpha = (fresnel * 0.35 + scan * 0.08) * uFade;
           gl_FragColor = vec4(uColor, alpha);
         }
       `,
     });
   }, []);
 
+  // 18 Autonomous Worker Nodes orbiting the Android Rig
+  const workerNodes = useMemo(() => {
+    return Array.from({ length: 18 }, (_, i) => {
+      const angle = (i / 18) * Math.PI * 2;
+      const radius = 1.65 + (i % 3) * 0.28;
+      const yOffset = ((i % 5) - 2) * 0.42;
+      return { angle, radius, yOffset, speed: 0.55 + (i % 4) * 0.18, phase: i * 0.7 };
+    });
+  }, []);
+
   useFrame((state, delta) => {
     if (!groupRef.current) return;
+    const t = state.clock.elapsedTime;
     const mx = state.mouse.x !== 0 ? state.mouse.x : globalPointer.x;
     const my = state.mouse.y !== 0 ? state.mouse.y : globalPointer.y;
     const scroll = scrollProgress.current;
 
-    // Rotate the model based on state.mouse.x and state.mouse.y with lerp smoothing
-    const targetRotY = mx * 0.52 + Math.sin(state.clock.elapsedTime * 0.35) * 0.08;
-    const targetRotX = -my * 0.3;
+    // 1. Whole-rig mouse lerp + autonomous scanning sway
+    const scanSweep = Math.sin(t * 0.9) * 0.22 + Math.sin(t * 2.1) * 0.06;
+    const targetRotY = mx * 0.58 + scanSweep;
+    const targetRotX = -my * 0.34 + Math.cos(t * 1.2) * 0.08;
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, delta * 4.5);
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, delta * 4.5);
 
-    // Section 1.3 Scroll-Linked Parallax: translate upward on Y-axis and fade slightly into background
+    // 2. Articulated Sub-Mesh Servo Kinematics (Head, Visor, Mandibles, Pistons, Neck Rings, Thoracic Core)
+    const cranium = parts['Chassis_Cranium'];
+    const visor = parts['Visor_OpticalShield'];
+    const crest = parts['Accent_CranialCrest'];
+    if (cranium && visor) {
+      const headLookY = mx * 0.35 + Math.sin(t * 1.7) * 0.18;
+      const headLookX = -my * 0.22 + Math.sin(t * 2.4) * 0.07;
+      cranium.rotation.y = THREE.MathUtils.lerp(cranium.rotation.y, headLookY, delta * 6);
+      cranium.rotation.x = THREE.MathUtils.lerp(cranium.rotation.x, headLookX, delta * 6);
+      visor.rotation.y = cranium.rotation.y * 1.15;
+      visor.rotation.x = cranium.rotation.x * 1.1;
+      visor.position.y = 0.68 + Math.sin(t * 3.2) * 0.025;
+      if (crest) {
+        crest.rotation.y = cranium.rotation.y;
+        crest.position.y = 1.52 + Math.sin(t * 3.2) * 0.03;
+      }
+    }
+
+    // Articulated Mandibles (breathing / vocal telemetry oscillation)
+    const jawL = parts['Chassis_Mandible_L'];
+    const jawR = parts['Chassis_Mandible_R'];
+    const jawBreath = Math.sin(t * 2.8) * 0.045 + Math.max(0, Math.sin(t * 6.5)) * 0.025;
+    if (jawL) {
+      jawL.position.x = -0.52 - jawBreath;
+      jawL.position.y = 0.12 - jawBreath * 0.6;
+      jawL.rotation.z = -0.22 - jawBreath * 1.4;
+    }
+    if (jawR) {
+      jawR.position.x = 0.52 + jawBreath;
+      jawR.position.y = 0.12 - jawBreath * 0.6;
+      jawR.rotation.z = 0.22 + jawBreath * 1.4;
+    }
+
+    // Reciprocating Hydraulic Neck Pistons & Conduits
+    const pistonL = parts['Chassis_Piston_L'];
+    const pistonR = parts['Chassis_Piston_R'];
+    const conduitL = parts['Accent_Conduit_L'];
+    const conduitR = parts['Accent_Conduit_R'];
+    const pistonStroke = Math.sin(t * 3.4) * 0.08;
+    if (pistonL) pistonL.position.y = -0.55 + pistonStroke;
+    if (conduitL) conduitL.position.y = -0.54 + pistonStroke;
+    if (pistonR) pistonR.position.y = -0.55 - pistonStroke;
+    if (conduitR) conduitR.position.y = -0.54 - pistonStroke;
+
+    // Counter-Rotating Cervical Neck Rings
+    for (let r = 0; r < 4; r++) {
+      const nRing = parts[`Chassis_NeckRing_${r}`];
+      if (nRing) {
+        nRing.rotation.z = t * (r % 2 === 0 ? 1.4 : -1.4);
+      }
+    }
+
+    // Temple Telemetry Rings & Thoracic Core Reactor Spin
+    const earRingL = parts['Accent_TempleRing_L'];
+    const earRingR = parts['Accent_TempleRing_R'];
+    if (earRingL) earRingL.rotation.x = t * 2.5;
+    if (earRingR) earRingR.rotation.x = -t * 2.5;
+
+    const thoracicCore = parts['Accent_ThoracicCore'];
+    if (thoracicCore) {
+      thoracicCore.rotation.z = t * 2.2;
+      const corePulse = 1 + Math.sin(t * 4.2) * 0.16;
+      thoracicCore.scale.setScalar(corePulse);
+    }
+
+    // 3. Orbital Telemetry Rings & Autonomous Worker Swarm Animation
+    if (ring1Ref.current) {
+      ring1Ref.current.rotation.z = t * 0.65;
+      ring1Ref.current.rotation.x = Math.PI / 2.3 + Math.sin(t * 0.8) * 0.15;
+    }
+    if (ring2Ref.current) {
+      ring2Ref.current.rotation.z = -t * 0.85;
+      ring2Ref.current.rotation.y = Math.cos(t * 0.7) * 0.25;
+    }
+    if (ring3Ref.current) {
+      ring3Ref.current.rotation.x = t * 0.45;
+      ring3Ref.current.rotation.y = -t * 0.55;
+    }
+    if (swarmGroupRef.current) {
+      swarmGroupRef.current.rotation.y = t * 0.42;
+      swarmGroupRef.current.children.forEach((child, idx) => {
+        const w = workerNodes[idx];
+        if (!w) return;
+        const a = w.angle + t * w.speed;
+        child.position.set(
+          Math.cos(a) * w.radius,
+          w.yOffset + Math.sin(t * 2.4 + w.phase) * 0.22,
+          Math.sin(a) * w.radius
+        );
+      });
+    }
+
+    // 4. Section 1.3 Scroll-Linked Parallax: translate upward on Y-axis and fade slightly into background
     const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
     const targetX = isDesktop ? 1.25 * (1 - scroll * 0.4) : 0;
     const targetY = -0.1 + scroll * 1.55;
@@ -135,15 +267,41 @@ export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<num
     const fade = Math.max(0.35, 1 - scroll * 0.55);
     chassisMaterial.opacity = fade;
     visorAccentMaterial.opacity = 0.96 * fade;
-    visorAccentMaterial.emissiveIntensity = (2.0 + Math.sin(state.clock.elapsedTime * 2.8) * 0.35) * fade;
-    telemetryShaderMaterial.uniforms.uTime.value = state.clock.elapsedTime;
+    visorAccentMaterial.emissiveIntensity = (2.2 + Math.sin(t * 3.5) * 0.55) * fade;
+    telemetryShaderMaterial.uniforms.uTime.value = t;
     telemetryShaderMaterial.uniforms.uFade.value = fade;
   });
 
   return (
     <group ref={groupRef} scale={0.92}>
-      <Float speed={1.4} rotationIntensity={0.12} floatIntensity={0.22}>
+      <Float speed={2.2} rotationIntensity={0.22} floatIntensity={0.35}>
         <primitive object={clonedScene} />
+
+        {/* Articulated Orbital Telemetry Gyroscope Rings */}
+        <mesh ref={ring1Ref} position={[0, 0.45, 0]}>
+          <torusGeometry args={[1.55, 0.012, 16, 96]} />
+          <meshBasicMaterial color="#00D8FF" transparent opacity={0.55} />
+        </mesh>
+        <mesh ref={ring2Ref} position={[0, -0.35, 0]} rotation={[1.2, 0.3, 0]}>
+          <torusGeometry args={[1.82, 0.01, 16, 96]} />
+          <meshBasicMaterial color="#10B981" transparent opacity={0.38} />
+        </mesh>
+        <mesh ref={ring3Ref} position={[0, 0.2, 0]}>
+          <torusGeometry args={[2.05, 0.008, 12, 96]} />
+          <meshBasicMaterial color="#38BDF8" wireframe transparent opacity={0.25} />
+        </mesh>
+
+        {/* Orbiting Autonomous Worker Swarm Nodes */}
+        <group ref={swarmGroupRef}>
+          {workerNodes.map((_, idx) => (
+            <mesh key={idx}>
+              <octahedronGeometry args={[0.045, 0]} />
+              <meshBasicMaterial color={idx % 2 === 0 ? '#00D8FF' : '#10B981'} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* Electromagnetic Scanline Shader Field */}
         <mesh position={[0, 0.25, 0]} scale={[1.28, 1.35, 1.22]} material={telemetryShaderMaterial}>
           <cylinderGeometry args={[1.15, 1.35, 2.5, 48, 1, true]} />
         </mesh>
@@ -153,15 +311,25 @@ export const AndroidModel: React.FC<{ scrollProgress: React.MutableRefObject<num
 };
 
 // ============================================================================
-// 2.2 MARKETING SERVICES: TRUE ANATOMICAL BRAIN (.glb + Wireframe Synaptic Material)
+// 2.2 MARKETING SERVICES: LIVING ANATOMICAL NEURAL BRAIN (.glb + Cortical Wave Deformation + Travelling Synaptic Pulses)
 // ============================================================================
 export const NeuralBrainModel: React.FC<{ scrollProgress: React.MutableRefObject<number> }> = ({
   scrollProgress,
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/neural_brain.glb');
+  const pulsesGroupRef = useRef<THREE.Group>(null);
+  const gyro1Ref = useRef<THREE.Mesh>(null);
+  const gyro2Ref = useRef<THREE.Mesh>(null);
 
-  const { clonedBrain, wireframeMaterial, coreShaderMaterial } = useMemo(() => {
+  const { scene, animations } = useGLTF('/models/neural_brain.glb');
+
+  const {
+    clonedBrain,
+    wireframeMaterial,
+    coreShaderMaterial,
+    deformableMeshes,
+    synapticPathways,
+  } = useMemo(() => {
     const cloned = scene.clone(true);
 
     // Exact Section 2.2 specification:
@@ -170,12 +338,11 @@ export const NeuralBrainModel: React.FC<{ scrollProgress: React.MutableRefObject
       wireframe: true,
       color: new THREE.Color('#38BDF8'),
       emissive: new THREE.Color('#2DD4BF'),
-      emissiveIntensity: 0.75,
+      emissiveIntensity: 0.85,
       transparent: true,
       opacity: 0.6,
     });
 
-    // Subtle inner synaptic pulse shader so the cerebral hemispheres have volumetric depth inside the wireframe
     const innerShaderMat = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
@@ -184,12 +351,15 @@ export const NeuralBrainModel: React.FC<{ scrollProgress: React.MutableRefObject
         uFade: { value: 1.0 },
       },
       vertexShader: `
+        uniform float uTime;
         varying vec3 vPos;
         varying vec3 vNormal;
         void main() {
           vPos = position;
           vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position * 0.96, 1.0);
+          float wave = sin(position.z * 4.5 - uTime * 3.8) * 0.03;
+          vec3 displaced = position * (0.96 + wave);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(displaced, 1.0);
         }
       `,
       fragmentShader: `
@@ -198,45 +368,136 @@ export const NeuralBrainModel: React.FC<{ scrollProgress: React.MutableRefObject
         varying vec3 vPos;
         varying vec3 vNormal;
         void main() {
-          float pulse = sin(vPos.z * 5.0 - uTime * 3.2) * cos(vPos.x * 6.0 + uTime * 2.1) * 0.5 + 0.5;
+          float pulse = sin(vPos.z * 5.0 - uTime * 3.6) * cos(vPos.x * 6.0 + uTime * 2.4) * 0.5 + 0.5;
           float rim = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 1.8);
-          vec3 col = mix(vec3(0.05, 0.14, 0.25), vec3(0.22, 0.74, 0.97), pulse * 0.65 + rim * 0.35);
-          gl_FragColor = vec4(col, (0.26 + pulse * 0.18) * uFade);
+          vec3 col = mix(vec3(0.05, 0.16, 0.28), vec3(0.22, 0.82, 0.98), pulse * 0.7 + rim * 0.35);
+          gl_FragColor = vec4(col, (0.28 + pulse * 0.22) * uFade);
         }
       `,
     });
 
+    const meshesToDeform: { mesh: THREE.Mesh; basePositions: Float32Array }[] = [];
+    const sampledSurfacePoints: THREE.Vector3[] = [];
+
     cloned.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
+        mesh.geometry = mesh.geometry.clone();
         mesh.material = wireMat;
-        // Add inner cortical glow clone for each hemisphere/lobe
+
+        const posAttr = mesh.geometry.attributes.position;
+        if (posAttr) {
+          meshesToDeform.push({
+            mesh,
+            basePositions: new Float32Array(posAttr.array as ArrayLike<number>),
+          });
+
+          // Sample cortical surface coordinates for travelling synaptic action-potential impulses
+          const step = Math.max(1, Math.floor(posAttr.count / 36));
+          for (let i = 0; i < posAttr.count; i += step) {
+            const p = new THREE.Vector3().fromBufferAttribute(posAttr, i);
+            p.add(mesh.position);
+            sampledSurfacePoints.push(p);
+          }
+        }
+
         const innerClone = new THREE.Mesh(mesh.geometry, innerShaderMat);
         innerClone.name = `${mesh.name}_InnerCore`;
         mesh.add(innerClone);
       }
     });
 
+    // Build 42 synaptic pathways connecting cortical lobes for travelling action-potential impulses
+    const pathways = Array.from({ length: 42 }, (_, idx) => {
+      const a = sampledSurfacePoints[(idx * 3) % Math.max(1, sampledSurfacePoints.length)] || new THREE.Vector3(-0.6, 0.4, 0.5);
+      const b = sampledSurfacePoints[(idx * 7 + 11) % Math.max(1, sampledSurfacePoints.length)] || new THREE.Vector3(0.6, 0.3, -0.5);
+      const mid = a.clone().add(b).multiplyScalar(0.58);
+      return {
+        start: a,
+        mid,
+        end: b,
+        speed: 0.45 + (idx % 5) * 0.16,
+        offset: (idx * 0.19) % 1,
+        isWarm: idx % 3 === 0,
+      };
+    });
+
     return {
       clonedBrain: cloned,
       wireframeMaterial: wireMat,
       coreShaderMaterial: innerShaderMat,
+      deformableMeshes: meshesToDeform,
+      synapticPathways: pathways,
     };
   }, [scene]);
 
+  // Play embedded GLTF AnimationClips
+  const { actions } = useAnimations(animations, clonedBrain);
+  useEffect(() => {
+    Object.values(actions).forEach((action) => {
+      action?.reset().fadeIn(0.3).play();
+    });
+  }, [actions]);
+
   useFrame((state, delta) => {
     if (!groupRef.current) return;
+    const t = state.clock.elapsedTime;
     const mx = state.mouse.x !== 0 ? state.mouse.x : globalPointer.x;
     const my = state.mouse.y !== 0 ? state.mouse.y : globalPointer.y;
     const scroll = scrollProgress.current;
 
-    // Continuous slow anatomical inspection rotation + mouse lerp
-    const targetRotY = state.clock.elapsedTime * 0.22 + mx * 0.65;
-    const targetRotX = -my * 0.35 + 0.12;
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, delta * 4.0);
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, delta * 4.0);
+    // 1. Continuous anatomical inspection rotation + mouse lerp
+    const targetRotY = t * 0.32 + mx * 0.68;
+    const targetRotX = -my * 0.36 + Math.sin(t * 0.9) * 0.14;
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, delta * 4.2);
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, delta * 4.2);
 
-    // Scroll-linked parallax: translate upward on Y-axis and fade slightly into background
+    // 2. Real-time Cortical Gyri/Sulci Vertex Wave Animation across both hemispheres & cerebellum
+    for (const item of deformableMeshes) {
+      const posAttr = item.mesh.geometry.attributes.position as THREE.BufferAttribute;
+      const base = item.basePositions;
+      for (let i = 0; i < posAttr.count; i++) {
+        const ix = i * 3;
+        const bx = base[ix];
+        const by = base[ix + 1];
+        const bz = base[ix + 2];
+        const wave =
+          1 +
+          0.032 * Math.sin(bz * 3.8 - t * 3.6 + bx * 2.5) +
+          0.018 * Math.cos(by * 5.0 + t * 2.8);
+        posAttr.setXYZ(i, bx * wave, by * wave, bz * wave);
+      }
+      posAttr.needsUpdate = true;
+    }
+
+    // 3. Animate 42 Travelling Synaptic Action-Potential Impulses racing across the cortex
+    if (pulsesGroupRef.current) {
+      pulsesGroupRef.current.children.forEach((child, idx) => {
+        const path = synapticPathways[idx];
+        if (!path) return;
+        const prog = (t * path.speed + path.offset) % 1;
+        const inv = 1 - prog;
+        // Quadratic Bezier interpolation between cortical lobes
+        const x = inv * inv * path.start.x + 2 * inv * prog * path.mid.x + prog * prog * path.end.x;
+        const y = inv * inv * path.start.y + 2 * inv * prog * path.mid.y + prog * prog * path.end.y;
+        const z = inv * inv * path.start.z + 2 * inv * prog * path.mid.z + prog * prog * path.end.z;
+        child.position.set(x, y, z);
+        const s = 0.6 + Math.sin(prog * Math.PI) * 1.1;
+        child.scale.setScalar(s);
+      });
+    }
+
+    // 4. Counter-rotating Synaptic Telemetry Gyroscopes
+    if (gyro1Ref.current) {
+      gyro1Ref.current.rotation.z = t * 0.55;
+      gyro1Ref.current.rotation.x = Math.PI / 2.6 + Math.sin(t * 0.7) * 0.2;
+    }
+    if (gyro2Ref.current) {
+      gyro2Ref.current.rotation.y = -t * 0.65;
+      gyro2Ref.current.rotation.x = Math.cos(t * 0.6) * 0.35;
+    }
+
+    // 5. Scroll-linked parallax: translate upward on Y-axis and fade slightly into background
     const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
     const targetX = isDesktop ? 1.25 * (1 - scroll * 0.4) : 0;
     const targetY = -0.05 + scroll * 1.55;
@@ -248,21 +509,42 @@ export const NeuralBrainModel: React.FC<{ scrollProgress: React.MutableRefObject
 
     const fade = Math.max(0.35, 1 - scroll * 0.55);
     wireframeMaterial.opacity = 0.6 * fade;
-    coreShaderMaterial.uniforms.uTime.value = state.clock.elapsedTime;
+    wireframeMaterial.emissiveIntensity = (0.85 + Math.sin(t * 3.0) * 0.3) * fade;
+    coreShaderMaterial.uniforms.uTime.value = t;
     coreShaderMaterial.uniforms.uFade.value = fade;
   });
 
   return (
     <group ref={groupRef} scale={0.95}>
-      <Float speed={1.5} rotationIntensity={0.18} floatIntensity={0.25}>
+      <Float speed={2.0} rotationIntensity={0.24} floatIntensity={0.32}>
         <primitive object={clonedBrain} />
+
+        {/* Travelling 3D Synaptic Action-Potential Impulses */}
+        <group ref={pulsesGroupRef}>
+          {synapticPathways.map((p, idx) => (
+            <mesh key={idx}>
+              <sphereGeometry args={[0.032, 12, 12]} />
+              <meshBasicMaterial color={p.isWarm ? '#F59E0B' : '#2DD4BF'} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* Articulated Synaptic Gyroscope Rings */}
+        <mesh ref={gyro1Ref}>
+          <torusGeometry args={[1.95, 0.01, 16, 96]} />
+          <meshBasicMaterial color="#38BDF8" transparent opacity={0.42} />
+        </mesh>
+        <mesh ref={gyro2Ref} rotation={[0.8, 0.4, 0]}>
+          <torusGeometry args={[2.18, 0.008, 16, 96]} />
+          <meshBasicMaterial color="#F59E0B" transparent opacity={0.32} />
+        </mesh>
       </Float>
     </group>
   );
 };
 
 // ============================================================================
-// 2.3 HYBRID MODE: CRYSTALLINE CORE (Outer Octahedron + MeshTransmissionMaterial + Inner Glowing Icosahedron)
+// 2.3 HYBRID MODE: KINETIC CRYSTALLINE CORE (Outer Octahedron + MeshTransmissionMaterial + Breathing Shards + Gimbal Rings)
 // ============================================================================
 export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefObject<number> }> = ({
   scrollProgress,
@@ -271,26 +553,75 @@ export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefOb
   const outerShellRef = useRef<THREE.Mesh>(null);
   const innerCoreRef = useRef<THREE.Mesh>(null);
   const innerMatRef = useRef<THREE.MeshPhysicalMaterial>(null);
+  const shardsGroupRef = useRef<THREE.Group>(null);
+  const gimbal1Ref = useRef<THREE.Mesh>(null);
+  const gimbal2Ref = useRef<THREE.Mesh>(null);
+  const gimbal3Ref = useRef<THREE.Mesh>(null);
+
+  // 12 Orbiting & Radially Breathing Crystal Satellite Shards
+  const crystalShards = useMemo(() => {
+    return Array.from({ length: 12 }, (_, i) => {
+      const phi = Math.acos(1 - (2 * (i + 0.5)) / 12);
+      const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+      const dir = new THREE.Vector3(
+        Math.sin(phi) * Math.cos(theta),
+        Math.cos(phi),
+        Math.sin(phi) * Math.sin(theta)
+      ).normalize();
+      return { dir, phase: i * 0.55, isAmber: i % 2 === 1 };
+    });
+  }, []);
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
+    const t = state.clock.elapsedTime;
     const mx = state.mouse.x !== 0 ? state.mouse.x : globalPointer.x;
     const my = state.mouse.y !== 0 ? state.mouse.y : globalPointer.y;
     const scroll = scrollProgress.current;
 
-    const targetRotY = state.clock.elapsedTime * 0.25 + mx * 0.6;
-    const targetRotX = state.clock.elapsedTime * 0.14 - my * 0.38;
+    const targetRotY = t * 0.34 + mx * 0.65;
+    const targetRotX = t * 0.18 - my * 0.42;
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, delta * 4.5);
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, delta * 4.5);
 
     if (outerShellRef.current) {
-      outerShellRef.current.rotation.z = state.clock.elapsedTime * 0.12;
+      outerShellRef.current.rotation.z = t * 0.22;
+      const shellBreath = 1 + Math.sin(t * 2.2) * 0.045;
+      outerShellRef.current.scale.setScalar(shellBreath);
     }
     if (innerCoreRef.current) {
-      innerCoreRef.current.rotation.y = -state.clock.elapsedTime * 0.55;
-      innerCoreRef.current.rotation.x = state.clock.elapsedTime * 0.35;
-      const pulse = 1 + Math.sin(state.clock.elapsedTime * 2.8) * 0.08;
+      innerCoreRef.current.rotation.y = -t * 0.85;
+      innerCoreRef.current.rotation.x = t * 0.62;
+      const pulse = 1 + Math.sin(t * 3.6) * 0.14;
       innerCoreRef.current.scale.setScalar(pulse);
+    }
+
+    // Animate 12 Radially Breathing & Orbiting Crystal Shards
+    if (shardsGroupRef.current) {
+      shardsGroupRef.current.rotation.y = -t * 0.48;
+      shardsGroupRef.current.rotation.z = Math.sin(t * 0.6) * 0.25;
+      shardsGroupRef.current.children.forEach((shard, idx) => {
+        const cfg = crystalShards[idx];
+        if (!cfg) return;
+        const radius = 1.85 + Math.sin(t * 2.8 + cfg.phase) * 0.28;
+        shard.position.copy(cfg.dir).multiplyScalar(radius);
+        shard.rotation.x = t * 1.8 + cfg.phase;
+        shard.rotation.y = t * 1.4 - cfg.phase;
+      });
+    }
+
+    // Animate 3-Axis Kinetic Gimbal Rings
+    if (gimbal1Ref.current) {
+      gimbal1Ref.current.rotation.x = t * 0.72;
+      gimbal1Ref.current.rotation.y = t * 0.35;
+    }
+    if (gimbal2Ref.current) {
+      gimbal2Ref.current.rotation.y = -t * 0.68;
+      gimbal2Ref.current.rotation.z = t * 0.42;
+    }
+    if (gimbal3Ref.current) {
+      gimbal3Ref.current.rotation.z = -t * 0.54;
+      gimbal3Ref.current.rotation.x = Math.sin(t * 0.8) * 0.5;
     }
 
     const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
@@ -305,13 +636,13 @@ export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefOb
     const fade = Math.max(0.35, 1 - scroll * 0.55);
     if (innerMatRef.current) {
       innerMatRef.current.opacity = 0.92 * fade;
-      innerMatRef.current.emissiveIntensity = (2.2 + Math.sin(state.clock.elapsedTime * 3.0) * 0.5) * fade;
+      innerMatRef.current.emissiveIntensity = (2.4 + Math.sin(t * 3.8) * 0.65) * fade;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <Float speed={1.6} rotationIntensity={0.22} floatIntensity={0.28}>
+      <Float speed={2.2} rotationIntensity={0.28} floatIntensity={0.35}>
         {/* Outer Refracting Glass Octahedron with MeshTransmissionMaterial */}
         <mesh ref={outerShellRef} name="OuterCrystallineOctahedron">
           <octahedronGeometry args={[1.55, 0]} />
@@ -331,7 +662,7 @@ export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefOb
         {/* Precision Specular Rim Wireframe Cage on Outer Octahedron */}
         <mesh scale={1.56}>
           <octahedronGeometry args={[1.0, 0]} />
-          <meshBasicMaterial color="#38BDF8" wireframe transparent opacity={0.28} />
+          <meshBasicMaterial color="#38BDF8" wireframe transparent opacity={0.32} />
         </mesh>
 
         {/* Inner Glowing Icosahedron Core */}
@@ -341,7 +672,7 @@ export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefOb
             ref={innerMatRef}
             color="#F59E0B"
             emissive="#F59E0B"
-            emissiveIntensity={2.2}
+            emissiveIntensity={2.4}
             roughness={0.15}
             metalness={0.8}
             wireframe={true}
@@ -351,10 +682,41 @@ export const CrystallineCoreModel: React.FC<{ scrollProgress: React.MutableRefOb
           />
         </mesh>
 
+        {/* Orbiting & Radially Breathing Crystal Satellite Shards */}
+        <group ref={shardsGroupRef}>
+          {crystalShards.map((s, idx) => (
+            <mesh key={idx}>
+              <octahedronGeometry args={[0.11, 0]} />
+              <meshPhysicalMaterial
+                color={s.isAmber ? '#F59E0B' : '#00D8FF'}
+                emissive={s.isAmber ? '#F59E0B' : '#00D8FF'}
+                emissiveIntensity={1.6}
+                metalness={0.85}
+                roughness={0.15}
+                toneMapped={false}
+              />
+            </mesh>
+          ))}
+        </group>
+
+        {/* 3-Axis Kinetic Gimbal Rings */}
+        <mesh ref={gimbal1Ref}>
+          <torusGeometry args={[1.92, 0.012, 16, 96]} />
+          <meshBasicMaterial color="#00D8FF" transparent opacity={0.48} />
+        </mesh>
+        <mesh ref={gimbal2Ref}>
+          <torusGeometry args={[2.12, 0.01, 16, 96]} />
+          <meshBasicMaterial color="#F59E0B" transparent opacity={0.38} />
+        </mesh>
+        <mesh ref={gimbal3Ref}>
+          <torusGeometry args={[2.32, 0.008, 12, 96]} />
+          <meshBasicMaterial color="#10B981" transparent opacity={0.28} />
+        </mesh>
+
         {/* Innermost Energy Singularity Sphere */}
         <mesh>
           <sphereGeometry args={[0.42, 32, 32]} />
-          <meshBasicMaterial color="#00D8FF" transparent opacity={0.75} />
+          <meshBasicMaterial color="#00D8FF" transparent opacity={0.78} />
         </mesh>
       </Float>
     </group>
