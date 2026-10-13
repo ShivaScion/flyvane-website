@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Lenis from 'lenis';
 import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import CinematicBackground from './components/CinematicBackground';
+
+const ThreeCanvas = React.lazy(() =>
+  import('./components/ThreeCanvas').then((m) => ({ default: m.ThreeCanvas }))
+);
 import { AiraCompanion } from './components/AiraCompanion';
+import { AiraVoiceModal } from './components/AiraVoiceModal';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
 import { PainPointArbitrage } from './components/PainPointArbitrage';
 import { BrandAuthorityEstimator } from './components/BrandAuthorityEstimator';
@@ -161,19 +165,17 @@ export function App() {
     }
   };
 
-  const activeModeLabel =
-    mode === 'machine'
-      ? 'Automation Services'
-      : mode === 'mind'
-        ? 'Marketing Services'
-        : 'Hybrid';
-
   return (
-    <div className="relative min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#07080B] text-zinc-200 overflow-x-hidden">
       <Preloader onComplete={() => {}} />
 
-      {/* Phase 2.2: Global Fixed Cinematic Background at Root Layout Level */}
-      <CinematicBackground activeMode={activeModeLabel} />
+      {/* 3D Three.js Spatial Background Canvas */}
+      <ErrorBoundary fallback={null}>
+        <Suspense fallback={null}>
+          <ThreeCanvas mode={mode} />
+        </Suspense>
+      </ErrorBoundary>
+      <div className="fixed inset-0 noise-overlay pointer-events-none z-0" />
 
       {/* Navbar */}
       <Navbar
@@ -185,7 +187,7 @@ export function App() {
       />
 
       {/* Main Viewport Content */}
-      <main className="relative z-10 pt-24 pb-24 bg-transparent">
+      <main className="relative z-10 pt-24 pb-24">
         <Hero mode={mode} />
 
         {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
@@ -255,11 +257,14 @@ export function App() {
         <ContactSection mode={mode} inquiryContext={inquiryContext} />
       </main>
 
-      {/* Phase 5: Minimal Liquid Glass Aira Concierge Drawer */}
-      <AiraCompanion
+      {/* Passive Bottom-Right Aira Concierge Dock */}
+      <AiraCompanion onOpenModal={() => setIsAiraModalOpen(true)} />
+
+      {/* Aira Concierge Text Modal */}
+      <AiraVoiceModal
         isOpen={isAiraModalOpen}
-        setIsOpen={setIsAiraModalOpen}
-        onSetMode={setMode}
+        onClose={() => setIsAiraModalOpen(false)}
+        onCommand={handleCommand}
       />
 
       {/* Cmd+K Command Palette */}

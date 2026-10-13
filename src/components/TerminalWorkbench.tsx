@@ -732,14 +732,14 @@ if __name__ == "__main__":
   };
 
   return (
-    <section id="workbench" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="workbench" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
           <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-emerald-400 block mb-2.5 font-semibold">
             AUTONOMOUS EXECUTION SANDBOX
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-white tracking-normal">
+          <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight">
             Live Pipeline & Extraction Workbench
           </h2>
         </div>
@@ -749,7 +749,7 @@ if __name__ == "__main__":
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4)] max-w-xl">
+      <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-xl backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] max-w-xl">
         <button
           type="button"
           onClick={() => setActiveTab('scraper')}
@@ -760,7 +760,7 @@ if __name__ == "__main__":
           }`}
         >
           <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-          <span><span className="font-mono">01</span>. Deterministic Extraction Sandbox</span>
+          <span>01. Deterministic Extraction Sandbox</span>
         </button>
         <button
           type="button"
@@ -772,7 +772,7 @@ if __name__ == "__main__":
           }`}
         >
           <TerminalIcon className="w-3.5 h-3.5 text-cyan-400" />
-          <span><span className="font-mono">02</span>. Runtime Execution Inspector</span>
+          <span>02. Runtime Execution Inspector</span>
         </button>
       </div>
 
@@ -780,22 +780,22 @@ if __name__ == "__main__":
       {activeTab === 'terminal' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="liquid-glass-card p-6 sm:p-8 space-y-4 relative overflow-hidden"
+          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-4 backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out"
         >
-          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] relative z-10">
+          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-zinc-300 uppercase">ONLINE</span>
+                <span className="text-[10px] font-mono tracking-wider text-zinc-300 uppercase">ONLINE</span>
               </div>
               <span className="text-xs font-sans text-zinc-400 tracking-tight">Flyvane Runtime Inspector</span>
             </div>
-            <div className="flex items-center gap-2 font-sans font-semibold text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
               <span>ASYNCIO CORE</span>
             </div>
           </div>
 
-          <div ref={terminalScrollRef} className="liquid-glass-inner font-mono text-xs h-80 overflow-y-auto space-y-2 relative z-10">
+          <div ref={terminalScrollRef} className="backdrop-blur-xl bg-white/[0.025] rounded-xl border border-white/[0.08] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.1)]">
             {terminalHistory.map((item, i) => (
               <div
                 key={i}
@@ -813,7 +813,7 @@ if __name__ == "__main__":
             ))}
           </div>
 
-          <div className="flex items-center gap-3 backdrop-blur-xl bg-white/[0.02] border border-white/[0.08] rounded-xl p-3 font-mono text-xs relative z-10">
+          <div className="flex items-center gap-3 backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl p-3 font-mono text-xs shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)]">
             <span className="text-cyan-400 font-semibold">QUERY</span>
             <input
               type="text"
@@ -838,7 +838,7 @@ if __name__ == "__main__":
       {activeTab === 'scraper' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
+          className="tilt-card liquid-glass liquid-glass-cyan rounded-2xl p-6 sm:p-8 space-y-6 backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out"
         >
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
@@ -1042,7 +1042,7 @@ if __name__ == "__main__":
 
           {/* Results Grid: Clean 3 Records (Left) & Playwright Script (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-7 liquid-glass-inner text-xs space-y-4">
+            <div className="lg:col-span-7 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-zinc-400">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${isScraping ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
@@ -1126,7 +1126,7 @@ if __name__ == "__main__":
               </div>
             </div>
 
-            <div className="lg:col-span-5 liquid-glass-inner text-xs flex flex-col justify-between space-y-3">
+            <div className="lg:col-span-5 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs flex flex-col justify-between space-y-3">
               <div>
                 <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-white/[0.08] text-zinc-400">
                   <span className="flex items-center gap-1.5 text-white font-sans font-semibold">

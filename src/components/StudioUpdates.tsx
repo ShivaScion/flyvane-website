@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Linkedin } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
-import { soundEngine } from '../utils/soundEngine';
 
 interface StudioUpdatesProps {
   mode: 'machine' | 'mind' | 'hybrid';
@@ -66,7 +65,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
   const posts = mode === 'mind' ? mindUpdates : machineUpdates;
 
   return (
-    <section id="updates" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+    <section id="updates" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +81,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           >
             STUDIO DISPATCHES &amp; LINKEDIN INSIGHTS
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+          <h2 className="text-3xl sm:text-5xl font-sans font-semibold text-white tracking-tight text-balance">
             Recent Studio Updates
           </h2>
         </div>
@@ -91,8 +90,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           href="https://www.linkedin.com/company/flyvane"
           target="_blank"
           rel="noopener noreferrer"
-          onMouseEnter={() => soundEngine.playHoverHum()}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl backdrop-blur-2xl bg-white/[0.035] hover:bg-white/[0.08] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
         >
           <Linkedin className="w-3.5 h-3.5 text-sky-400" />
           <span>Follow Flyvane on LinkedIn</span>
@@ -111,28 +109,30 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
-            onMouseEnter={() => soundEngine.playHoverHum()}
-            className="liquid-glass-card p-6 sm:p-8 flex flex-col justify-between space-y-5 group relative overflow-hidden"
+            whileHover={{ y: -3 }}
+            className={`tilt-card backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] hover:bg-white/[0.06] hover:border-white/[0.22] hover:shadow-[0_16px_48px_0_rgba(0,0,0,0.65),inset_0_1px_2px_0_rgba(255,255,255,0.3)] transition-all duration-500 ease-out rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-5 group ${
+              mode === 'mind' ? 'liquid-glass-amber' : 'liquid-glass-cyan'
+            }`}
           >
-            <div className="space-y-3.5 relative z-10">
-              <div className="flex items-center justify-between text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-zinc-400">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">
                 <span className={mode === 'mind' ? 'text-amber-400' : 'text-emerald-400'}>
                   {post.category}
                 </span>
                 <span>{post.date}</span>
               </div>
 
-              <h3 className="text-xl font-sans font-medium tracking-normal text-white group-hover:text-zinc-200 transition-colors leading-snug">
+              <h3 className="text-lg font-sans font-semibold text-white group-hover:text-zinc-200 transition-colors leading-snug">
                 {post.title}
               </h3>
 
-              <p className="text-sm font-sans text-zinc-400 leading-relaxed">
+              <p className="text-xs font-sans text-zinc-400 leading-relaxed">
                 {post.summary}
               </p>
             </div>
 
-            <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-sans text-zinc-300">
-              <span className="text-[11px] font-semibold tracking-wide text-zinc-500">{post.readTime}</span>
+            <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-sans text-zinc-300">
+              <span className="text-[11px] text-zinc-500">{post.readTime}</span>
               <span className="flex items-center gap-1 font-medium group-hover:text-white transition-colors">
                 <span>Read on LinkedIn</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
