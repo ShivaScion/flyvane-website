@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { InteractiveTiltWrapper } from '../InteractiveTiltWrapper';
 import { MODE_CONTENT, ModeConfig } from '../../data/modeContent';
+import { sanitizeText, sanitizeOtp } from '../../utils/security';
 
 interface LeadRecord {
   id: string;
@@ -126,11 +127,19 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
     e.preventDefault();
     setIsVerifying(true);
     setAuthError(null);
+
+    const cleanCode = sanitizeOtp(otpCode);
+    if (cleanCode.length !== 6) {
+      setAuthError('Please enter a valid 6-digit verification code.');
+      setIsVerifying(false);
+      return;
+    }
+
     try {
       const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: otpCode }),
+        body: JSON.stringify({ code: cleanCode }),
       });
       const data = await res.json();
       if (res.ok && data.success && data.token) {
@@ -259,13 +268,22 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
     try {
       const isNew = !editingPost.id;
       const method = isNew ? 'POST' : 'PUT';
+      const sanitizedPost = {
+        ...editingPost,
+        title: sanitizeText(editingPost.title, 200),
+        slug: sanitizeText(editingPost.slug || '', 100),
+        excerpt: sanitizeText(editingPost.excerpt || '', 500),
+        content: sanitizeText(editingPost.content || '', 50000),
+        category: sanitizeText(editingPost.category || 'Engineering', 50),
+        reading_time: sanitizeText(editingPost.reading_time || '5 min read', 30),
+      };
       const res = await fetch('/api/admin/blogs', {
         method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionToken}`,
         },
-        body: JSON.stringify(editingPost),
+        body: JSON.stringify(sanitizedPost),
       });
       if (res.ok) {
         setEditingPost(null);
@@ -502,7 +520,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
                 type="text"
                 placeholder="Search by client or handle..."
                 value={leadSearch}
-                onChange={(e) => setLeadSearch(e.target.value)}
+                onChange={(e) => setLeadSearch(sanitizeText(e.target.value, 100))}
                 className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-400"
               />
             </div>

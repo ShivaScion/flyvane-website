@@ -1,4 +1,5 @@
 import { validateAdminSession } from '../../app/api/auth/otpStore';
+import { applyOwaspHeaders, sanitizeServerText } from '../../app/api/auth/security';
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
@@ -79,6 +80,7 @@ function saveLocalBlogs(blogs: any[]) {
 }
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -132,21 +134,26 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ success: false, error: 'Title and content are required.' });
       }
 
-      const slug =
-        rawBody.slug ||
-        title
+      const safeTitle = sanitizeServerText(title, 200);
+      const safeContent = sanitizeServerText(content, 50000);
+      const safeExcerpt = sanitizeServerText(excerpt || title, 500);
+      const safeCategory = sanitizeServerText(category || 'Engineering', 50);
+      const safeReadingTime = sanitizeServerText(reading_time || '5 min read', 30);
+      const safeSlug =
+        sanitizeServerText(rawBody.slug || '', 100) ||
+        safeTitle
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/(^-|-$)+/g, '');
 
       const newPost = {
         id: crypto.randomUUID(),
-        slug,
-        title,
-        excerpt: excerpt || title,
-        content,
-        category: category || 'Engineering',
-        reading_time: reading_time || '5 min read',
+        slug: safeSlug,
+        title: safeTitle,
+        excerpt: safeExcerpt,
+        content: safeContent,
+        category: safeCategory,
+        reading_time: safeReadingTime,
         status: status || 'published',
         published_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
@@ -173,14 +180,22 @@ export default async function handler(req: any, res: any) {
       const { id, ...updates } = rawBody;
       if (!id) return res.status(400).json({ success: false, error: 'Missing post id' });
 
-      updates.updated_at = new Date().toISOString();
+      const safeUpdates: Record<string, any> = { ...updates };
+      if (updates.title) safeUpdates.title = sanitizeServerText(updates.title, 200);
+      if (updates.slug) safeUpdates.slug = sanitizeServerText(updates.slug, 100);
+      if (updates.excerpt) safeUpdates.excerpt = sanitizeServerText(updates.excerpt, 500);
+      if (updates.content) safeUpdates.content = sanitizeServerText(updates.content, 50000);
+      if (updates.category) safeUpdates.category = sanitizeServerText(updates.category, 50);
+      if (updates.reading_time) safeUpdates.reading_time = sanitizeServerText(updates.reading_time, 30);
+
+      safeUpdates.updated_at = new Date().toISOString();
 
       const supabase = getSupabase();
       if (supabase) {
-        await supabase.from('blog_posts').update(updates).eq('id', id);
+        await supabase.from('blog_posts').update(safeUpdates).eq('id', id);
       }
 
-      const local = getLocalBlogs().map((b) => (b.id === id ? { ...b, ...updates } : b));
+      const local = getLocalBlogs().map((b) => (b.id === id ? { ...b, ...safeUpdates } : b));
       saveLocalBlogs(local);
 
       return res.status(200).json({ success: true, message: 'Post updated successfully' });

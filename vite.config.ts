@@ -1,3 +1,4 @@
+import './app/api/auth/loadEnv';
 import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
@@ -57,6 +58,33 @@ const backendApiPlugin = (): Plugin => ({
           res.end(JSON.stringify({ error: 'Missing target url parameter' }));
           return;
         }
+
+        const parsed = new URL(target);
+        if (!['http:', 'https:'].includes(parsed.protocol)) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Invalid URL protocol. Only HTTP and HTTPS are permitted.' }));
+          return;
+        }
+
+        const lowerHost = parsed.hostname.toLowerCase();
+        if (
+          lowerHost === 'localhost' ||
+          lowerHost === '127.0.0.1' ||
+          lowerHost === '0.0.0.0' ||
+          lowerHost === '::1' ||
+          lowerHost === '169.254.169.254' ||
+          lowerHost.startsWith('10.') ||
+          lowerHost.startsWith('192.168.') ||
+          lowerHost.endsWith('.local') ||
+          lowerHost.endsWith('.internal')
+        ) {
+          res.statusCode = 403;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: 'Access to private and internal infrastructure is prohibited.' }));
+          return;
+        }
+
         const resp = await fetch(target, {
           headers: {
             'User-Agent':

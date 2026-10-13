@@ -4,6 +4,7 @@ import { Linkedin, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'luci
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { sanitizeText } from '../utils/security';
 
 export interface DirectProjectIntakeProps {
   mode?: 'machine' | 'mind' | 'hybrid';
@@ -78,6 +79,25 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorDetail(null);
+
+    // OWASP Input Sanitization
+    const sanitizedName = sanitizeText(name, 100);
+    const sanitizedContact = sanitizeText(contact, 200);
+    const sanitizedBrief = sanitizeText(projectBrief, 2000);
+
+    if (sanitizedName.length < 2) {
+      setErrorDetail('Please provide a valid name or organization (minimum 2 characters).');
+      return;
+    }
+    if (sanitizedContact.length < 3) {
+      setErrorDetail('Please provide a valid email or LinkedIn profile URL.');
+      return;
+    }
+    if (sanitizedBrief.length < 10) {
+      setErrorDetail('Please provide a project brief with at least 10 characters.');
+      return;
+    }
+
     setStatus('submitting');
     soundEngine.playPop(0.08);
 
@@ -86,12 +106,12 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: name.trim(),
-          contact: contact.trim(),
-          serviceScope,
-          projectBrief: projectBrief.trim(),
+          name: sanitizedName,
+          contact: sanitizedContact,
+          serviceScope: sanitizeText(serviceScope, 100),
+          projectBrief: sanitizedBrief,
           activeMode: mode,
-          trapField,
+          trapField: sanitizeText(trapField, 50),
         }),
       });
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { sanitizeText } from '../utils/security';
 import {
   Terminal as TerminalIcon,
   Cpu,
@@ -819,7 +820,7 @@ if __name__ == "__main__":
             <input
               type="text"
               value={terminalInput}
-              onChange={(e) => setTerminalInput(e.target.value)}
+              onChange={(e) => setTerminalInput(sanitizeText(e.target.value, 200))}
               onKeyDown={handleTerminalKeyDown}
               placeholder="Enter runtime query (e.g. 'help', 'scrape https://example.com', 'info stack')..."
               className="flex-1 bg-transparent text-white focus:outline-none placeholder:text-zinc-500 font-sans"
@@ -909,7 +910,7 @@ if __name__ == "__main__":
               <input
                 type="url"
                 value={scraperUrl}
-                onChange={(e) => setScraperUrl(e.target.value)}
+                onChange={(e) => setScraperUrl(sanitizeText(e.target.value, 500))}
                 placeholder="https://example.com"
                 className="w-full backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl pl-20 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyan-400 transition-colors"
               />
@@ -999,7 +1000,7 @@ if __name__ == "__main__":
                   <input
                     type="text"
                     value={keywordFilter}
-                    onChange={(e) => setKeywordFilter(e.target.value)}
+                    onChange={(e) => setKeywordFilter(sanitizeText(e.target.value, 100))}
                     placeholder="Filter records..."
                     className="w-full backdrop-blur-xl bg-white/[0.03] border border-white/[0.09] rounded-xl pl-8 pr-3 py-2 text-xs font-sans text-white focus:outline-none focus:border-cyan-400"
                   />

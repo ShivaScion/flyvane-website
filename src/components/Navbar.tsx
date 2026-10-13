@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Volume2, VolumeX, Shield } from 'lucide-react';
+import { Search, Volume2, VolumeX } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 interface NavbarProps {
@@ -153,26 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             Publications
           </a>
 
-          <a
-            href="/admin"
-            onMouseEnter={() => soundEngine.playHoverHum()}
-            onClick={(e) => {
-              if (onNavigate) {
-                e.preventDefault();
-                soundEngine.playClick(0.06);
-                onNavigate('/admin');
-              }
-            }}
-            aria-label="Admin Control Vault"
-            title="Admin Control Vault (2FA Protected)"
-            className={`p-2 rounded-lg backdrop-blur-2xl transition-all tactile-btn ${
-              currentPath === '/admin'
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                : 'bg-white/[0.035] hover:bg-white/[0.08] border border-white/[0.09] text-zinc-400 hover:text-zinc-200 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.16)]'
-            }`}
-          >
-            <Shield className="w-3.5 h-3.5" />
-          </a>
+
 
           <button
             type="button"

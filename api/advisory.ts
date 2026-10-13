@@ -1,8 +1,10 @@
 import { processAdvisorySubmission } from '../app/api/advisory/route';
+import { applyOwaspHeaders } from '../app/api/auth/security';
 import fs from 'fs';
 import path from 'path';
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

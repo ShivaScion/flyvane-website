@@ -7,17 +7,18 @@ interface AboutPageProps {
 }
 
 export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps) {
-  const ethics = [
+  // Part 1: Systems Engineering Ethics (Machine)
+  const engineeringEthics = [
     {
       title: 'Anti-Slop Architecture',
-      subtitle: 'Zero vanity features or fragile gimmicks',
+      subtitle: 'Zero vanity features or fragile wrappers',
       description:
         'We refuse to deploy superficial AI wrappers, generic 3-column cookie-cutter templates, or fragile low-code automations that collapse on schema shifts. Every piece of code is bespoke, hardened, and mathematically necessary.',
       icon: <Shield className="w-4 h-4 text-cyan-400" />,
     },
     {
-      title: 'Deterministic Engineering',
-      subtitle: 'State persistence over probabilistic guesses',
+      title: 'Deterministic State Persistence',
+      subtitle: 'Idempotence over probabilistic guessing',
       description:
         'Our systems are engineered around idempotent task queues, cryptographic verification, and strict Pydantic schemas. If an upstream endpoint times out, state machines recover automatically without duplicate ledger transactions.',
       icon: <Cpu className="w-4 h-4 text-emerald-400" />,
@@ -26,33 +27,77 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
       title: 'Radical Client Sovereignty',
       subtitle: '100% intellectual property ownership',
       description:
-        'We build in your cloud accounts (AWS, GCP, Supabase, Vercel). You own the repositories, the scraping logic, the database models, and the output data. No proprietary vendor lock-in or ongoing hostage licensing.',
+        'We build in your cloud accounts (AWS, GCP, Supabase, Vercel). You own the repositories, the scraping logic, the database models, and the output data. No proprietary vendor lock-in or hostage licensing.',
       icon: <CheckCircle2 className="w-4 h-4 text-amber-400" />,
-    },
-    {
-      title: 'Loss-Aversion & Economic Arbitrage',
-      subtitle: 'Quantified commercial accountability',
-      description:
-        'We measure our impact in hard annualized dollar savings and qualified enterprise pipeline, not vague creative agency metrics. We align our retainers directly with the cost of manual labor eliminated.',
-      icon: <Target className="w-4 h-4 text-cyan-400" />,
     },
   ];
 
-  const capabilities = [
+  // Part 2: Behavioral & Commercial Ethics (Mind)
+  const behavioralEthics = [
+    {
+      title: 'Non-Manipulative Cognitive Framing',
+      subtitle: 'Empirical clarity over psychological dark patterns',
+      description:
+        'We reject deceptive growth-hacking tricks, artificial countdown timers, and predatory psychological traps. Every positioning asset is calibrated around genuine economic utility and authentic cognitive clarity.',
+      icon: <Target className="w-4 h-4 text-amber-400" />,
+    },
+    {
+      title: 'Economic Arbitrage Accountability',
+      subtitle: 'Tied directly to quantified downside eliminated',
+      description:
+        'We measure our impact in hard annualized dollar savings and qualified enterprise pipeline, not vague creative agency vanity metrics. We align our retainers directly with the cost of manual labor eliminated.',
+      icon: <Sparkles className="w-4 h-4 text-cyan-400" />,
+    },
+    {
+      title: 'Competitive Playbook Quarantining',
+      subtitle: 'Absolute strategic isolation & client firewalling',
+      description:
+        'Strict ethical information boundaries govern all advisory relationships. We never cross-contaminate proprietary positioning strategies, target account intelligence, or market playbooks between competing accounts.',
+      icon: <Shield className="w-4 h-4 text-violet-400" />,
+    },
+  ];
+
+  // Part 1: Autonomous Engineering Systems (Machine)
+  const engineeringCapabilities = [
     {
       tag: 'MACHINE',
-      title: 'Autonomous Systems & Data Pipelines',
-      desc: 'Headless browser fleets, anti-detection proxy swarms, residential IP rotation, and high-throughput async event buses processing millions of data records without manual intervention.',
+      title: 'Headless Extraction Fleets & Anti-Detection',
+      desc: 'Distributed browser clusters, residential proxy rotation, and strict Pydantic schemas processing web-scale intelligence with 99.4% schema validation SLA.',
+      metrics: 'Sub-second event bus · Anti-bot stealth · Automated delta sync',
+    },
+    {
+      tag: 'MACHINE',
+      title: 'Deterministic State Machines & Queues',
+      desc: 'Stateful workflow graphs built with checkpoint persistence, dead-letter recovery queues, and idempotent retry guarantees that never drop transactions.',
+      metrics: 'Zero-drop persistence · Idempotent task keys · Atomic rollback',
+    },
+    {
+      tag: 'MACHINE',
+      title: 'Intelligent AI Worker Swarms',
+      desc: 'Deterministic background worker agents executing authenticated API calls, document synthesis, and automated reconciliation with human-in-the-loop safeguards.',
+      metrics: '85% manual triage reduction · Strict validation gates · Zero hallucinations',
+    },
+  ];
+
+  // Part 2: Behavioral Strategy & Executive Positioning (Mind)
+  const strategyCapabilities = [
+    {
+      tag: 'MIND',
+      title: 'Category Framing & Market Differentiation',
+      desc: 'High-contrast market positioning that breaks commoditized price wars, exposes competitor blind spots, and commands executive pricing authority.',
+      metrics: 'Category design blueprint · Competitor contrast matrix · Premium pricing leverage',
     },
     {
       tag: 'MIND',
-      title: 'Behavioral Strategy & Executive Positioning',
-      desc: 'Transforming technical complexity into category-defining market authority. Framing commercial offers around loss-aversion, category design, and high-intent enterprise procurement criteria.',
+      title: 'Loss-Aversion Copywriting & Narrative Funnels',
+      desc: 'Rigorously crafted copy and narrative funnels structured around the cost of inaction, organizational risk reduction, and enterprise procurement psychology.',
+      metrics: 'Immediate cognitive clarity · Reduced decision hesitation · High-ticket conversion',
     },
     {
-      tag: 'HYBRID',
-      title: 'The Integrated Enterprise Engine',
-      desc: 'The rare synthesis of deep backend software engineering with high-ticket commercial positioning—enabling companies to operate with machine efficiency and command market dominance.',
+      tag: 'MIND',
+      title: 'Executive Thought Leadership & Syndication',
+      desc: 'Transforming proprietary technical domain insights into repeatable omnichannel distribution, executive position papers, and high-intent inbound pipeline.',
+      metrics: '4.2x executive reach · Inbound qualification · Industry authority',
     },
   ];
 
@@ -62,7 +107,7 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
         <button
           onClick={onNavigateHome}
-          className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2"
+          className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Studio</span>
@@ -126,62 +171,161 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
         </div>
       </InteractiveTiltWrapper>
 
-      {/* Ethics & Principles Section */}
-      <div className="mb-20 space-y-8">
+      {/* Ethics & Principles Section - Divided into 2 Explicit Pillars */}
+      <div className="mb-20 space-y-12">
         <div className="space-y-2">
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-emerald-400 font-semibold block">
             CORE OPERATING DOCTRINE
           </span>
-          <h2 className="text-3xl font-display font-medium text-white tracking-tight">
-            Our Ethics & Engineering Standards
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-white tracking-tight">
+            Our Ethics & Operating Standards
           </h2>
           <p className="text-sm font-sans text-zinc-400 max-w-2xl leading-relaxed">
-            The principles that govern every line of code we push, every architecture we design, and every advisory relationship we enter.
+            Divided into two non-negotiable disciplines: mathematical software engineering rigor paired with uncompromised commercial integrity.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {ethics.map((item, idx) => (
-            <InteractiveTiltWrapper key={idx} className="p-8 space-y-4 relative overflow-hidden" maxTilt={4}>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
-                  {item.icon}
+        {/* Part 1: Systems Engineering Ethics (Machine) */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+            <span className="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase">
+              PILLAR 01
+            </span>
+            <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+              Systems Engineering Doctrine (The Machine)
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {engineeringEthics.map((item, idx) => (
+              <InteractiveTiltWrapper key={idx} className="p-7 space-y-4 relative overflow-hidden" maxTilt={3}>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-sans font-semibold text-white leading-tight">{item.title}</h4>
+                    <span className="text-[10px] font-mono text-zinc-500">{item.subtitle}</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-sans font-semibold text-white leading-tight">{item.title}</h3>
-                  <span className="text-[11px] font-mono text-zinc-500">{item.subtitle}</span>
+                <p className="text-xs font-sans text-zinc-400 leading-relaxed">{item.description}</p>
+              </InteractiveTiltWrapper>
+            ))}
+          </div>
+        </div>
+
+        {/* Part 2: Behavioral & Commercial Ethics (Mind) */}
+        <div className="space-y-6 pt-4">
+          <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+            <span className="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-amber-400 uppercase">
+              PILLAR 02
+            </span>
+            <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+              Behavioral & Commercial Ethics (The Mind)
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {behavioralEthics.map((item, idx) => (
+              <InteractiveTiltWrapper key={idx} className="p-7 space-y-4 relative overflow-hidden" maxTilt={3}>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-sans font-semibold text-white leading-tight">{item.title}</h4>
+                    <span className="text-[10px] font-mono text-zinc-500">{item.subtitle}</span>
+                  </div>
                 </div>
-              </div>
-              <p className="text-sm font-sans text-zinc-400 leading-relaxed">{item.description}</p>
-            </InteractiveTiltWrapper>
-          ))}
+                <p className="text-xs font-sans text-zinc-400 leading-relaxed">{item.description}</p>
+              </InteractiveTiltWrapper>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* What We Do Section */}
-      <div className="mb-20 space-y-8">
+      {/* Services / Practice Capabilities Section - Divided into 2 Explicit Parts */}
+      <div className="mb-20 space-y-12">
         <div className="space-y-2">
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-cyan-400 font-semibold block">
-            PRACTICE PILLARS
+            PRACTICE CAPABILITIES & SERVICES
           </span>
-          <h2 className="text-3xl font-display font-medium text-white tracking-tight">
-            What We Do: Systems That Compound
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-white tracking-tight">
+            What We Do: Two Complementary Disciplines
           </h2>
+          <p className="text-sm font-sans text-zinc-400 max-w-2xl leading-relaxed">
+            Eliminating operational friction with autonomous software machinery while establishing category dominance with high-contrast positioning.
+          </p>
         </div>
 
-        <div className="space-y-4">
-          {capabilities.map((cap, idx) => (
-            <InteractiveTiltWrapper key={idx} className="p-8 space-y-3 relative overflow-hidden" maxTilt={3}>
-              <div className="flex items-center justify-between">
-                <span className="px-2.5 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.08] text-[10px] font-mono font-semibold tracking-wider text-cyan-400 uppercase">
-                  {cap.tag} CAPABILITY
-                </span>
-                <span className="text-xs font-mono text-zinc-600">0{idx + 1}</span>
-              </div>
-              <h3 className="text-xl font-display font-medium text-white">{cap.title}</h3>
-              <p className="text-sm font-sans text-zinc-400 leading-relaxed">{cap.desc}</p>
-            </InteractiveTiltWrapper>
-          ))}
+        {/* Services Part 1: Autonomous Systems Engineering (Machine) */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+            <div className="flex items-center gap-3">
+              <span className="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase">
+                PART 01
+              </span>
+              <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+                Autonomous Systems Engineering (The Machine)
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-zinc-500">INFRASTRUCTURE & CODE</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {engineeringCapabilities.map((cap, idx) => (
+              <InteractiveTiltWrapper key={idx} className="p-7 space-y-3 relative overflow-hidden flex flex-col justify-between" maxTilt={3}>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-mono font-semibold tracking-wider text-cyan-400 uppercase">
+                      MACHINE
+                    </span>
+                    <span className="text-xs font-mono text-zinc-600">0{idx + 1}</span>
+                  </div>
+                  <h4 className="text-base font-display font-medium text-white">{cap.title}</h4>
+                  <p className="text-xs font-sans text-zinc-400 leading-relaxed">{cap.desc}</p>
+                </div>
+                <div className="pt-3 border-t border-white/[0.08] text-[10px] font-mono text-cyan-400/80">
+                  {cap.metrics}
+                </div>
+              </InteractiveTiltWrapper>
+            ))}
+          </div>
+        </div>
+
+        {/* Services Part 2: Behavioral Strategy & Executive Positioning (Mind) */}
+        <div className="space-y-6 pt-4">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+            <div className="flex items-center gap-3">
+              <span className="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-amber-400 uppercase">
+                PART 02
+              </span>
+              <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+                Behavioral Strategy & Executive Positioning (The Mind)
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-zinc-500">COMMERCIAL & AUTHORITY</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {strategyCapabilities.map((cap, idx) => (
+              <InteractiveTiltWrapper key={idx} className="p-7 space-y-3 relative overflow-hidden flex flex-col justify-between" maxTilt={3}>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[9px] font-mono font-semibold tracking-wider text-amber-400 uppercase">
+                      MIND
+                    </span>
+                    <span className="text-xs font-mono text-zinc-600">0{idx + 1}</span>
+                  </div>
+                  <h4 className="text-base font-display font-medium text-white">{cap.title}</h4>
+                  <p className="text-xs font-sans text-zinc-400 leading-relaxed">{cap.desc}</p>
+                </div>
+                <div className="pt-3 border-t border-white/[0.08] text-[10px] font-mono text-amber-400/80">
+                  {cap.metrics}
+                </div>
+              </InteractiveTiltWrapper>
+            ))}
+          </div>
         </div>
       </div>
 

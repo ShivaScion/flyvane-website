@@ -1,8 +1,11 @@
+import '../../app/api/auth/loadEnv';
 import { generateAndStoreOtp } from '../../app/api/auth/otpStore';
+import { applyOwaspHeaders, checkRateLimit } from '../../app/api/auth/security';
 import { Resend } from 'resend';
 import twilio from 'twilio';
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -13,6 +16,16 @@ export default async function handler(req: any, res: any) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // OWASP A07: Brute-Force Rate Limiting (5 requests per 10 minutes)
+  const clientIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'client';
+  const rateLimit = checkRateLimit(`send-otp:${clientIp}`, 5, 10 * 60 * 1000);
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      success: false,
+      error: `Too many 2FA code requests. Please wait ${rateLimit.retryAfterSec} seconds.`,
+    });
   }
 
   try {
@@ -66,6 +79,8 @@ export default async function handler(req: any, res: any) {
       } catch (e: any) {
         dispatchResults.email = `failed: ${e.message}`;
       }
+    } else {
+      dispatchResults.email = 'failed: RESEND_API_KEY not configured';
     }
 
     // 2. Dispatch via Twilio WhatsApp
@@ -86,6 +101,8 @@ export default async function handler(req: any, res: any) {
       } catch (e: any) {
         dispatchResults.whatsapp = `failed: ${e.message}`;
       }
+    } else {
+      dispatchResults.whatsapp = 'failed: TWILIO credentials not configured';
     }
 
     return res.status(200).json({

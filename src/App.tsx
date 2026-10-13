@@ -391,12 +391,6 @@ export function App() {
                   >
                     Terms & Governance
                   </button>
-                  <button
-                    onClick={() => navigate('/admin')}
-                    className="hover:text-amber-400 transition-colors flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>Admin Vault</span>
-                  </button>
                 </div>
               </div>
             </footer>

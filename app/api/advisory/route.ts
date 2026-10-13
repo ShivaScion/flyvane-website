@@ -5,11 +5,12 @@ import twilio from 'twilio';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { sanitizeServerText } from '../auth/security';
 
 export const AdvisoryPayloadSchema = z.object({
   name: z.string().min(2).max(100),
   contact: z.string().min(3).max(200),
-  serviceScope: z.string().min(2),
+  serviceScope: z.string().min(2).max(200),
   projectBrief: z.string().min(10).max(2000),
   activeMode: z.enum(['machine', 'mind', 'hybrid']),
   trapField: z.string().optional().default(''),
@@ -18,6 +19,23 @@ export const AdvisoryPayloadSchema = z.object({
 });
 
 export type AdvisoryPayload = z.infer<typeof AdvisoryPayloadSchema>;
+
+function escapeHtmlServer(str: string): string {
+  if (!str) return '';
+  return str.replace(/[&<>"'`=\/]/g, (s) => {
+    const map: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      '/': '&#x2F;',
+      '`': '&#x60;',
+      '=': '&#x3D;',
+    };
+    return map[s] || s;
+  });
+}
 
 function detectContactType(contact: string): 'email' | 'linkedin' | 'unknown' {
   const trimmed = contact.trim().toLowerCase();
@@ -31,61 +49,72 @@ function detectContactType(contact: string): 'email' | 'linkedin' | 'unknown' {
 }
 
 function buildAdminEmailHtml(payload: AdvisoryPayload, leadId: string): string {
+  const safeName = escapeHtmlServer(payload.name);
+  const safeContact = escapeHtmlServer(payload.contact);
+  const safeScope = escapeHtmlServer(payload.serviceScope);
+  const safeBrief = escapeHtmlServer(payload.projectBrief);
+  const safeMode = escapeHtmlServer(payload.activeMode.toUpperCase());
+  const safeLeadId = escapeHtmlServer(leadId);
+
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 640px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-        FLYVANE ADVISORY INTAKE — ${payload.activeMode.toUpperCase()} MODE
+        FLYVANE ADVISORY INTAKE — ${safeMode} MODE
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 24px 0;">
-        New Advisory Brief from ${payload.name}
+        New Advisory Brief from ${safeName}
       </h1>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px;">
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #A1A1AA; width: 140px;">Lead ID</td>
-          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #FFFFFF; font-family: monospace;">${leadId}</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #FFFFFF; font-family: monospace;">${safeLeadId}</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #A1A1AA;">Client</td>
-          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #FFFFFF; font-weight: 600;">${payload.name}</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #FFFFFF; font-weight: 600;">${safeName}</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #A1A1AA;">Contact Handle</td>
-          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #38BDF8;">${payload.contact}</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #38BDF8;">${safeContact}</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #A1A1AA;">Service Scope</td>
-          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #10B981; font-weight: 600;">${payload.serviceScope}</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #10B981; font-weight: 600;">${safeScope}</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #A1A1AA;">Active Mode</td>
-          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #E4E4E7; text-transform: uppercase;">${payload.activeMode}</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #E4E4E7; text-transform: uppercase;">${safeMode}</td>
         </tr>
       </table>
       <div style="background-color: #0B0D13; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px;">
         <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #A1A1AA; margin-bottom: 10px;">
           Full Project Brief
         </div>
-        <div style="font-size: 14px; line-height: 1.6; color: #F4F4F5; white-space: pre-wrap;">${payload.projectBrief}</div>
+        <div style="font-size: 14px; line-height: 1.6; color: #F4F4F5; white-space: pre-wrap;">${safeBrief}</div>
       </div>
     </div>
   `;
 }
 
 function buildProspectAckHtml(payload: AdvisoryPayload, leadId: string): string {
+  const safeName = escapeHtmlServer(payload.name);
+  const safeScope = escapeHtmlServer(payload.serviceScope);
+  const safeLeadId = escapeHtmlServer(leadId);
+
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 600px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
         FLYVANE ADVISORY DESK
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 16px 0;">
-        Brief Received — ${payload.serviceScope}
+        Brief Received — ${safeScope}
       </h1>
       <p style="font-size: 14px; line-height: 1.6; color: #D4D4D8; margin-bottom: 20px;">
-        Dear ${payload.name},<br/><br/>
-        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${leadId}</span>) has been securely logged with Flyvane. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
+        Dear ${safeName},<br/><br/>
+        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${safeLeadId}</span>) has been securely logged with Flyvane. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
       </p>
       <div style="background-color: #0B0D13; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; font-size: 13px; color: #A1A1AA;">
-        <strong>Submitted Scope:</strong> ${payload.serviceScope}<br/>
+        <strong>Submitted Scope:</strong> ${safeScope}<br/>
         <strong>SLA Response Window:</strong> Within 24 business hours
       </div>
     </div>
@@ -128,15 +157,32 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
       return { status: 200, body: { success: true } };
     }
 
-    const contactType = detectContactType(contact);
+    // OWASP Threat Mitigation: Deep Input Sanitization
+    const sanitizedName = sanitizeServerText(name, 100);
+    const sanitizedContact = sanitizeServerText(contact, 200);
+    const sanitizedServiceScope = sanitizeServerText(serviceScope, 200);
+    const sanitizedProjectBrief = sanitizeServerText(projectBrief, 2000);
+
+    const safePayload: AdvisoryPayload = {
+      name: sanitizedName,
+      contact: sanitizedContact,
+      serviceScope: sanitizedServiceScope,
+      projectBrief: sanitizedProjectBrief,
+      activeMode,
+      trapField: '',
+      website_url: '',
+      trap: '',
+    };
+
+    const contactType = detectContactType(sanitizedContact);
     let leadId: string = crypto.randomUUID();
 
     const recordToInsert = {
-      name,
-      contact_handle: contact,
+      name: sanitizedName,
+      contact_handle: sanitizedContact,
       contact_type: contactType,
-      service_scope: serviceScope,
-      project_brief: projectBrief,
+      service_scope: sanitizedServiceScope,
+      project_brief: sanitizedProjectBrief,
       active_mode: activeMode,
       status: 'new' as const,
     };
@@ -211,15 +257,15 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
             const res = await resend.emails.send({
               from: fromEmail,
               to: adminEmail,
-              subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${name}`,
-              html: buildAdminEmailHtml(parsed.data, leadId),
+              subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+              html: buildAdminEmailHtml(safePayload, leadId),
             });
             if (res.error && res.error.message?.includes('domain')) {
               return resend.emails.send({
                 from: 'onboarding@resend.dev',
                 to: adminEmail,
-                subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${name}`,
-                html: buildAdminEmailHtml(parsed.data, leadId),
+                subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+                html: buildAdminEmailHtml(safePayload, leadId),
               });
             }
             return res;
@@ -231,9 +277,9 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
         dispatchTasks.push(
           resend.emails.send({
             from: fromEmail,
-            to: contact.trim(),
-            subject: `Flyvane Advisory — Brief Received (${serviceScope})`,
-            html: buildProspectAckHtml(parsed.data, leadId),
+            to: sanitizedContact.trim(),
+            subject: `Flyvane Advisory — Brief Received (${sanitizedServiceScope})`,
+            html: buildProspectAckHtml(safePayload, leadId),
           })
         );
       }

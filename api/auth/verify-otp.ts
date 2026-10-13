@@ -1,6 +1,8 @@
 import { verifyOtp, createAdminSession } from '../../app/api/auth/otpStore';
+import { applyOwaspHeaders, checkRateLimit, sanitizeServerText } from '../../app/api/auth/security';
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -13,17 +15,30 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const clientIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'client';
+  const rateLimit = checkRateLimit(`verify-otp:${clientIp}`, 5, 10 * 60 * 1000);
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      success: false,
+      error: `Too many failed attempts. Rate limit exceeded. Try again in ${rateLimit.retryAfterSec} seconds.`,
+    });
+  }
+
   try {
     const rawBody = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
-    const code = (rawBody.code || '').trim();
+    const sanitizedCode = sanitizeServerText(rawBody.code, 6).replace(/\D/g, '');
 
-    if (!code || code.length !== 6) {
-      return res.status(400).json({ success: false, error: 'A valid 6-digit passcode is required.' });
+    if (!sanitizedCode || !/^\d{6}$/.test(sanitizedCode)) {
+      return res.status(400).json({ success: false, error: 'A valid 6-digit numeric passcode is required.' });
     }
 
-    const isValid = verifyOtp(code, 'owner');
+    const isValid = verifyOtp(sanitizedCode, 'owner');
     if (!isValid) {
-      return res.status(401).json({ success: false, error: 'Invalid or expired 2FA passcode.' });
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid or expired 2FA passcode.',
+        remainingAttempts: rateLimit.remaining,
+      });
     }
 
     const token = createAdminSession('ransh4859@gmail.com');

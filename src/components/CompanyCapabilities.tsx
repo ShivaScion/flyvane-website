@@ -19,117 +19,48 @@ interface CompanyCapabilitiesProps {
 }
 
 export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }) => {
-  // Marketing Services Mode: Positioning Standards & Authority Frameworks
-  if (mode === 'mind') {
-    const positioningStandards = [
-      {
-        icon: <Compass className="w-5 h-5 text-amber-400" />,
-        badge: "COGNITIVE VELOCITY",
-        title: "Hook Retention Benchmarks",
-        metric: "Zero Jargon Penalty",
-        description:
-          "Calibrating opening thesis statements and executive headlines for immediate comprehension. Every claim is tested against cognitive velocity standards to eliminate vendor fatigue within the first three seconds of buyer attention.",
-        criteria: [
-          "High-Contrast Problem Framing",
-          "Zero Empty Buzzword Tolerance",
-          "Immediate Economic Relevance"
-        ]
-      },
-      {
-        icon: <Share2 className="w-5 h-5 text-violet-400" />,
-        badge: "EXECUTIVE SYNDICATION",
-        title: "Narrative Distribution Protocols",
-        metric: "Omnichannel Authority",
-        description:
-          "Structuring founder and partner insights into repeatable omnichannel distribution. Proprietary observations are distilled into position papers, executive briefs, and high-intent social cadences.",
-        criteria: [
-          "Multi-Tier Editorial Cadence",
-          "Subject-Matter Extraction",
-          "Consistent Market Presence"
-        ]
-      },
-      {
-        icon: <Target className="w-5 h-5 text-amber-400" />,
-        badge: "CONVERSION ARCHITECTURE",
-        title: "Demand Validation Architecture",
-        metric: "Friction-Free Qualification",
-        description:
-          "Connecting thought leadership directly to commercial pipeline. Every narrative asset routes senior decision-makers toward transparent value models and structured advisory intake.",
-        criteria: [
-          "Pre-Discovery Intent Validation",
-          "Self-Qualifying Value Models",
-          "Direct Partner Intake Routing"
-        ]
-      }
-    ];
+  const positioningStandards = [
+    {
+      icon: <Compass className="w-5 h-5 text-amber-400" />,
+      badge: "COGNITIVE VELOCITY",
+      title: "Hook Retention Benchmarks",
+      metric: "Zero Jargon Penalty",
+      description:
+        "Calibrating opening thesis statements and executive headlines for immediate comprehension. Every claim is tested against cognitive velocity standards to eliminate vendor fatigue within the first three seconds of buyer attention.",
+      criteria: [
+        "High-Contrast Problem Framing",
+        "Zero Empty Buzzword Tolerance",
+        "Immediate Economic Relevance"
+      ]
+    },
+    {
+      icon: <Share2 className="w-5 h-5 text-violet-400" />,
+      badge: "EXECUTIVE SYNDICATION",
+      title: "Narrative Distribution Protocols",
+      metric: "Omnichannel Authority",
+      description:
+        "Structuring founder and partner insights into repeatable omnichannel distribution. Proprietary observations are distilled into position papers, executive briefs, and high-intent social cadences.",
+      criteria: [
+        "Multi-Tier Editorial Cadence",
+        "Subject-Matter Extraction",
+        "Consistent Market Presence"
+      ]
+    },
+    {
+      icon: <Target className="w-5 h-5 text-amber-400" />,
+      badge: "CONVERSION ARCHITECTURE",
+      title: "Demand Validation Architecture",
+      metric: "Friction-Free Qualification",
+      description:
+        "Connecting thought leadership directly to commercial pipeline. Every narrative asset routes senior decision-makers toward transparent value models and structured advisory intake.",
+      criteria: [
+        "Pre-Discovery Intent Validation",
+        "Self-Qualifying Value Models",
+        "Direct Partner Intake Routing"
+      ]
+    }
+  ];
 
-    return (
-      <section id="capabilities" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: stitchEase }}
-          className="mb-14"
-        >
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-amber-400 block mb-2.5 font-semibold">
-            AUTHORITY STANDARDS &amp; COMMERCIAL PROTOCOLS
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
-            Positioning Standards &amp; Authority Frameworks
-          </h2>
-          <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
-            Every Flyvane advisory engagement adheres to strict commercial clarity benchmarks designed to command executive attention and accelerate deal qualification.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {positioningStandards.map((item, idx) => (
-            <InteractiveTiltWrapper
-              key={idx}
-              onMouseEnter={() => soundEngine.playHoverHum()}
-              className="p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
-            >
-              <div className="space-y-4 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
-                    {item.icon}
-                  </div>
-                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20">
-                    {item.metric}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
-                    {item.badge}
-                  </span>
-                  <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
-                    {item.title}
-                  </h3>
-                </div>
-
-                <p className="text-sm font-sans text-zinc-400 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-white/[0.08] space-y-2 relative z-10">
-                {item.criteria.map((c, cIdx) => (
-                  <div key={cIdx} className="flex items-center gap-2 text-xs font-sans text-zinc-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-                    <span>{c}</span>
-                  </div>
-                ))}
-              </div>
-            </InteractiveTiltWrapper>
-          ))}
-        </div>
-      </section>
-    );
-  }
-
-  // Automation Services & Hybrid Mode: Architecture Guarantees & Fault Tolerance
   const guarantees = [
     {
       icon: <Cpu className="w-5 h-5 text-cyan-400" />,
@@ -160,26 +91,21 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
     }
   ];
 
-  return (
-    <section id="capabilities" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.6, ease: stitchEase }}
-        className="mb-14"
-      >
-        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-cyan-400 block mb-2.5 font-semibold">
-          PRODUCTION RELIABILITY &amp; SECURITY STANDARDS
-        </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
-          Architecture Guarantees &amp; Fault Tolerance
-        </h2>
-        <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
-          Flyvane engineers production-grade autonomous infrastructure designed for continuous operation, strict schema integrity, and defensive security.
-        </p>
-      </motion.div>
-
+  const renderGuarantees = (isHybrid = false) => (
+    <div className="space-y-6">
+      {isHybrid && (
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+          <div className="flex items-center gap-3">
+            <span className="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase">
+              PART 01
+            </span>
+            <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+              Systems Engineering &amp; Fault Tolerance (The Machine)
+            </h3>
+          </div>
+          <span className="text-xs font-mono text-zinc-500">PRODUCTION SLA</span>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {guarantees.map((g, idx) => (
           <InteractiveTiltWrapper
@@ -222,6 +148,117 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
           </InteractiveTiltWrapper>
         ))}
       </div>
+    </div>
+  );
+
+  const renderPositioningStandards = (isHybrid = false) => (
+    <div className="space-y-6">
+      {isHybrid && (
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+          <div className="flex items-center gap-3">
+            <span className="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-mono font-bold tracking-[0.2em] text-amber-400 uppercase">
+              PART 02
+            </span>
+            <h3 className="text-lg font-sans font-semibold text-white tracking-wide">
+              Positioning Standards &amp; Commercial Protocols (The Mind)
+            </h3>
+          </div>
+          <span className="text-xs font-mono text-zinc-500">AUTHORITY CRITERIA</span>
+        </div>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {positioningStandards.map((item, idx) => (
+          <InteractiveTiltWrapper
+            key={idx}
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            className="p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="space-y-4 relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20">
+                  {item.metric}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-zinc-500 block mb-1">
+                  {item.badge}
+                </span>
+                <h3 className="text-2xl font-sans font-medium tracking-normal text-white">
+                  {item.title}
+                </h3>
+              </div>
+
+              <p className="text-sm font-sans text-zinc-400 leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-white/[0.08] space-y-2 relative z-10">
+              {item.criteria.map((c, cIdx) => (
+                <div key={cIdx} className="flex items-center gap-2 text-xs font-sans text-zinc-300">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                  <span>{c}</span>
+                </div>
+              ))}
+            </div>
+          </InteractiveTiltWrapper>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <section id="capabilities" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.6, ease: stitchEase }}
+        className="mb-14"
+      >
+        <span
+          className={`text-[11px] font-sans uppercase tracking-[0.2em] block mb-2.5 font-semibold ${
+            mode === 'mind'
+              ? 'text-amber-400'
+              : mode === 'hybrid'
+                ? 'text-cyan-400'
+                : 'text-cyan-400'
+          }`}
+        >
+          {mode === 'mind'
+            ? 'AUTHORITY STANDARDS & COMMERCIAL PROTOCOLS'
+            : mode === 'hybrid'
+              ? 'THE DUAL PRACTICE: SYSTEMS RIGOR & MARKET AUTHORITY'
+              : 'PRODUCTION RELIABILITY & SECURITY STANDARDS'}
+        </span>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-[1.08] text-balance">
+          {mode === 'mind'
+            ? 'Positioning Standards & Authority Frameworks'
+            : mode === 'hybrid'
+              ? 'Two Complementary Standards: Engineering Rigor & Commercial Clarity'
+              : 'Architecture Guarantees & Fault Tolerance'}
+        </h2>
+        <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
+          {mode === 'mind'
+            ? 'Every Flyvane advisory engagement adheres to strict commercial clarity benchmarks designed to command executive attention and accelerate deal qualification.'
+            : mode === 'hybrid'
+              ? 'Flyvane bridges two critical operational pillars: fault-tolerant backend software infrastructure and category-defining commercial authority frameworks.'
+              : 'Flyvane engineers production-grade autonomous infrastructure designed for continuous operation, strict schema integrity, and defensive security.'}
+        </p>
+      </motion.div>
+
+      {mode === 'machine' && renderGuarantees(false)}
+      {mode === 'mind' && renderPositioningStandards(false)}
+      {mode === 'hybrid' && (
+        <div className="space-y-16">
+          {renderGuarantees(true)}
+          {renderPositioningStandards(true)}
+        </div>
+      )}
     </section>
   );
 };

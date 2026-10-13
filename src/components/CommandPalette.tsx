@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2, BookOpen, ShieldCheck, FileText } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
+import { sanitizeText } from '../utils/security';
 
 export interface CommandItem {
   id: string;
@@ -180,13 +181,18 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
 
   const filteredCommands = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return COMMAND_REGISTRY;
-    return COMMAND_REGISTRY.filter(cmd =>
-      cmd.title.toLowerCase().includes(q) ||
-      cmd.subtitle.toLowerCase().includes(q) ||
-      cmd.category.toLowerCase().includes(q) ||
-      cmd.keywords.some(kw => kw.includes(q))
-    );
+    if (!q) return COMMAND_REGISTRY.filter((cmd) => cmd.id !== 'cmd-admin');
+    return COMMAND_REGISTRY.filter((cmd) => {
+      if (cmd.id === 'cmd-admin') {
+        return q === 'admin' || q === 'vault' || q === 'secret';
+      }
+      return (
+        cmd.title.toLowerCase().includes(q) ||
+        cmd.subtitle.toLowerCase().includes(q) ||
+        cmd.category.toLowerCase().includes(q) ||
+        cmd.keywords.some((kw) => kw.includes(q))
+      );
+    });
   }, [query]);
 
   useEffect(() => {
@@ -269,7 +275,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setQuery(sanitizeText(e.target.value, 80))}
             placeholder="Search studio actions, modes, or sections..."
             className="w-full bg-transparent text-sm font-sans text-white focus:outline-none placeholder:text-zinc-500"
             role="combobox"

@@ -1,4 +1,5 @@
 import { validateAdminSession } from '../../app/api/auth/otpStore';
+import { applyOwaspHeaders, sanitizeData, sanitizeServerText } from '../../app/api/auth/security';
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
@@ -15,6 +16,7 @@ function getSupabase() {
 }
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -67,11 +69,14 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ success: false, error: 'Missing content key.' });
       }
 
+      const safeKey = sanitizeServerText(key, 50);
+      const safeValue = sanitizeData(value);
+
       const supabase = getSupabase();
       if (supabase) {
         await supabase
           .from('site_content')
-          .upsert([{ key, value, updated_at: new Date().toISOString() }], { onConflict: 'key' });
+          .upsert([{ key: safeKey, value: safeValue, updated_at: new Date().toISOString() }], { onConflict: 'key' });
       }
 
       // Persist to local store mirror
@@ -79,11 +84,11 @@ export default async function handler(req: any, res: any) {
         const dir = path.dirname(storePath);
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         const existing = fs.existsSync(storePath) ? JSON.parse(fs.readFileSync(storePath, 'utf8') || '{}') : {};
-        existing[key] = value;
+        existing[safeKey] = safeValue;
         fs.writeFileSync(storePath, JSON.stringify(existing, null, 2), 'utf8');
       } catch {}
 
-      return res.status(200).json({ success: true, message: `Content key "${key}" successfully updated.` });
+      return res.status(200).json({ success: true, message: `Content key "${safeKey}" successfully updated.` });
     } catch (err: any) {
       return res.status(500).json({ success: false, error: err.message || 'Failed to update content.' });
     }

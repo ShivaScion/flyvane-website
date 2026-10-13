@@ -1,4 +1,5 @@
 import { validateAdminSession } from '../../app/api/auth/otpStore';
+import { applyOwaspHeaders, sanitizeServerText } from '../../app/api/auth/security';
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
@@ -15,6 +16,7 @@ function getSupabase() {
 }
 
 export default async function handler(req: any, res: any) {
+  applyOwaspHeaders(res);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -65,19 +67,27 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ success: false, error: 'Missing lead id or status.' });
       }
 
+      const safeId = sanitizeServerText(id, 64);
+      const safeStatus = sanitizeServerText(status, 20);
+      const ALLOWED_STATUSES = ['new', 'contacted', 'qualified', 'archived'];
+
+      if (!ALLOWED_STATUSES.includes(safeStatus)) {
+        return res.status(400).json({ success: false, error: 'Invalid lead status.' });
+      }
+
       const supabase = getSupabase();
       if (supabase) {
-        await supabase.from('advisory_leads').update({ status }).eq('id', id);
+        await supabase.from('advisory_leads').update({ status: safeStatus }).eq('id', safeId);
       }
 
       // Update local store
       if (fs.existsSync(storePath)) {
         const records = JSON.parse(fs.readFileSync(storePath, 'utf8') || '[]');
-        const updated = records.map((r: any) => (r.id === id ? { ...r, status } : r));
+        const updated = records.map((r: any) => (r.id === safeId ? { ...r, status: safeStatus } : r));
         fs.writeFileSync(storePath, JSON.stringify(updated, null, 2), 'utf8');
       }
 
-      return res.status(200).json({ success: true, message: `Lead ${id} updated to status "${status}".` });
+      return res.status(200).json({ success: true, message: `Lead ${safeId} updated to status "${safeStatus}".` });
     } catch (err: any) {
       return res.status(500).json({ success: false, error: err.message });
     }
