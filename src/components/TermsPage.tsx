@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Shield, FileCheck, Lock, Terminal, Share2, Check } from 'lucide-react';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { HeadSEO } from './HeadSEO';
 
 interface TermsPageProps {
   onNavigateHome: () => void;
@@ -8,6 +9,31 @@ interface TermsPageProps {
 
 export function TermsPage({ onNavigateHome }: TermsPageProps) {
   const [copied, setCopied] = useState(false);
+
+  const termsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Autonomous Systems Service Terms & Engineering Governance',
+    description: 'Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all Flyvane client engagements.',
+    url: 'https://flyvane.com/terms',
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Studio',
+          item: 'https://flyvane.com/'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Terms & Governance',
+          item: 'https://flyvane.com/terms'
+        }
+      ]
+    }
+  };
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -64,6 +90,13 @@ export function TermsPage({ onNavigateHome }: TermsPageProps) {
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-20">
+      <HeadSEO
+        title="Terms of Service & Governance | Flyvane Systems"
+        description="Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all Flyvane client engagements."
+        canonicalPath="/terms"
+        schema={termsSchema}
+      />
+
       {/* Top Header Navigation */}
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
         <button
@@ -97,13 +130,13 @@ export function TermsPage({ onNavigateHome }: TermsPageProps) {
           </span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">
-          Transparent, deterministic, and built on client sovereignty.
+          Autonomous Systems Service Terms & Engineering Governance
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">
-          These terms govern all advisory, technical automation, and commercial positioning partnerships provided by Flyvane. We operate without legal ambiguity: your data belongs to you, our code runs deterministically, and our pricing is tied directly to quantified economic value.
+          Ambiguous software service agreements create operational vulnerability and unexpected intellectual property disputes. Without clear governance, companies face vendor lock-in, data security risks, and unpredictable automation downtime. These terms establish transparent engineering standards, unconditional client IP ownership, and verifiable SLA frameworks for all Flyvane autonomous partnerships.
         </p>
         <div className="pt-2 flex items-center gap-4 text-xs font-mono text-zinc-500">
-          <span>Effective: October 13, 2026</span>
+          <span>Effective: October 14, 2026</span>
           <span>•</span>
           <span>Jurisdiction: Bangalore, India / Global Enterprise</span>
         </div>

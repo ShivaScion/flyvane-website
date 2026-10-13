@@ -22,6 +22,7 @@ import {
 import { InteractiveTiltWrapper } from '../InteractiveTiltWrapper';
 import { MODE_CONTENT, ModeConfig } from '../../data/modeContent';
 import { sanitizeText, sanitizeOtp } from '../../utils/security';
+import { HeadSEO } from '../HeadSEO';
 
 interface LeadRecord {
   id: string;
@@ -315,6 +316,12 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
   if (!sessionToken) {
     return (
       <div className="min-h-screen bg-[#030406] text-zinc-200 flex items-center justify-center p-4 sm:p-6 select-none relative z-20">
+        <HeadSEO
+          title="Command Vault | Flyvane Administration"
+          description="Restricted executive administration and telemetry interface."
+          canonicalPath="/admin"
+          robots="noindex, nofollow"
+        />
         <InteractiveTiltWrapper className="max-w-md w-full p-8 sm:p-10 space-y-8 relative overflow-hidden border border-white/[0.1]">
           {/* Top Security Header */}
           <div className="text-center space-y-3">
@@ -437,6 +444,12 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
   // ============================================================================
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-24 pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-20">
+      <HeadSEO
+        title="Command Vault Console | Flyvane Administration"
+        description="Restricted executive administration and telemetry interface."
+        canonicalPath="/admin"
+        robots="noindex, nofollow"
+      />
       {/* Top Console Navigation Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 border-b border-white/[0.08] gap-4">
         <div className="flex items-center gap-3">

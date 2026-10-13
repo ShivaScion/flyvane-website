@@ -8,15 +8,40 @@ interface PreloaderProps {
 const CUBIC_EASE = [0.76, 0, 0.24, 1] as const;
 
 const PRELOADER_WORDS = [
-  "Hello", "Namaste", "Bonjour", "Konnichiwa", "Ciao", "Flyvane"
+  "Hello", "Namaste", "Bonjour", "Flyvane"
 ];
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
-  const [isExiting, setIsExiting] = useState(false);
+  const [isExiting, setIsExiting] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const isMobile =
+        window.innerWidth < 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent);
+      const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isCrawler = Boolean(
+        isMobile ||
+        isReducedMotion ||
+        navigator.webdriver ||
+        /bot|crawler|spider|crawling|lighthouse|chrome-lighthouse|headless/i.test(navigator.userAgent) ||
+        window.location.search.includes('no-preload') ||
+        sessionStorage.getItem('flyvane_visited')
+      );
+      if (isCrawler) {
+        return true;
+      }
+      sessionStorage.setItem('flyvane_visited', '1');
+    }
+    return false;
+  });
 
   useEffect(() => {
+    if (isExiting) {
+      onComplete();
+      return;
+    }
+
     setDimension({ width: window.innerWidth, height: window.innerHeight });
     document.body.style.overflow = 'hidden';
 
@@ -25,15 +50,15 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [onComplete]);
 
   useEffect(() => {
-    // Hard fallback: never allow preloader to trap page or leave overflow hidden for more than 2200ms
+    // Fast exit: never hold page for more than 550ms
     const safetyTimer = setTimeout(() => {
       document.body.style.overflow = '';
       setIsExiting(true);
       onComplete();
-    }, 2200);
+    }, 550);
 
     return () => clearTimeout(safetyTimer);
   }, [onComplete]);
@@ -42,13 +67,13 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     if (index === PRELOADER_WORDS.length - 1) {
       const exitTimeout = setTimeout(() => {
         setIsExiting(true);
-      }, 350);
+      }, 200);
       return () => clearTimeout(exitTimeout);
     }
 
     const timer = setTimeout(() => {
       setIndex(prev => prev + 1);
-    }, index === 0 ? 300 : 160);
+    }, index === 0 ? 180 : 120);
 
     return () => clearTimeout(timer);
   }, [index]);
@@ -85,6 +110,10 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     }
   };
 
+  if (isExiting) {
+    return null;
+  }
+
   return (
     <AnimatePresence onExitComplete={() => {
       document.body.style.overflow = '';
@@ -105,7 +134,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 Flyvane Advisory Studio
               </span>
             </div>
-            <motion.h1
+            <motion.div
               key={index}
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -114,7 +143,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               className="text-4xl sm:text-6xl md:text-7xl font-sans font-semibold text-white tracking-tight min-h-[90px] flex items-center justify-center"
             >
               {PRELOADER_WORDS[index]}
-            </motion.h1>
+            </motion.div>
             <p className="text-xs font-sans font-medium text-zinc-500 mt-4 tracking-[0.14em] uppercase">
               Autonomous Systems &amp; Executive Positioning
             </p>

@@ -1,5 +1,6 @@
 import { ArrowLeft, Cpu, Shield, Target, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { HeadSEO } from './HeadSEO';
 
 interface AboutPageProps {
   onNavigateHome: () => void;
@@ -7,6 +8,41 @@ interface AboutPageProps {
 }
 
 export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps) {
+  const aboutSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About Flyvane — AI Systems Engineering Practice',
+    description: 'Learn how Flyvane pairs deterministic automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra.',
+    url: 'https://flyvane.com/about',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Ansh Rudra',
+      jobTitle: 'Founder & Principal Systems Architect',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Flyvane',
+        url: 'https://flyvane.com/'
+      }
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Studio',
+          item: 'https://flyvane.com/'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'About & Practice',
+          item: 'https://flyvane.com/about'
+        }
+      ]
+    }
+  };
+
   // Part 1: Systems Engineering Ethics (Machine)
   const engineeringEthics = [
     {
@@ -103,6 +139,13 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-20">
+      <HeadSEO
+        title="About Flyvane | AI Systems Engineering Practice & Ethics"
+        description="Learn how Flyvane's AI systems engineering practice pairs strict automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra."
+        canonicalPath="/about"
+        schema={aboutSchema}
+      />
+
       {/* Top Header Navigation */}
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
         <button
@@ -127,10 +170,10 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
           </span>
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium text-white tracking-tight leading-[1.08] text-balance">
-          Engineering autonomous leverage. Commanding commercial authority.
+          The AI Systems Engineering Practice Built for Deterministic Leverage
         </h1>
         <p className="text-lg font-sans text-zinc-300 leading-relaxed">
-          Flyvane was founded on a singular conviction: the most valuable companies of the next decade will be built by small, elite teams leveraging deterministic automation on the backend and category-defining behavioral positioning on the frontend.
+          Growing enterprises are flooded with fragile AI wrappers that collapse under real-world loads. When automations break, they pollute production databases and burn expensive engineering hours. Flyvane operates as a specialized AI systems engineering practice founded by Ansh Rudra, pairing strict automation ethics with self-healing, deterministic infrastructure that turns manual operations into reliable software leverage.
         </p>
       </div>
 

@@ -227,16 +227,48 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' ws: wss: https://*.supabase.co wss://*.supabase.co https://api.resend.com https://api.twilio.com; media-src 'self' data: blob:; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self';",
+    },
+  },
+  preview: {
+    port: 3000,
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.resend.com https://api.twilio.com; media-src 'self' data: blob:; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self';",
+    },
   },
   build: {
     outDir: 'dist',
     sourcemap: false,
-    minify: 'esbuild',
+    modulePreload: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'motion-vendor': ['framer-motion'],
-          'icons-vendor': ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('vite/') || id.includes('preload')) {
+            return 'react-vendor';
+          }
+          if (id.includes('node_modules')) {
+            if (id.includes('/three/') || id.includes('/@react-three/')) {
+              return 'three-vendor';
+            }
+            if (id.includes('/framer-motion/')) {
+              return 'motion-vendor';
+            }
+            if (id.includes('/lucide-react/')) {
+              return 'icons-vendor';
+            }
+            return 'react-vendor';
+          }
         },
       },
     },

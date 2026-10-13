@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { HeadSEO } from './HeadSEO';
 
 export interface BlogPost {
   id: string;
@@ -25,6 +26,36 @@ export function BlogIndex({ onNavigateHome, onSelectPost }: BlogIndexProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [isLoading, setIsLoading] = useState(true);
 
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Flyvane Autonomous Architecture Publications',
+    description: 'Explore deep technical publications on autonomous architecture, B2B procurement engineering, AI data pipeline case studies, and enterprise systems design.',
+    url: 'https://flyvane.com/blog',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Flyvane',
+      url: 'https://flyvane.com/'
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Studio',
+          item: 'https://flyvane.com/'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Publications',
+          item: 'https://flyvane.com/blog'
+        }
+      ]
+    }
+  };
+
   useEffect(() => {
     fetch('/api/admin/blogs')
       .then((res) => res.json())
@@ -43,6 +74,13 @@ export function BlogIndex({ onNavigateHome, onSelectPost }: BlogIndexProps) {
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-20">
+      <HeadSEO
+        title="Flyvane | Autonomous Architecture & Engineering Insights"
+        description="Explore deep technical publications on autonomous architecture, B2B procurement engineering, AI data pipeline case studies, and enterprise systems design."
+        canonicalPath="/blog"
+        schema={blogSchema}
+      />
+
       {/* Header bar */}
       <div className="flex items-center justify-between pb-12 border-b border-white/[0.08]">
         <button
@@ -64,10 +102,10 @@ export function BlogIndex({ onNavigateHome, onSelectPost }: BlogIndexProps) {
           DISPATCHES FROM THE ENGINE ROOM
         </span>
         <h1 className="text-4xl sm:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">
-          Systems engineering, category psychology, and autonomous infrastructure.
+          Autonomous Architecture Publications for Technical Leaders
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">
-          Technical post-mortems, behavioral economics frameworks, and architecture blueprints authored by Ansh Rudra and the Flyvane team.
+          Enterprise engineering teams are overwhelmed by shallow AI demos that fail under production workloads. Implementing brittle prototypes wastes quarters of developer payroll and leaves data architectures corrupted. Our publications deliver battle-tested architectural blueprints, B2B procurement analyses, and real-world AI data pipeline case studies authored by Ansh Rudra and the Flyvane team.
         </p>
       </div>
 

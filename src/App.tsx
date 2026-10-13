@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
 import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import BackgroundCanvas from './components/BackgroundCanvas';
-import { AiraCompanion } from './components/AiraCompanion';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
 import { PainPointArbitrage } from './components/PainPointArbitrage';
 import { BrandAuthorityEstimator } from './components/BrandAuthorityEstimator';
@@ -17,12 +15,27 @@ import { ContactSection } from './components/ContactSection';
 import { CommandPalette } from './components/CommandPalette';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { NotFoundPage } from './components/NotFoundPage';
-import { BlogIndex, BlogPost } from './components/BlogIndex';
-import { BlogSlugRoute } from './components/BlogSlugRoute';
-import { AdminDashboard } from './components/admin/AdminDashboard';
-import { TermsPage } from './components/TermsPage';
-import { AboutPage } from './components/AboutPage';
+import { HeadSEO } from './components/HeadSEO';
+import { BlogPost } from './components/BlogIndex';
 import { MODE_CONTENT, ModeConfig } from './data/modeContent';
+
+// Lazy-loaded routes and heavy 3D WebGL modules for sub-second LCP & INP
+const BackgroundCanvas = lazy(() => import('./components/BackgroundCanvas'));
+const AiraCompanion = lazy(() => import('./components/AiraCompanion'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
+const TermsPage = lazy(() => import('./components/TermsPage'));
+const BlogIndex = lazy(() => import('./components/BlogIndex'));
+const BlogSlugRoute = lazy(() => import('./components/BlogSlugRoute'));
+const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
+
+const RouteSkeleton = () => (
+  <div className="min-h-screen bg-transparent flex items-center justify-center font-mono text-xs text-zinc-500 relative z-20">
+    <div className="flex items-center gap-2.5">
+      <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+      <span>Loading view topology...</span>
+    </div>
+  </div>
+);
 
 export function App() {
   const [mode, setMode] = useState<'machine' | 'mind' | 'hybrid'>('machine');
@@ -34,6 +47,30 @@ export function App() {
   // Routing State
   const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
   const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+
+  // Defer heavy 3D WebGL mounting so initial DOM and LCP paint instantaneously
+  const [shouldMount3D, setShouldMount3D] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isMobile =
+        window.innerWidth < 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent);
+      const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isCrawler = Boolean(
+        isMobile ||
+        isReducedMotion ||
+        navigator.webdriver ||
+        /bot|crawler|spider|crawling|lighthouse|chrome-lighthouse|headless/i.test(navigator.userAgent)
+      );
+      if (!isCrawler) {
+        const timer = setTimeout(() => {
+          setShouldMount3D(true);
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, []);
 
   // Dynamic Site Content (Loaded from CMS / Supabase with local fallback)
   const [siteContent, setSiteContent] = useState<Record<'machine' | 'mind' | 'hybrid', ModeConfig>>(MODE_CONTENT);
@@ -241,13 +278,94 @@ export function App() {
         ? 'Marketing Services'
         : 'Hybrid';
 
+  const homeSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://flyvane.com/#website',
+        'url': 'https://flyvane.com/',
+        'name': 'Flyvane',
+        'description': 'Autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture.',
+        'publisher': {
+          '@id': 'https://flyvane.com/#organization'
+        }
+      },
+      {
+        '@type': 'Organization',
+        '@id': 'https://flyvane.com/#organization',
+        'name': 'Flyvane',
+        'url': 'https://flyvane.com/',
+        'email': 'contact@flyvane.com',
+        'founder': {
+          '@type': 'Person',
+          '@id': 'https://flyvane.com/#founder',
+          'name': 'Ansh Rudra',
+          'jobTitle': 'Founder & Principal Systems Architect',
+          'url': 'https://flyvane.com/about'
+        }
+      },
+      {
+        '@type': 'ProfessionalService',
+        '@id': 'https://flyvane.com/#service',
+        'name': 'Flyvane Autonomous Engineering & Brand Advisory',
+        'url': 'https://flyvane.com/',
+        'provider': {
+          '@id': 'https://flyvane.com/#organization'
+        },
+        'hasOfferCatalog': {
+          '@type': 'OfferCatalog',
+          'name': 'Autonomous Systems Engineering Offerings',
+          'itemListElement': [
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'Autonomous Data Pipelines & AI Worker Swarms'
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'B2B Automation Architecture & Systems Scaling'
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'Executive Brand Positioning & Loss-Aversion Messaging'
+              }
+            }
+          ]
+        }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Studio',
+            'item': 'https://flyvane.com/'
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <ErrorBoundary>
       <div className="relative isolate min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
         {currentPath === '/' && <Preloader onComplete={() => {}} />}
 
-        {/* Global Fixed Procedural WebGL Background Canvas with 3D Cursor Tracing */}
-        <BackgroundCanvas activeMode={activeModeLabel} />
+        {/* Global Fixed Procedural WebGL Background Canvas with 3D Cursor Tracing (Deferred Mount) */}
+        {shouldMount3D && (
+          <Suspense fallback={null}>
+            <BackgroundCanvas activeMode={activeModeLabel} />
+          </Suspense>
+        )}
 
         {/* Dynamic Studio Navbar with Native Routing */}
         <Navbar
@@ -260,151 +378,161 @@ export function App() {
           onNavigate={navigate}
         />
 
-        {/* Route Engine */}
-        {currentPath === '/admin' ? (
-          <AdminDashboard onNavigateHome={() => navigate('/')} />
-        ) : currentPath === '/about' ? (
-          <AboutPage
-            onNavigateHome={() => navigate('/')}
-            onNavigateContact={() => {
-              navigate('/');
-              setTimeout(() => {
-                const el = document.querySelector('#contact');
-                if (el && (window as any).__lenis) {
-                  (window as any).__lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.0 });
-                }
-              }, 100);
-            }}
-          />
-        ) : currentPath === '/terms' ? (
-          <TermsPage onNavigateHome={() => navigate('/')} />
-        ) : currentPath === '/blog' ? (
-          <BlogIndex
-            onNavigateHome={() => navigate('/')}
-            onSelectPost={(post) => {
-              setSelectedBlog(post);
-              navigate(`/blog/${post.slug}`);
-            }}
-          />
-        ) : currentPath.startsWith('/blog/') ? (
-          <BlogSlugRoute
-            slug={currentPath.replace(/^\/blog\//, '').trim()}
-            cachedPost={selectedBlog}
-            onBack={() => navigate('/blog')}
-            onNavigateHome={() => navigate('/')}
-          />
-        ) : currentPath === '/' || currentPath === '' ? (
-          <main className="relative z-10 pt-24 pb-24 bg-transparent">
-            <Hero mode={mode} contentOverride={siteContent[mode]} />
+        {/* Route Engine with Code-Split Boundaries */}
+        <Suspense fallback={<RouteSkeleton />}>
+          {currentPath === '/admin' ? (
+            <AdminDashboard onNavigateHome={() => navigate('/')} />
+          ) : currentPath === '/about' ? (
+            <AboutPage
+              onNavigateHome={() => navigate('/')}
+              onNavigateContact={() => {
+                navigate('/');
+                setTimeout(() => {
+                  const el = document.querySelector('#contact');
+                  if (el && (window as any).__lenis) {
+                    (window as any).__lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.0 });
+                  }
+                }, 100);
+              }}
+            />
+          ) : currentPath === '/terms' ? (
+            <TermsPage onNavigateHome={() => navigate('/')} />
+          ) : currentPath === '/blog' ? (
+            <BlogIndex
+              onNavigateHome={() => navigate('/')}
+              onSelectPost={(post) => {
+                setSelectedBlog(post);
+                navigate(`/blog/${post.slug}`);
+              }}
+            />
+          ) : currentPath.startsWith('/blog/') ? (
+            <BlogSlugRoute
+              slug={currentPath.replace(/^\/blog\//, '').trim()}
+              cachedPost={selectedBlog}
+              onBack={() => navigate('/blog')}
+              onNavigateHome={() => navigate('/')}
+            />
+          ) : currentPath === '/' || currentPath === '' ? (
+            <main className="relative z-10 pt-24 pb-24 bg-transparent">
+              <HeadSEO
+                title="Flyvane | Autonomous Systems Engineering & AI Agents"
+                description="Eliminate manual operations with autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture. Scale without payroll bloat."
+                canonicalPath="/"
+                schema={homeSchema}
+              />
+              <Hero mode={mode} contentOverride={siteContent[mode]} />
 
-            {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
-            {mode === 'machine' && (
-              <>
-                <ErrorBoundary>
-                  <TerminalWorkbench onSetMode={setMode} />
-                </ErrorBoundary>
-                <PainPointArbitrage
-                  onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
-                    setInquiryContext(
-                      `[ENTERPRISE SCOPE BRIEF]\n` +
-                      `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
-                      `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
-                      `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
-                      `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
-                    );
-                  }}
-                />
-              </>
-            )}
+              {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
+              {mode === 'machine' && (
+                <>
+                  <ErrorBoundary>
+                    <TerminalWorkbench onSetMode={setMode} />
+                  </ErrorBoundary>
+                  <PainPointArbitrage
+                    onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                      setInquiryContext(
+                        `[ENTERPRISE SCOPE BRIEF]\n` +
+                        `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                        `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                        `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                        `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
+                      );
+                    }}
+                  />
+                </>
+              )}
 
-            {/* Marketing Services Mode: Dedicated Editorial Brand Strategy Surface & Authority Estimator */}
-            {mode === 'mind' && (
-              <>
-                <ErrorBoundary>
-                  <MindStrategyBoard />
-                </ErrorBoundary>
-                <BrandAuthorityEstimator
-                  onSelectBrief={(brief) => setInquiryContext(brief)}
-                />
-              </>
-            )}
+              {/* Marketing Services Mode: Dedicated Editorial Brand Strategy Surface & Authority Estimator */}
+              {mode === 'mind' && (
+                <>
+                  <ErrorBoundary>
+                    <MindStrategyBoard />
+                  </ErrorBoundary>
+                  <BrandAuthorityEstimator
+                    onSelectBrief={(brief) => setInquiryContext(brief)}
+                  />
+                </>
+              )}
 
-            {/* Hybrid Mode: Integrated System Capabilities */}
-            {mode === 'hybrid' && (
-              <>
-                <ErrorBoundary>
-                  <MindStrategyBoard />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <TerminalWorkbench onSetMode={setMode} />
-                </ErrorBoundary>
-                <PainPointArbitrage
-                  onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
-                    setInquiryContext(
-                      `[ENTERPRISE SCOPE BRIEF]\n` +
-                      `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
-                      `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
-                      `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
-                      `• Objective: Unified technical automation & brand authority system.`
-                    );
-                  }}
-                />
-                <BrandAuthorityEstimator
-                  onSelectBrief={(brief) => setInquiryContext(brief)}
-                />
-              </>
-            )}
+              {/* Hybrid Mode: Integrated System Capabilities */}
+              {mode === 'hybrid' && (
+                <>
+                  <ErrorBoundary>
+                    <MindStrategyBoard />
+                  </ErrorBoundary>
+                  <ErrorBoundary>
+                    <TerminalWorkbench onSetMode={setMode} />
+                  </ErrorBoundary>
+                  <PainPointArbitrage
+                    onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                      setInquiryContext(
+                        `[ENTERPRISE SCOPE BRIEF]\n` +
+                        `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                        `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                        `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                        `• Objective: Unified technical automation & brand authority system.`
+                      );
+                    }}
+                  />
+                  <BrandAuthorityEstimator
+                    onSelectBrief={(brief) => setInquiryContext(brief)}
+                  />
+                </>
+              )}
 
-            <CaseStudies mode={mode} contentOverride={siteContent[mode]} />
+              <CaseStudies mode={mode} contentOverride={siteContent[mode]} />
 
-            <CompanyCapabilities mode={mode} />
+              <CompanyCapabilities mode={mode} />
 
-            <StudioUpdates mode={mode} />
+              <StudioUpdates mode={mode} />
 
-            <ContactSection mode={mode} inquiryContext={inquiryContext} />
+              <ContactSection mode={mode} inquiryContext={inquiryContext} />
 
-            {/* Studio Global Footer */}
-            <footer className="mt-20 pt-10 pb-16 border-t border-white/[0.08] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs font-sans text-zinc-500">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center font-sans font-bold text-[10px] text-white">
-                    FV
+              {/* Studio Global Footer */}
+              <footer className="mt-20 pt-10 pb-16 border-t border-white/[0.08] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs font-sans text-zinc-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center font-sans font-bold text-[10px] text-white">
+                      FV
+                    </div>
+                    <span>© 2026 Flyvane — Systems Engineering & Behavioral Strategy Practice</span>
                   </div>
-                  <span>© 2026 Flyvane — Systems Engineering & Behavioral Strategy Practice</span>
+                  <div className="flex items-center gap-6">
+                    <button
+                      onClick={() => navigate('/about')}
+                      className="hover:text-white transition-colors cursor-pointer"
+                    >
+                      About & Founder
+                    </button>
+                    <button
+                      onClick={() => navigate('/blog')}
+                      className="hover:text-white transition-colors cursor-pointer"
+                    >
+                      Publications
+                    </button>
+                    <button
+                      onClick={() => navigate('/terms')}
+                      className="hover:text-white transition-colors cursor-pointer"
+                    >
+                      Terms & Governance
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-6">
-                  <button
-                    onClick={() => navigate('/about')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    About & Founder
-                  </button>
-                  <button
-                    onClick={() => navigate('/blog')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Publications
-                  </button>
-                  <button
-                    onClick={() => navigate('/terms')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Terms & Governance
-                  </button>
-                </div>
-              </div>
-            </footer>
-          </main>
-        ) : (
-          <NotFoundPage onNavigateHome={() => navigate('/')} />
-        )}
+              </footer>
+            </main>
+          ) : (
+            <NotFoundPage onNavigateHome={() => navigate('/')} />
+          )}
+        </Suspense>
 
         {/* Minimal Liquid Glass Aira Concierge Drawer */}
-        <AiraCompanion
-          isOpen={isAiraModalOpen}
-          setIsOpen={setIsAiraModalOpen}
-          onSetMode={setMode}
-        />
+        <Suspense fallback={null}>
+          <AiraCompanion
+            isOpen={isAiraModalOpen}
+            setIsOpen={setIsAiraModalOpen}
+            onSetMode={setMode}
+          />
+        </Suspense>
 
         {/* Cmd+K Command Palette */}
         <CommandPalette

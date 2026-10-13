@@ -1,6 +1,7 @@
 import { ArrowLeft, Clock, Calendar, Share2, Check } from 'lucide-react';
 import { useState } from 'react';
 import { BlogPost } from './BlogIndex';
+import { HeadSEO } from './HeadSEO';
 
 interface BlogPostViewProps {
   post: BlogPost;
@@ -10,6 +11,50 @@ interface BlogPostViewProps {
 export function BlogPostView({ post, onBack }: BlogPostViewProps) {
   const [copied, setCopied] = useState(false);
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.published_at,
+    dateModified: post.published_at,
+    author: {
+      '@type': 'Person',
+      name: 'Ansh Rudra',
+      jobTitle: 'Principal Systems Architect',
+      url: 'https://flyvane.com/about'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Flyvane',
+      url: 'https://flyvane.com/'
+    },
+    mainEntityOfPage: `https://flyvane.com/blog/${post.slug}`,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Studio',
+          item: 'https://flyvane.com/'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Publications',
+          item: 'https://flyvane.com/blog'
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: post.title,
+          item: `https://flyvane.com/blog/${post.slug}`
+        }
+      ]
+    }
+  };
+
   const handleShare = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
@@ -18,8 +63,18 @@ export function BlogPostView({ post, onBack }: BlogPostViewProps) {
     }
   };
 
+  const cleanTitle = post.title.length > 48 ? `${post.title.slice(0, 47)}…` : post.title;
+  const pageTitle = `${cleanTitle} | Flyvane`;
+  const pageDesc = post.excerpt.length > 150 ? `${post.excerpt.slice(0, 147)}...` : post.excerpt;
+
   return (
     <article className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto relative z-20">
+      <HeadSEO
+        title={pageTitle}
+        description={pageDesc}
+        canonicalPath={`/blog/${post.slug}`}
+        schema={articleSchema}
+      />
       {/* Top Navigation */}
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
         <button

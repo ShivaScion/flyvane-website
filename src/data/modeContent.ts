@@ -45,13 +45,13 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     tagline: "Autonomous Systems & Operational Engineering",
     badge: "ENGINEERING & AUTONOMOUS PROCESS INFRASTRUCTURE",
     heroHeadline: {
-      lead: "Automate the",
-      emphasis: "boring.",
-      subLead: "Architect the",
-      subEmphasis: "autonomous."
+      lead: "Autonomous Systems Engineering to",
+      emphasis: "Eliminate Operations Friction",
+      subLead: "Cut operational payroll bloat by 65% with",
+      subEmphasis: "resilient AI agent workflows and self-healing B2B automation architecture."
     },
     heroDescription:
-      "We engineer bespoke data extraction pipelines, intelligent worker swarms, and headless systems that replace fragile manual labor with zero-operator reliability.",
+      "Growing enterprises bleed margins when manual operators copy records across fragile scripts. Every delayed workflow costs revenue and introduces human error. Flyvane engineers bespoke autonomous systems and AI agent workflows that run 24/7 with deterministic reliability—freeing your best talent for high-margin growth.",
     ctaPrimary: "Explore Architecture",
     ctaPrimaryHash: "#workbench",
     ctaSecondary: "Initialize Advisory",
@@ -127,13 +127,13 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     tagline: "Strategic Brand Differentiation & Audience Communication",
     badge: "BEHAVIORAL STRATEGY & EXECUTIVE POSITIONING",
     heroHeadline: {
-      lead: "Market the",
-      emphasis: "brilliant.",
-      subLead: "Command the",
-      subEmphasis: "authority."
+      lead: "Autonomous Brand Systems to",
+      emphasis: "Command Enterprise Authority",
+      subLead: "Transform commoditized features into",
+      subEmphasis: "executive category dominance through loss-aversion positioning."
     },
     heroDescription:
-      "Transforming technical complexity into category-defining market authority. We architect founder positioning, high-intent narrative funnels, and enterprise demand engines.",
+      "Most B2B companies pitch generic features and compete in brutal pricing wars. Enterprise committees delay decisions because gain-framed messaging fails to trigger urgency. Flyvane reframes your positioning around enterprise loss aversion and risk elimination, accelerating deal velocity and securing high-ticket commitments.",
     ctaPrimary: "View Strategy Frameworks",
     ctaPrimaryHash: "#strategy-board",
     ctaSecondary: "Retain Advisory",
@@ -209,13 +209,13 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
     tagline: "Strategy Connected to Execution — The Integrated Practice",
     badge: "INTEGRATED SYSTEMS & COMMERCIAL AUTHORITY",
     heroHeadline: {
-      lead: "Automate the",
-      emphasis: "boring.",
-      subLead: "Market the",
-      subEmphasis: "brilliant."
+      lead: "Autonomous Systems Engineering &",
+      emphasis: "Category Market Authority",
+      subLead: "End-to-end technical automation paired with",
+      subEmphasis: "category-defining behavioral market positioning."
     },
     heroDescription:
-      "Flyvane integrates autonomous engineering with executive positioning. We build the technical infrastructure that scales your operations and the strategic authority that captures enterprise demand.",
+      "Disjointed operations and weak market positioning create friction that chokes business scale. Manual bottlenecks slow delivery while generic positioning kills margin. Flyvane unites autonomous backend engineering with executive commercial strategy to build scalable, category-defining market leaders.",
     ctaPrimary: "Explore Integrated Systems",
     ctaPrimaryHash: "#capabilities",
     ctaSecondary: "Retain Advisory",

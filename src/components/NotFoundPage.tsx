@@ -1,25 +1,32 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Compass, RefreshCw } from 'lucide-react';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
+import { HeadSEO } from './HeadSEO';
 
 interface NotFoundProps {
   onNavigateHome: () => void;
 }
 
 export function NotFoundPage({ onNavigateHome }: NotFoundProps) {
-  const [countdown, setCountdown] = useState(12);
+  const [countdown, setCountdown] = useState<number>(12);
 
   useEffect(() => {
     if (countdown <= 0) {
       onNavigateHome();
       return;
     }
-    const timer = setInterval(() => setCountdown((c) => c - 1), 1000);
+    const timer = setInterval(() => setCountdown((c: number) => c - 1), 1000);
     return () => clearInterval(timer);
   }, [countdown, onNavigateHome]);
 
   return (
     <div className="min-h-screen bg-[#030406] text-zinc-200 flex items-center justify-center p-4 sm:p-6 select-none relative z-20">
+      <HeadSEO
+        title="404 — Page Not Found | Flyvane Systems"
+        description="The requested trajectory does not exist in the Flyvane network topology. Auto-redirecting to Studio."
+        canonicalPath="/404"
+        robots="noindex, nofollow"
+      />
       <InteractiveTiltWrapper className="max-w-xl w-full p-8 sm:p-12 text-center space-y-8 relative overflow-hidden">
         {/* Optical Glow Accent */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent blur-sm" />
