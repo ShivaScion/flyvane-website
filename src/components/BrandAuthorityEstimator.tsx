@@ -78,9 +78,8 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
         {/* Left Column: Authority Inputs (6 cols) */}
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-7"
+          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-7 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-amber-400 uppercase tracking-[0.2em] flex items-center gap-2">
               <Users className="w-4 h-4 text-amber-400" />
@@ -187,7 +186,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] text-sm font-sans text-zinc-400 leading-relaxed">
+          <div className="liquid-glass-inner text-sm font-sans text-zinc-400 leading-relaxed">
             <span className="text-zinc-200 font-medium block mb-1">Methodology Note</span>
             Projections model organic executive distribution combined with loss-aversion category framing and conversion-calibrated profile funnels.
           </div>
@@ -196,9 +195,8 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
         {/* Right Column: Calculated Authority & Pipeline Outputs (6 cols) */}
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-6"
+          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-amber-400 uppercase tracking-[0.2em] flex items-center gap-2">
               <Award className="w-4 h-4 text-amber-400" />
@@ -210,7 +208,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-white/[0.025] border border-white/[0.08] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)] space-y-1.5">
+            <div className="liquid-glass-inner space-y-1.5">
               <span className="text-xs font-sans text-zinc-400 block">
                 Projected Monthly High-Intent Profile Impressions
               </span>
@@ -222,7 +220,7 @@ export const BrandAuthorityEstimator: React.FC<BrandAuthorityEstimatorProps> = (
               </span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white/[0.025] border border-white/[0.08] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.12)] space-y-1.5">
+            <div className="liquid-glass-inner space-y-1.5">
               <span className="text-xs font-sans text-zinc-400 block">
                 Estimated Qualified Inbound Conversations per Quarter
               </span>

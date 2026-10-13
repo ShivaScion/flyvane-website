@@ -780,9 +780,8 @@ if __name__ == "__main__":
       {activeTab === 'terminal' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-4"
+          className="liquid-glass-card p-6 sm:p-8 space-y-4 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] relative z-10">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.08]">
@@ -796,7 +795,7 @@ if __name__ == "__main__":
             </div>
           </div>
 
-          <div ref={terminalScrollRef} className="backdrop-blur-xl bg-white/[0.02] rounded-xl border border-white/[0.08] p-4 font-mono text-xs h-80 overflow-y-auto space-y-2 relative z-10">
+          <div ref={terminalScrollRef} className="liquid-glass-inner font-mono text-xs h-80 overflow-y-auto space-y-2 relative z-10">
             {terminalHistory.map((item, i) => (
               <div
                 key={i}
@@ -839,9 +838,8 @@ if __name__ == "__main__":
       {activeTab === 'scraper' && (
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-6"
+          className="liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
             <div>
@@ -1044,7 +1042,7 @@ if __name__ == "__main__":
 
           {/* Results Grid: Clean 3 Records (Left) & Playwright Script (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-7 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs space-y-4">
+            <div className="lg:col-span-7 liquid-glass-inner text-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-zinc-400">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${isScraping ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
@@ -1128,7 +1126,7 @@ if __name__ == "__main__":
               </div>
             </div>
 
-            <div className="lg:col-span-5 backdrop-blur-2xl bg-white/[0.03] rounded-2xl border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] p-5 text-xs flex flex-col justify-between space-y-3">
+            <div className="lg:col-span-5 liquid-glass-inner text-xs flex flex-col justify-between space-y-3">
               <div>
                 <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-white/[0.08] text-zinc-400">
                   <span className="flex items-center gap-1.5 text-white font-sans font-semibold">

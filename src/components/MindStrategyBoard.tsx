@@ -160,16 +160,15 @@ export const MindStrategyBoard: React.FC = () => {
         </button>
       </div>
 
-      {/* Board Presentation Surface in Section 4.2 & 4.3 Liquid Glass Master Tokens */}
+      {/* Phase 3.1: Strategy Board Main Container with .liquid-glass-card */}
       <motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-8"
+        className="liquid-glass-card p-6 sm:p-8 space-y-8 relative overflow-hidden"
       >
-        <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.08] relative z-10">
           <div>
             <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-amber-400 block mb-1">
@@ -188,14 +187,13 @@ export const MindStrategyBoard: React.FC = () => {
           {current.summary}
         </p>
 
-        {/* 3 Step Editorial Cards in Section 4.2 & 4.3 Liquid Glass */}
+        {/* Phase 3.2: 01, 02, 03 Positioning Matrix steps with .liquid-glass-inner */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 relative z-10">
           {current.pillars.map((p, idx) => (
             <div
               key={idx}
-              className="liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-3 flex flex-col justify-between"
+              className="liquid-glass-inner space-y-3 flex flex-col justify-between"
             >
-              <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
               <div className="space-y-3 relative z-10">
                 <span className="w-7 h-7 rounded-full bg-amber-500/10 border border-amber-500/30 font-mono text-xs text-amber-400 flex items-center justify-center font-semibold">
                   0{idx + 1}

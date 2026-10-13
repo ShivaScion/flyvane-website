@@ -91,9 +91,8 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
               onMouseEnter={() => soundEngine.playHoverHum()}
-              className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between"
+              className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
             >
-              <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
               <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
@@ -193,9 +192,8 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between"
+            className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between relative overflow-hidden"
           >
-            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
             <div className="space-y-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">

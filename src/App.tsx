@@ -4,9 +4,8 @@ import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { BackgroundCanvas } from './components/BackgroundCanvas';
+import CinematicBackground from './components/CinematicBackground';
 import { AiraCompanion } from './components/AiraCompanion';
-import { AiraVoiceModal } from './components/AiraVoiceModal';
 import { TerminalWorkbench } from './components/TerminalWorkbench';
 import { PainPointArbitrage } from './components/PainPointArbitrage';
 import { BrandAuthorityEstimator } from './components/BrandAuthorityEstimator';
@@ -162,15 +161,19 @@ export function App() {
     }
   };
 
+  const activeModeLabel =
+    mode === 'machine'
+      ? 'Automation Services'
+      : mode === 'mind'
+        ? 'Marketing Services'
+        : 'Hybrid';
+
   return (
     <div className="relative min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
       <Preloader onComplete={() => {}} />
 
-      {/* Section 1.1 & 1.2: Global Fixed 3D Background Canvas at Root Layout Level */}
-      <ErrorBoundary fallback={null}>
-        <BackgroundCanvas mode={mode} />
-      </ErrorBoundary>
-      <div className="fixed inset-0 noise-overlay pointer-events-none -z-40" />
+      {/* Phase 2.2: Global Fixed Cinematic Background at Root Layout Level */}
+      <CinematicBackground activeMode={activeModeLabel} />
 
       {/* Navbar */}
       <Navbar
@@ -252,14 +255,11 @@ export function App() {
         <ContactSection mode={mode} inquiryContext={inquiryContext} />
       </main>
 
-      {/* Passive Bottom-Right Aira Concierge Dock */}
-      <AiraCompanion onOpenModal={() => setIsAiraModalOpen(true)} />
-
-      {/* Aira Concierge Text Modal */}
-      <AiraVoiceModal
+      {/* Phase 5: Minimal Liquid Glass Aira Concierge Drawer */}
+      <AiraCompanion
         isOpen={isAiraModalOpen}
-        onClose={() => setIsAiraModalOpen(false)}
-        onCommand={handleCommand}
+        setIsOpen={setIsAiraModalOpen}
+        onSetMode={setMode}
       />
 
       {/* Cmd+K Command Palette */}

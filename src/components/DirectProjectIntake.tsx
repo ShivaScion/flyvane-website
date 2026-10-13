@@ -124,9 +124,8 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.65, ease: stitchEase }}
         onMouseEnter={() => soundEngine.playHoverHum()}
-        className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 lg:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out"
+        className="liquid-glass-card p-6 sm:p-8 lg:p-12 relative overflow-hidden"
       >
-        <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
           
           {/* Left Column: Advisory Overview & Direct LinkedIn Touchpoint (5 cols) */}
@@ -171,9 +170,8 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Liquid Glass Direct Project Intake Form (7 cols) */}
-          <div className="lg:col-span-7 liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out">
-            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
+          {/* Right Column: Liquid Glass Inner Direct Project Intake Form (7 cols) */}
+          <div className="lg:col-span-7 liquid-glass-inner relative overflow-hidden">
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.08]">
               <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-white font-semibold">
                 Direct Project Intake

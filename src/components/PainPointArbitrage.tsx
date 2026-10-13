@@ -102,9 +102,8 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
         {/* Left Column: Sliders for Manual Labor Inputs (6 cols) */}
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-6"
+          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-cyan-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
               <Flame className="w-4 h-4 text-cyan-400" /> 1. Quantify Current Manual Task
@@ -251,8 +250,8 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
             </p>
           </div>
 
-          {/* Current Manual Labor Costs Summary in Liquid Glass */}
-          <div className="backdrop-blur-2xl bg-white/[0.025] p-5 rounded-2xl border border-white/[0.08] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.15)] font-sans text-sm space-y-2">
+          {/* Current Manual Labor Costs Summary in Liquid Glass Inner */}
+          <div className="liquid-glass-inner font-sans text-sm space-y-2">
             <div className="flex justify-between text-zinc-400">
               <span>Weekly Labor Cost:</span>
               <span className="text-white font-mono font-semibold">${weeklyLaborCostTotal.toLocaleString()}</span>
@@ -271,9 +270,8 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
         {/* Right Column: Automation Investment & ROI Yield (6 cols) */}
         <div
           onMouseEnter={() => soundEngine.playHoverHum()}
-          className="lg:col-span-6 tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-6"
+          className="lg:col-span-6 liquid-glass-card p-6 sm:p-8 space-y-6 relative overflow-hidden"
         >
-          <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] relative z-10">
             <span className="text-[11px] font-sans font-semibold text-emerald-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-400" /> 2. Automation Costs &amp; Net Arbitrage
@@ -316,8 +314,8 @@ export const PainPointArbitrage: React.FC<PainPointArbitrageProps> = ({ onDeploy
             </p>
           </div>
 
-          {/* Financial Breakdown Card in Liquid Glass */}
-          <div className="backdrop-blur-2xl bg-white/[0.025] p-5 rounded-2xl border border-white/[0.08] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.15)] space-y-3 font-sans text-sm">
+          {/* Financial Breakdown Card in Liquid Glass Inner */}
+          <div className="liquid-glass-inner space-y-3 font-sans text-sm">
             <div className="flex justify-between items-center text-zinc-400">
               <span>Weekly Labor Saved:</span>
               <span className="text-white font-mono font-semibold">${weeklySavings.toFixed(2)}</span>

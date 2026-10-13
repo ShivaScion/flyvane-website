@@ -42,7 +42,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
         </p>
       </motion.div>
 
-      {/* 4 Dedicated Mode Capability Cards in Section 4.2 & 4.3 Liquid Glass Master Tokens */}
+      {/* 4 Dedicated Mode Capability Cards in Phase 3.1 .liquid-glass-card */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {content.services.map((svc, sIdx) => (
           <motion.div
@@ -52,9 +52,8 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: sIdx * 0.08, ease: stitchEase }}
             onMouseEnter={() => soundEngine.playHoverHum()}
-            className="tilt-card liquid-glass relative overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all duration-500 ease-out space-y-5 flex flex-col justify-between group"
+            className="liquid-glass-card p-6 sm:p-8 space-y-5 flex flex-col justify-between group relative overflow-hidden"
           >
-            <div className="absolute inset-0 rounded-2xl pointer-events-none border border-gradient-to-b from-white/[0.1] to-transparent opacity-50" />
             <div className="space-y-4 relative z-10">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[10px] font-sans text-zinc-300 font-semibold tracking-[0.2em] uppercase">

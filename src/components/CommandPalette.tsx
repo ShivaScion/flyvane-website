@@ -210,7 +210,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-[#030406]/70 backdrop-blur-xl flex items-center justify-center p-4"
       onClick={() => {
         soundEngine.playModalSweep(false);
         onClose();
@@ -220,7 +220,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
       aria-label="Command Palette"
     >
       <div
-        className="w-full max-w-2xl backdrop-blur-2xl bg-white/[0.035] border border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.18)] rounded-2xl overflow-hidden"
+        className="w-full max-w-2xl liquid-glass-card overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 border-b border-white/[0.09] flex items-center gap-3 bg-white/[0.02]">
