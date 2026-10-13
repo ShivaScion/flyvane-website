@@ -1,16 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { stitchEase } from '../utils/motion';
-import { MODE_CONTENT } from '../data/modeContent';
+import { MODE_CONTENT, ModeConfig, ModeService } from '../data/modeContent';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface CaseStudiesProps {
   mode?: 'machine' | 'mind' | 'hybrid';
+  contentOverride?: ModeConfig;
 }
 
-export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) => {
-  const content = MODE_CONTENT[mode];
+export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine', contentOverride }) => {
+  const content = contentOverride || MODE_CONTENT[mode];
 
   return (
     <section id="services" className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/[0.08]">
@@ -45,7 +46,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
 
       {/* 4 Dedicated Mode Capability Cards in InteractiveTiltWrapper */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {content.services.map((svc, sIdx) => (
+        {content.services.map((svc: ModeService, sIdx: number) => (
           <InteractiveTiltWrapper
             key={`${mode}-${sIdx}`}
             onMouseEnter={() => soundEngine.playHoverHum()}
@@ -96,7 +97,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ mode = 'machine' }) =>
                 Core Deliverables
               </span>
               <div className="flex flex-wrap gap-1.5">
-                {svc.deliverables.map((item, dIdx) => (
+                {svc.deliverables.map((item: string, dIdx: number) => (
                   <span
                     key={dIdx}
                     className="px-2.5 py-1 rounded-md bg-white/[0.03] text-[11px] font-sans font-semibold text-zinc-300 border border-white/[0.08]"

@@ -64,16 +64,24 @@ export class ErrorBoundary extends Component<Props, State> {
               </div>
             )}
 
-            <div className="flex items-center justify-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
+              <button
+                onClick={() => {
+                  window.location.href = '/';
+                }}
+                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-white hover:bg-zinc-200 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
+              >
+                Return to Studio
+              </button>
               <button
                 onClick={this.handleReset}
-                className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 font-mono text-xs transition-colors"
+                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-300 font-mono text-xs transition-colors"
               >
                 Dismiss & Continue
               </button>
               <button
                 onClick={this.handleReload}
-                className="px-5 py-2 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5 shadow-md"
+                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-md"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 Reload Page

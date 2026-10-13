@@ -16,6 +16,11 @@ import { StudioUpdates } from './components/StudioUpdates';
 import { ContactSection } from './components/ContactSection';
 import { CommandPalette } from './components/CommandPalette';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { NotFoundPage } from './components/NotFoundPage';
+import { BlogIndex, BlogPost } from './components/BlogIndex';
+import { BlogSlugRoute } from './components/BlogSlugRoute';
+import { AdminDashboard } from './components/admin/AdminDashboard';
+import { MODE_CONTENT, ModeConfig } from './data/modeContent';
 
 export function App() {
   const [mode, setMode] = useState<'machine' | 'mind' | 'hybrid'>('machine');
@@ -24,7 +29,48 @@ export function App() {
   const [isMuted, setIsMuted] = useState<boolean>(() => soundEngine.getMuted());
   const [inquiryContext, setInquiryContext] = useState<string>('');
 
-  // 1. Initialize Lenis Smooth Momentum Scrolling & Anchor Link Interceptor
+  // Routing State
+  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
+  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+
+  // Dynamic Site Content (Loaded from CMS / Supabase with local fallback)
+  const [siteContent, setSiteContent] = useState<Record<'machine' | 'mind' | 'hybrid', ModeConfig>>(MODE_CONTENT);
+
+  // 1. Fetch CMS Content Overrides
+  useEffect(() => {
+    fetch('/api/admin/content')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.content && Object.keys(data.content).length > 0) {
+          setSiteContent((prev) => ({
+            ...prev,
+            ...data.content,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.warn('Using baseline mode content:', err);
+      });
+  }, []);
+
+  // 2. Listen to browser popstate (Back/Forward navigation)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigate = (to: string) => {
+    if (to !== window.location.pathname) {
+      window.history.pushState({}, '', to);
+      setCurrentPath(to);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // 3. Initialize Lenis Smooth Momentum Scrolling & Anchor Link Interceptor
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -68,12 +114,12 @@ export function App() {
     };
   }, []);
 
-  // 2. Update data-mode attribute on body
+  // 4. Update data-mode attribute on body
   useEffect(() => {
     document.body.setAttribute('data-mode', mode);
   }, [mode]);
 
-  // 3. Pointer move for subtle 3D card tilt & perimeter glow
+  // 5. Pointer move for subtle 3D card tilt & perimeter glow
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
       const cards = document.querySelectorAll<HTMLElement>('.tilt-card');
@@ -101,12 +147,12 @@ export function App() {
     return () => window.removeEventListener('pointermove', handlePointerMove);
   }, []);
 
-  // 4. Global hotkey Cmd+K / Ctrl+K
+  // 6. Global hotkey Cmd+K / Ctrl+K
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setIsCmdOpen(prev => !prev);
+        setIsCmdOpen((prev) => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -125,6 +171,17 @@ export function App() {
     const clean = cmd.toLowerCase().trim();
 
     const scrollToSection = (hash: string) => {
+      if (currentPath !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el && (window as any).__lenis) {
+            (window as any).__lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.0 });
+          }
+        }, 100);
+        return;
+      }
+
       const el = document.querySelector(hash);
       if (el && (window as any).__lenis) {
         (window as any).__lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.0 });
@@ -133,7 +190,13 @@ export function App() {
       }
     };
 
-    if (clean === 'mute') {
+    if (clean === 'admin') {
+      navigate('/admin');
+    } else if (clean === 'blog' || clean === 'publications') {
+      navigate('/blog');
+    } else if (clean === 'home' || clean === 'studio') {
+      navigate('/');
+    } else if (clean === 'mute') {
       handleToggleMute();
     } else if (clean.includes('scraper') || clean.includes('terminal') || clean.includes('workbench')) {
       scrollToSection('#workbench');
@@ -169,106 +232,131 @@ export function App() {
         : 'Hybrid';
 
   return (
-    <div className="relative isolate min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
-      <Preloader onComplete={() => {}} />
+    <ErrorBoundary>
+      <div className="relative isolate min-h-screen bg-transparent text-zinc-200 overflow-x-hidden">
+        {currentPath === '/' && <Preloader onComplete={() => {}} />}
 
-      {/* Phase 3 & 7: Global Fixed Procedural WebGL Background Canvas */}
-      <BackgroundCanvas activeMode={activeModeLabel} />
+        {/* Global Fixed Procedural WebGL Background Canvas */}
+        <BackgroundCanvas activeMode={activeModeLabel} />
 
-      {/* Navbar */}
-      <Navbar
-        mode={mode}
-        setMode={setMode}
-        onOpenCmd={() => setIsCmdOpen(true)}
-        isMuted={isMuted}
-        onToggleMute={handleToggleMute}
-      />
+        {/* Dynamic Studio Navbar with Native Routing */}
+        <Navbar
+          mode={mode}
+          setMode={setMode}
+          onOpenCmd={() => setIsCmdOpen(true)}
+          isMuted={isMuted}
+          onToggleMute={handleToggleMute}
+          currentPath={currentPath}
+          onNavigate={navigate}
+        />
 
-      {/* Main Viewport Content */}
-      <main className="relative z-10 pt-24 pb-24 bg-transparent">
-        <Hero mode={mode} />
+        {/* Route Engine */}
+        {currentPath === '/admin' ? (
+          <AdminDashboard onNavigateHome={() => navigate('/')} />
+        ) : currentPath === '/blog' ? (
+          <BlogIndex
+            onNavigateHome={() => navigate('/')}
+            onSelectPost={(post) => {
+              setSelectedBlog(post);
+              navigate(`/blog/${post.slug}`);
+            }}
+          />
+        ) : currentPath.startsWith('/blog/') ? (
+          <BlogSlugRoute
+            slug={currentPath.replace(/^\/blog\//, '').trim()}
+            cachedPost={selectedBlog}
+            onBack={() => navigate('/blog')}
+            onNavigateHome={() => navigate('/')}
+          />
+        ) : currentPath === '/' || currentPath === '' ? (
+          <main className="relative z-10 pt-24 pb-24 bg-transparent">
+            <Hero mode={mode} contentOverride={siteContent[mode]} />
 
-        {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
-        {mode === 'machine' && (
-          <>
-            <ErrorBoundary>
-              <TerminalWorkbench onSetMode={setMode} />
-            </ErrorBoundary>
-            <PainPointArbitrage
-              onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
-                setInquiryContext(
-                  `[ENTERPRISE SCOPE BRIEF]\n` +
-                  `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
-                  `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
-                  `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
-                  `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
-                );
-              }}
-            />
-          </>
+            {/* Automation Services Mode: Dedicated Automation Workbench & Arbitrage Calculator */}
+            {mode === 'machine' && (
+              <>
+                <ErrorBoundary>
+                  <TerminalWorkbench onSetMode={setMode} />
+                </ErrorBoundary>
+                <PainPointArbitrage
+                  onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                    setInquiryContext(
+                      `[ENTERPRISE SCOPE BRIEF]\n` +
+                      `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                      `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                      `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                      `• Objective: Engineering assessment & deployment architecture for autonomous pipeline.`
+                    );
+                  }}
+                />
+              </>
+            )}
+
+            {/* Marketing Services Mode: Dedicated Editorial Brand Strategy Surface & Authority Estimator */}
+            {mode === 'mind' && (
+              <>
+                <ErrorBoundary>
+                  <MindStrategyBoard />
+                </ErrorBoundary>
+                <BrandAuthorityEstimator
+                  onSelectBrief={(brief) => setInquiryContext(brief)}
+                />
+              </>
+            )}
+
+            {/* Hybrid Mode: Integrated System Capabilities */}
+            {mode === 'hybrid' && (
+              <>
+                <ErrorBoundary>
+                  <MindStrategyBoard />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <TerminalWorkbench onSetMode={setMode} />
+                </ErrorBoundary>
+                <PainPointArbitrage
+                  onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
+                    setInquiryContext(
+                      `[ENTERPRISE SCOPE BRIEF]\n` +
+                      `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
+                      `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
+                      `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
+                      `• Objective: Unified technical automation & brand authority system.`
+                    );
+                  }}
+                />
+                <BrandAuthorityEstimator
+                  onSelectBrief={(brief) => setInquiryContext(brief)}
+                />
+              </>
+            )}
+
+            <CaseStudies mode={mode} contentOverride={siteContent[mode]} />
+
+            <CompanyCapabilities mode={mode} />
+
+            <StudioUpdates mode={mode} />
+
+            <ContactSection mode={mode} inquiryContext={inquiryContext} />
+          </main>
+        ) : (
+          <NotFoundPage onNavigateHome={() => navigate('/')} />
         )}
 
-        {/* Marketing Services Mode: Dedicated Editorial Brand Strategy Surface & Authority Estimator */}
-        {mode === 'mind' && (
-          <>
-            <ErrorBoundary>
-              <MindStrategyBoard />
-            </ErrorBoundary>
-            <BrandAuthorityEstimator
-              onSelectBrief={(brief) => setInquiryContext(brief)}
-            />
-          </>
-        )}
+        {/* Minimal Liquid Glass Aira Concierge Drawer */}
+        <AiraCompanion
+          isOpen={isAiraModalOpen}
+          setIsOpen={setIsAiraModalOpen}
+          onSetMode={setMode}
+        />
 
-        {/* Hybrid Mode: Integrated System Capabilities */}
-        {mode === 'hybrid' && (
-          <>
-            <ErrorBoundary>
-              <MindStrategyBoard />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <TerminalWorkbench onSetMode={setMode} />
-            </ErrorBoundary>
-            <PainPointArbitrage
-              onDeployPlan={(teamSize, hours, rate, loss, tierLabel, retainerMonthly) => {
-                setInquiryContext(
-                  `[ENTERPRISE SCOPE BRIEF]\n` +
-                  `• Quantified Bottleneck: ${teamSize} operators spending ${hours} hrs/wk each at $${rate}/hr\n` +
-                  `• Annualized Labor Cost: $${loss.toLocaleString()} / year (~$${Math.round(loss / 12).toLocaleString()} / mo)\n` +
-                  `• Target Retainer Tier: ${tierLabel} ($${retainerMonthly.toLocaleString()} / month)\n` +
-                  `• Objective: Unified technical automation & brand authority system.`
-                );
-              }}
-            />
-            <BrandAuthorityEstimator
-              onSelectBrief={(brief) => setInquiryContext(brief)}
-            />
-          </>
-        )}
-
-        <CaseStudies mode={mode} />
-
-        <CompanyCapabilities mode={mode} />
-
-        <StudioUpdates mode={mode} />
-
-        <ContactSection mode={mode} inquiryContext={inquiryContext} />
-      </main>
-
-      {/* Phase 5: Minimal Liquid Glass Aira Concierge Drawer */}
-      <AiraCompanion
-        isOpen={isAiraModalOpen}
-        setIsOpen={setIsAiraModalOpen}
-        onSetMode={setMode}
-      />
-
-      {/* Cmd+K Command Palette */}
-      <CommandPalette
-        isOpen={isCmdOpen}
-        onClose={() => setIsCmdOpen(false)}
-        onSelectCommand={handleCommand}
-      />
-    </div>
+        {/* Cmd+K Command Palette */}
+        <CommandPalette
+          isOpen={isCmdOpen}
+          onClose={() => setIsCmdOpen(false)}
+          onSelectCommand={handleCommand}
+        />
+      </div>
+    </ErrorBoundary>
   );
 }
 

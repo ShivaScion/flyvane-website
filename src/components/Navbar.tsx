@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Volume2, VolumeX } from 'lucide-react';
+import { Search, Volume2, VolumeX, Shield } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 interface NavbarProps {
@@ -8,6 +8,8 @@ interface NavbarProps {
   onOpenCmd: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
+  currentPath?: string;
+  onNavigate?: (path: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -16,6 +18,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCmd,
   isMuted,
   onToggleMute,
+  currentPath = '/',
+  onNavigate,
 }) => {
   return (
     <header className="fixed top-0 left-0 right-0 backdrop-blur-2xl bg-[#07080B]/75 border-b border-white/[0.09] shadow-[0_8px_32px_0_rgba(0,0,0,0.45)] h-16 px-4 sm:px-6 z-50">
@@ -23,10 +27,16 @@ export const Navbar: React.FC<NavbarProps> = ({
         
         {/* Left Brand Block */}
         <a
-          href="#hero"
+          href="/"
           onMouseEnter={() => soundEngine.playHoverHum()}
-          onClick={() => soundEngine.playClick(0.06)}
-          className="flex items-center gap-3 group shrink-0"
+          onClick={(e) => {
+            if (onNavigate) {
+              e.preventDefault();
+              soundEngine.playClick(0.06);
+              onNavigate('/');
+            }
+          }}
+          className="flex items-center gap-3 group shrink-0 cursor-pointer"
         >
           <div className="relative w-9 h-9 rounded-xl backdrop-blur-2xl bg-white/[0.04] border border-white/[0.12] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)] flex items-center justify-center font-sans text-xs font-semibold tracking-wider text-white group-hover:border-white/25 transition-all">
             FV
@@ -106,12 +116,43 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Navigation Links & Tactile Audio Mute Toggle */}
         <nav aria-label="Primary Navigation" className="flex items-center gap-2 sm:gap-3 shrink-0">
           <a
-            href="#updates"
+            href="/blog"
             onMouseEnter={() => soundEngine.playHoverHum()}
-            onClick={() => soundEngine.playClick(0.05)}
-            className="hidden sm:inline-block text-xs font-sans font-medium text-zinc-300 hover:text-white transition-colors px-2.5 py-1.5 rounded-lg hover:bg-white/[0.05]"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                soundEngine.playClick(0.05);
+                onNavigate('/blog');
+              }
+            }}
+            className={`hidden sm:inline-block text-xs font-sans font-medium transition-colors px-2.5 py-1.5 rounded-lg ${
+              currentPath.startsWith('/blog')
+                ? 'text-cyan-400 bg-white/[0.08] border border-cyan-400/20'
+                : 'text-zinc-300 hover:text-white hover:bg-white/[0.05]'
+            }`}
           >
-            Updates
+            Publications
+          </a>
+
+          <a
+            href="/admin"
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                soundEngine.playClick(0.06);
+                onNavigate('/admin');
+              }
+            }}
+            aria-label="Admin Control Vault"
+            title="Admin Control Vault (2FA Protected)"
+            className={`p-2 rounded-lg backdrop-blur-2xl transition-all tactile-btn ${
+              currentPath === '/admin'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                : 'bg-white/[0.035] hover:bg-white/[0.08] border border-white/[0.09] text-zinc-400 hover:text-zinc-200 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.16)]'
+            }`}
+          >
+            <Shield className="w-3.5 h-3.5" />
           </a>
 
           <button

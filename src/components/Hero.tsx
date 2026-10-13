@@ -1,16 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { stitchEase } from '../utils/motion';
-import { MODE_CONTENT } from '../data/modeContent';
+import { MODE_CONTENT, ModeConfig, ProofMetric } from '../data/modeContent';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface HeroProps {
   mode: 'machine' | 'mind' | 'hybrid';
+  contentOverride?: ModeConfig;
 }
 
-export const Hero: React.FC<HeroProps> = ({ mode }) => {
-  const content = MODE_CONTENT[mode];
+export const Hero: React.FC<HeroProps> = ({ mode, contentOverride }) => {
+  const content = contentOverride || MODE_CONTENT[mode];
 
   const scrollToHash = (hash: string) => {
     soundEngine.playClick(0.07);
@@ -22,6 +23,20 @@ export const Hero: React.FC<HeroProps> = ({ mode }) => {
     }
   };
 
+  const accentColor =
+    mode === 'mind'
+      ? 'text-amber-500'
+      : mode === 'hybrid'
+      ? 'text-emerald-400'
+      : 'text-cyan-400';
+
+  const dotBg =
+    mode === 'mind'
+      ? 'bg-amber-400 shadow-[0_0_8px_#F59E0B]'
+      : mode === 'hybrid'
+      ? 'bg-emerald-400 shadow-[0_0_8px_#10B981]'
+      : 'bg-cyan-400 shadow-[0_0_8px_#00D8FF]';
+
   return (
     <section
       id="hero"
@@ -29,125 +44,45 @@ export const Hero: React.FC<HeroProps> = ({ mode }) => {
     >
       {/* Main Split Layout — Left Typography + Right Open Viewport for Fixed CinematicBackground */}
       <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12">
-        {mode === 'machine' && (
-          <div className="flex flex-col items-start z-10 pointer-events-auto max-w-2xl">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00D8FF]" />
-              <span className="text-[11px] font-semibold tracking-widest uppercase text-zinc-300">
-                Engineering & Autonomous Process Infrastructure
-              </span>
-            </div>
-
-            <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05] mb-4">
-              Automate the boring.
-            </h1>
-
-            <h2 className="text-3xl lg:text-4xl font-medium tracking-tight text-cyan-400 mb-8">
-              Architect the autonomous.
-            </h2>
-
-            <p className="text-base lg:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-10">
-              We engineer bespoke data extraction pipelines, intelligent worker swarms, and headless systems that replace fragile manual labor with zero-operator reliability.
-            </p>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaPrimaryHash)}
-                className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-zinc-200 transition-colors"
-              >
-                Explore Architecture →
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaSecondaryHash)}
-                className="px-6 py-3 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/5 transition-colors"
-              >
-                Initialize Advisory ↗
-              </button>
-            </div>
+        <div className="flex flex-col items-start z-10 pointer-events-auto max-w-2xl">
+          <div className="flex items-center gap-3 mb-8">
+            <div className={`w-2 h-2 rounded-full ${dotBg} animate-pulse`} />
+            <span className="text-[11px] font-semibold tracking-widest uppercase text-zinc-300">
+              {content.badge}
+            </span>
           </div>
-        )}
 
-        {mode === 'mind' && (
-          <div className="flex flex-col items-start z-10 pointer-events-auto max-w-2xl">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#F59E0B]" />
-              <span className="text-[11px] font-semibold tracking-widest uppercase text-zinc-300">
-                Behavioral Strategy & Executive Positioning
-              </span>
-            </div>
+          <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05] mb-4">
+            {content.heroHeadline.lead}{' '}
+            <span className={accentColor}>{content.heroHeadline.emphasis}</span>
+          </h1>
 
-            <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05] mb-4">
-              Market the brilliant.
-            </h1>
+          <h2 className={`text-3xl lg:text-4xl font-medium tracking-tight mb-8 ${accentColor}`}>
+            {content.heroHeadline.subLead}{' '}
+            <span className="text-white">{content.heroHeadline.subEmphasis}</span>
+          </h2>
 
-            <h2 className="text-3xl lg:text-4xl font-medium tracking-tight text-amber-500 mb-8">
-              Command the authority.
-            </h2>
+          <p className="text-base lg:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-10">
+            {content.heroDescription}
+          </p>
 
-            <p className="text-base lg:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-10">
-              Transforming technical complexity into category-defining market authority. We architect founder positioning, high-intent narrative funnels, and enterprise demand engines.
-            </p>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaPrimaryHash)}
-                className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-zinc-200 transition-colors"
-              >
-                View Strategy Frameworks →
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaSecondaryHash)}
-                className="px-6 py-3 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/5 transition-colors"
-              >
-                Retain Advisory ↗
-              </button>
-            </div>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => scrollToHash(content.ctaPrimaryHash)}
+              className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-zinc-200 transition-colors"
+            >
+              {content.ctaPrimary} →
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToHash(content.ctaSecondaryHash)}
+              className="px-6 py-3 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/5 transition-colors"
+            >
+              {content.ctaSecondary} ↗
+            </button>
           </div>
-        )}
-
-        {mode === 'hybrid' && (
-          <div className="flex flex-col items-start z-10 pointer-events-auto max-w-2xl">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#00D8FF]" />
-              <span className="text-[11px] font-semibold tracking-widest uppercase text-zinc-300">
-                Full-Spectrum Autonomous Systems & Brand Authority
-              </span>
-            </div>
-
-            <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05] mb-4">
-              Automate the boring.
-            </h1>
-
-            <h2 className="text-3xl lg:text-4xl font-medium tracking-tight text-cyan-400 mb-8">
-              Market the brilliant.
-            </h2>
-
-            <p className="text-base lg:text-lg font-normal text-zinc-400 leading-relaxed max-w-xl mb-10">
-              Flyvane unifies autonomous backend infrastructure with category-defining brand architecture—building companies that operate with machine precision and market dominance.
-            </p>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaPrimaryHash)}
-                className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-zinc-200 transition-colors"
-              >
-                Explore Unified Systems →
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToHash(content.ctaSecondaryHash)}
-                className="px-6 py-3 rounded-xl border border-white/20 text-white font-medium text-sm hover:bg-white/5 transition-colors"
-              >
-                Retain Full-Stack Advisory ↗
-              </button>
-            </div>
-          </div>
-        )}
+        </div>
 
         {/* Right Spatial Viewport: Open window allowing the Global Fixed CinematicBackground to command depth */}
         <div
@@ -164,7 +99,7 @@ export const Hero: React.FC<HeroProps> = ({ mode }) => {
         transition={{ duration: 0.55, delay: 0.15, ease: stitchEase }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 pt-10 border-t border-white/[0.08]"
       >
-        {content.proofBar.map((item, idx) => (
+        {content.proofBar.map((item: ProofMetric, idx: number) => (
           <InteractiveTiltWrapper
             key={idx}
             onMouseEnter={() => soundEngine.playHoverHum()}

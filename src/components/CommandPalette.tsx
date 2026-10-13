@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2 } from 'lucide-react';
+import { Terminal, Cpu, Calculator, Code, Brain, Search, User, Mail, Hash, Sparkles, Volume2, BookOpen, ShieldCheck } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 
 export interface CommandItem {
@@ -113,6 +113,26 @@ const COMMAND_REGISTRY: CommandItem[] = [
     shortcut: 'STANDARDS',
     action: 'capabilities',
     keywords: ['capabilities', 'architecture', 'standards', 'security', 'sla', 'flyvane']
+  },
+  {
+    id: 'cmd-blog',
+    title: 'Browse Publications & Insights',
+    subtitle: 'Technical post-mortems, whitepapers & system architecture briefs',
+    category: 'Navigation',
+    icon: <BookOpen className="w-4 h-4 text-cyan-400" />,
+    shortcut: 'BLOG',
+    action: 'blog',
+    keywords: ['blog', 'publications', 'articles', 'posts', 'insights', 'reading', 'manifesto']
+  },
+  {
+    id: 'cmd-admin',
+    title: 'Administrative Command Center',
+    subtitle: '2FA dual-channel protected console for content, leads & blogs',
+    category: 'Identity',
+    icon: <ShieldCheck className="w-4 h-4 text-amber-400" />,
+    shortcut: 'ADMIN',
+    action: 'admin',
+    keywords: ['admin', 'dashboard', 'cms', 'manage', 'leads', '2fa', 'settings', 'auth']
   },
   {
     id: 'cmd-contact',

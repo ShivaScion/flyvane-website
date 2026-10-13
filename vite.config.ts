@@ -3,12 +3,50 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { processAdvisorySubmission } from './app/api/advisory/route';
+import sendOtpHandler from './api/auth/send-otp';
+import verifyOtpHandler from './api/auth/verify-otp';
+import adminContentHandler from './api/admin/content';
+import adminBlogsHandler from './api/admin/blogs';
+import adminLeadsHandler from './api/admin/leads';
 import fs from 'fs';
 import path from 'path';
 
-const scraperApiPlugin = (): Plugin => ({
-  name: 'scraper-proxy-api',
+function adaptHandler(handler: Function) {
+  return async (req: any, res: any) => {
+    let body = '';
+    req.on('data', (chunk: any) => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+      try {
+        req.body = body ? JSON.parse(body) : {};
+      } catch {
+        req.body = body;
+      }
+      res.status = (code: number) => {
+        res.statusCode = code;
+        return res;
+      };
+      res.json = (data: any) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(data));
+        return res;
+      };
+      res.send = (data: any) => {
+        res.end(data);
+        return res;
+      };
+      const urlObj = new URL(req.url || '', 'http://localhost:3000');
+      req.query = Object.fromEntries(urlObj.searchParams.entries());
+      await handler(req, res);
+    });
+  };
+}
+
+const backendApiPlugin = (): Plugin => ({
+  name: 'backend-api-plugin',
   configureServer(server) {
+    // 1. Scraper proxy
     server.middlewares.use('/api/scrape', async (req, res) => {
       try {
         const urlObj = new URL(req.url || '', 'http://localhost:3000');
@@ -23,8 +61,8 @@ const scraperApiPlugin = (): Plugin => ({
           headers: {
             'User-Agent':
               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-          }
+            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          },
         });
         const html = await resp.text();
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -37,6 +75,7 @@ const scraperApiPlugin = (): Plugin => ({
       }
     });
 
+    // 2. Advisory Leads Ingestion
     server.middlewares.use('/api/advisory', async (req, res) => {
       if (req.method === 'GET') {
         try {
@@ -82,6 +121,7 @@ const scraperApiPlugin = (): Plugin => ({
       });
     });
 
+    // 3. Contact Ingestion
     server.middlewares.use('/api/contact', async (req, res) => {
       if (req.method !== 'POST') {
         res.statusCode = 405;
@@ -116,11 +156,20 @@ const scraperApiPlugin = (): Plugin => ({
         }
       });
     });
-  }
+
+    // 4. 2FA Authentication
+    server.middlewares.use('/api/auth/send-otp', adaptHandler(sendOtpHandler));
+    server.middlewares.use('/api/auth/verify-otp', adaptHandler(verifyOtpHandler));
+
+    // 5. Admin CMS & Blogs & Leads
+    server.middlewares.use('/api/admin/content', adaptHandler(adminContentHandler));
+    server.middlewares.use('/api/admin/blogs', adaptHandler(adminBlogsHandler));
+    server.middlewares.use('/api/admin/leads', adaptHandler(adminLeadsHandler));
+  },
 });
 
 export default defineConfig({
-  plugins: [react(), scraperApiPlugin()],
+  plugins: [react(), backendApiPlugin()],
   css: {
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],
@@ -128,7 +177,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    open: true
+    open: true,
   },
   build: {
     outDir: 'dist',
@@ -138,9 +187,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           'motion-vendor': ['framer-motion'],
-          'icons-vendor': ['lucide-react']
-        }
-      }
-    }
-  }
+          'icons-vendor': ['lucide-react'],
+        },
+      },
+    },
+  },
 });
