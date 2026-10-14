@@ -244,8 +244,8 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
 
     // Channel A: Resend Transactional Email
     const resendApiKey = process.env.RESEND_API_KEY;
-    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.com>';
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'anshrudra@crystalsteed.in';
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.in>';
 
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);

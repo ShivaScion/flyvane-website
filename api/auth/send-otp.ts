@@ -43,7 +43,7 @@ export default async function handler(req: any, res: any) {
         const resend = new Resend(resendKey);
         const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
         const emailRes = await resend.emails.send({
-          from: fromEmail.includes('crystalsteed.com') ? fromEmail : 'onboarding@resend.dev',
+          from: fromEmail.includes('crystalsteed.in') ? fromEmail : 'onboarding@resend.dev',
           to: email,
           subject: `[CrystalSteed Security] Your Admin 2FA Code: ${code}`,
           html: `

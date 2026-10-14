@@ -33,11 +33,11 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
     '@type': 'Blog',
     name: 'CrystalSteed Autonomous Architecture Publications',
     description: 'Explore deep technical publications on autonomous architecture, B2B procurement engineering, AI data pipeline case studies, and enterprise systems design.',
-    url: 'https://crystalsteed.com/blog',
+    url: 'https://crystalsteed.in/blog',
     publisher: {
       '@type': 'Organization',
       name: 'CrystalSteed',
-      url: 'https://crystalsteed.com/'
+      url: 'https://crystalsteed.in/'
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -46,13 +46,13 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://crystalsteed.com/'
+          item: 'https://crystalsteed.in/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Publications',
-          item: 'https://crystalsteed.com/blog'
+          item: 'https://crystalsteed.in/blog'
         }
       ]
     }

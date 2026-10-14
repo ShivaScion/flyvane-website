@@ -284,19 +284,19 @@ export function App() {
     '@graph': [
       {
         '@type': 'WebSite',
-        '@id': 'https://crystalsteed.com/#website',
-        'url': 'https://crystalsteed.com/',
+        '@id': 'https://crystalsteed.in/#website',
+        'url': 'https://crystalsteed.in/',
         'name': 'CrystalSteed',
         'description': 'Autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture.',
         'publisher': {
-          '@id': 'https://crystalsteed.com/#organization'
+          '@id': 'https://crystalsteed.in/#organization'
         }
       },
       {
         '@type': 'Organization',
-        '@id': 'https://crystalsteed.com/#organization',
+        '@id': 'https://crystalsteed.in/#organization',
         'name': 'CrystalSteed',
-        'url': 'https://crystalsteed.com/',
+        'url': 'https://crystalsteed.in/',
         'email': 'anshrudra@crystalsteed.in',
         'address': [
           {
@@ -317,27 +317,27 @@ export function App() {
         'founder': [
           {
             '@type': 'Person',
-            '@id': 'https://crystalsteed.com/#founder-ansh',
+            '@id': 'https://crystalsteed.in/#founder-ansh',
             'name': 'Ansh Rudra',
             'jobTitle': 'Co-Founder & Principal Architect, Systems & Automation',
-            'url': 'https://crystalsteed.com/about'
+            'url': 'https://crystalsteed.in/about'
           },
           {
             '@type': 'Person',
-            '@id': 'https://crystalsteed.com/#founder-swetaa',
+            '@id': 'https://crystalsteed.in/#founder-swetaa',
             'name': 'Swetaa Dhuliya',
             'jobTitle': 'Co-Founder & Principal Strategist, Branding, Marketing & Positioning',
-            'url': 'https://crystalsteed.com/about'
+            'url': 'https://crystalsteed.in/about'
           }
         ]
       },
       {
         '@type': 'ProfessionalService',
-        '@id': 'https://crystalsteed.com/#service',
+        '@id': 'https://crystalsteed.in/#service',
         'name': 'CrystalSteed Autonomous Engineering & Brand Advisory',
-        'url': 'https://crystalsteed.com/',
+        'url': 'https://crystalsteed.in/',
         'provider': {
-          '@id': 'https://crystalsteed.com/#organization'
+          '@id': 'https://crystalsteed.in/#organization'
         },
         'hasOfferCatalog': {
           '@type': 'OfferCatalog',
@@ -374,7 +374,7 @@ export function App() {
             '@type': 'ListItem',
             'position': 1,
             'name': 'Studio',
-            'item': 'https://crystalsteed.com/'
+            'item': 'https://crystalsteed.in/'
           }
         ]
       }

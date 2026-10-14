@@ -24,14 +24,14 @@ export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
       '@type': 'Person',
       name: 'Ansh Rudra',
       jobTitle: 'Principal Systems Architect',
-      url: 'https://crystalsteed.com/about'
+      url: 'https://crystalsteed.in/about'
     },
     publisher: {
       '@type': 'Organization',
       name: 'CrystalSteed',
-      url: 'https://crystalsteed.com/'
+      url: 'https://crystalsteed.in/'
     },
-    mainEntityOfPage: `https://crystalsteed.com/blog/${post.slug}`,
+    mainEntityOfPage: `https://crystalsteed.in/blog/${post.slug}`,
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -39,19 +39,19 @@ export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://crystalsteed.com/'
+          item: 'https://crystalsteed.in/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Publications',
-          item: 'https://crystalsteed.com/blog'
+          item: 'https://crystalsteed.in/blog'
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: post.title,
-          item: `https://crystalsteed.com/blog/${post.slug}`
+          item: `https://crystalsteed.in/blog/${post.slug}`
         }
       ]
     }

@@ -319,7 +319,7 @@ export default async function handler(req: any, res: any) {
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'anshrudra@crystalsteed.in';
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.com>';
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.in>';
 
     if (resendApiKey) {
       try {

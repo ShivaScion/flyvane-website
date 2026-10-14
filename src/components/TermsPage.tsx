@@ -17,7 +17,7 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
     '@type': 'WebPage',
     name: 'Autonomous Systems Service Terms & Engineering Governance',
     description: 'Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all CrystalSteed client engagements.',
-    url: 'https://crystalsteed.com/terms',
+    url: 'https://crystalsteed.in/terms',
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -25,13 +25,13 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://crystalsteed.com/'
+          item: 'https://crystalsteed.in/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Terms & Governance',
-          item: 'https://crystalsteed.com/terms'
+          item: 'https://crystalsteed.in/terms'
         }
       ]
     }

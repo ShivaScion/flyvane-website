@@ -15,7 +15,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
     '@type': 'AboutPage',
     name: 'About CrystalSteed — Systems Engineering & Strategic Marketing Practice',
     description: 'CrystalSteed pairs autonomous systems engineering with strategic brand authority, co-founded by Ansh Rudra and Swetaa Dhuliya.',
-    url: 'https://crystalsteed.com/about',
+    url: 'https://crystalsteed.in/about',
     mainEntity: [
       {
         '@type': 'Person',
@@ -30,7 +30,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
         worksFor: {
           '@type': 'Organization',
           name: 'CrystalSteed',
-          url: 'https://crystalsteed.com/'
+          url: 'https://crystalsteed.in/'
         }
       },
       {
@@ -46,7 +46,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
         worksFor: {
           '@type': 'Organization',
           name: 'CrystalSteed',
-          url: 'https://crystalsteed.com/'
+          url: 'https://crystalsteed.in/'
         }
       }
     ],
@@ -57,13 +57,13 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://crystalsteed.com/'
+          item: 'https://crystalsteed.in/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'About & Practice',
-          item: 'https://crystalsteed.com/about'
+          item: 'https://crystalsteed.in/about'
         }
       ]
     }

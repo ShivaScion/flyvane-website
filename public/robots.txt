@@ -84,4 +84,4 @@ Disallow: /api/
 # ------------------------------------------------------------------------------
 # 5. CANONICAL SITEMAP INDEX
 # ------------------------------------------------------------------------------
-Sitemap: https://crystalsteed.com/sitemap.xml
+Sitemap: https://crystalsteed.in/sitemap.xml
