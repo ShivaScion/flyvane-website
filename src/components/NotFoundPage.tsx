@@ -22,8 +22,8 @@ export function NotFoundPage({ onNavigateHome }: NotFoundProps) {
   return (
     <div className="min-h-screen bg-[#030406] text-zinc-200 flex items-center justify-center p-4 sm:p-6 select-none relative z-20">
       <HeadSEO
-        title="404 — Page Not Found | CyberSteed Systems"
-        description="The requested trajectory does not exist in the CyberSteed network topology. Auto-redirecting to Studio."
+        title="404 — Page Not Found | CrystalSteed Systems"
+        description="The requested trajectory does not exist in the CrystalSteed network topology. Auto-redirecting to Studio."
         canonicalPath="/404"
         robots="noindex, nofollow"
       />
@@ -43,7 +43,7 @@ export function NotFoundPage({ onNavigateHome }: NotFoundProps) {
             Coordinate Out of Range
           </h1>
           <p className="text-sm font-sans text-zinc-400 leading-relaxed max-w-md mx-auto">
-            The requested trajectory does not exist in the CyberSteed network topology. Our fault-tolerant gateway is ready to redirect your session.
+            The requested trajectory does not exist in the CrystalSteed network topology. Our fault-tolerant gateway is ready to redirect your session.
           </p>
         </div>
 

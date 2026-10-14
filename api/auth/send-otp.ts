@@ -43,19 +43,19 @@ export default async function handler(req: any, res: any) {
         const resend = new Resend(resendKey);
         const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
         const emailRes = await resend.emails.send({
-          from: fromEmail.includes('cybersteed.com') ? fromEmail : 'onboarding@resend.dev',
+          from: fromEmail.includes('crystalsteed.com') ? fromEmail : 'onboarding@resend.dev',
           to: email,
-          subject: `[CyberSteed Security] Your Admin 2FA Code: ${code}`,
+          subject: `[CrystalSteed Security] Your Admin 2FA Code: ${code}`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 500px; margin: 0 auto;">
               <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-                CYBERSTEED SECURITY VAULT
+                CRYSTALSTEED SECURITY VAULT
               </div>
               <h2 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin: 0 0 16px 0;">
                 Two-Factor Admin Verification
               </h2>
               <p style="font-size: 14px; color: #A1A1AA; line-height: 1.5; margin-bottom: 24px;">
-                Use the one-time verification passcode below to authorize your session on the CyberSteed Command Terminal.
+                Use the one-time verification passcode below to authorize your session on the CrystalSteed Command Terminal.
               </p>
               <div style="background-color: #0F1117; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
                 <span style="font-size: 32px; font-weight: 700; letter-spacing: 0.35em; color: #38BDF8; font-family: monospace;">${code}</span>
@@ -71,7 +71,7 @@ export default async function handler(req: any, res: any) {
           await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: email,
-            subject: `[CyberSteed Security] Your Admin 2FA Code: ${code}`,
+            subject: `[CrystalSteed Security] Your Admin 2FA Code: ${code}`,
             html: `<p>Your 2FA code is: <strong>${code}</strong> (valid 5 min)</p>`,
           });
         }
@@ -95,7 +95,7 @@ export default async function handler(req: any, res: any) {
         await client.messages.create({
           from: cleanTwilioFrom.startsWith('whatsapp:') ? cleanTwilioFrom : `whatsapp:${cleanTwilioFrom}`,
           to: cleanWhatsapp.startsWith('whatsapp:') ? cleanWhatsapp : `whatsapp:${cleanWhatsapp}`,
-          body: `*CyberSteed Security 2FA*\n\nYour Admin verification passcode is: *${code}*\n\nValid for 5 minutes. Do not share this code.`,
+          body: `*CrystalSteed Security 2FA*\n\nYour Admin verification passcode is: *${code}*\n\nValid for 5 minutes. Do not share this code.`,
         });
         dispatchResults.whatsapp = 'sent';
       } catch (e: any) {

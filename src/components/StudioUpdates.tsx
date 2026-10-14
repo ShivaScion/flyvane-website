@@ -106,14 +106,14 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode, onNavigate }
           </a>
 
           <a
-            href="https://www.linkedin.com/company/cybersteed"
+            href="https://www.linkedin.com/company/crystalsteed/"
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => soundEngine.playHoverHum()}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out"
           >
             <Linkedin className="w-3.5 h-3.5 text-sky-400" />
-            <span>Follow CyberSteed on LinkedIn</span>
+            <span>Follow CrystalSteed on LinkedIn</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
           </a>
         </div>
@@ -127,7 +127,7 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode, onNavigate }
             className="p-6 sm:p-8 flex flex-col justify-between space-y-5 group relative overflow-hidden"
           >
             <a
-              href="https://www.linkedin.com/company/cybersteed"
+              href="https://www.linkedin.com/company/crystalsteed/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col justify-between h-full space-y-5"

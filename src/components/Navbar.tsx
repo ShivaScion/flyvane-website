@@ -36,23 +36,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               onNavigate('/');
             }
           }}
-          className="flex items-center gap-3 group shrink-0 cursor-pointer"
+          className="flex items-center group shrink-0 cursor-pointer"
         >
-          <div className="relative w-9 h-9 rounded-xl backdrop-blur-2xl bg-white/[0.04] border border-white/[0.12] shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)] flex items-center justify-center font-sans text-xs font-semibold tracking-wider text-white group-hover:border-white/25 transition-all">
-            CS
-          </div>
-          <div className="hidden lg:block">
-            <span className="font-sans font-semibold tracking-tight text-white block text-sm sm:text-base leading-none">
-              CyberSteed
-            </span>
-            <span className="text-[10px] font-sans font-medium text-zinc-400 block tracking-[0.16em] uppercase mt-1">
-              {mode === 'machine'
-                ? 'Automation Services'
-                : mode === 'mind'
-                ? 'Marketing Services'
-                : 'Unified Practice'}
-            </span>
-          </div>
+          <img
+            src="/images/logo.png"
+            alt="CrystalSteed"
+            className="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </a>
 
         {/* Mode Selector: Segmented Liquid Glass Pill Toggle */}

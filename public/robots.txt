@@ -1,11 +1,11 @@
 # ==============================================================================
-# CyberSteed Autonomous Systems — Technical Robots Policy
+# CrystalSteed Autonomous Systems — Technical Robots Policy
 # AI Crawler Governance, Search Retrieval & Perimeter Access Control
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
 # 1. ALLOWED AI SEARCH & REAL-TIME RETRIEVAL CRAWLERS
-# Allows CyberSteed to be surfaced & cited in live AI search results
+# Allows CrystalSteed to be surfaced & cited in live AI search results
 # ------------------------------------------------------------------------------
 User-agent: OAI-SearchBot
 Allow: /
@@ -84,4 +84,4 @@ Disallow: /api/
 # ------------------------------------------------------------------------------
 # 5. CANONICAL SITEMAP INDEX
 # ------------------------------------------------------------------------------
-Sitemap: https://cybersteed.com/sitemap.xml
+Sitemap: https://crystalsteed.com/sitemap.xml

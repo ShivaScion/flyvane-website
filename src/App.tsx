@@ -284,35 +284,35 @@ export function App() {
     '@graph': [
       {
         '@type': 'WebSite',
-        '@id': 'https://cybersteed.com/#website',
-        'url': 'https://cybersteed.com/',
-        'name': 'CyberSteed',
+        '@id': 'https://crystalsteed.com/#website',
+        'url': 'https://crystalsteed.com/',
+        'name': 'CrystalSteed',
         'description': 'Autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture.',
         'publisher': {
-          '@id': 'https://cybersteed.com/#organization'
+          '@id': 'https://crystalsteed.com/#organization'
         }
       },
       {
         '@type': 'Organization',
-        '@id': 'https://cybersteed.com/#organization',
-        'name': 'CyberSteed',
-        'url': 'https://cybersteed.com/',
-        'email': 'contact@cybersteed.com',
+        '@id': 'https://crystalsteed.com/#organization',
+        'name': 'CrystalSteed',
+        'url': 'https://crystalsteed.com/',
+        'email': 'contact@crystalsteed.com',
         'founder': {
           '@type': 'Person',
-          '@id': 'https://cybersteed.com/#founder',
+          '@id': 'https://crystalsteed.com/#founder',
           'name': 'Ansh Rudra',
           'jobTitle': 'Founder & Principal Systems Architect',
-          'url': 'https://cybersteed.com/about'
+          'url': 'https://crystalsteed.com/about'
         }
       },
       {
         '@type': 'ProfessionalService',
-        '@id': 'https://cybersteed.com/#service',
-        'name': 'CyberSteed Autonomous Engineering & Brand Advisory',
-        'url': 'https://cybersteed.com/',
+        '@id': 'https://crystalsteed.com/#service',
+        'name': 'CrystalSteed Autonomous Engineering & Brand Advisory',
+        'url': 'https://crystalsteed.com/',
         'provider': {
-          '@id': 'https://cybersteed.com/#organization'
+          '@id': 'https://crystalsteed.com/#organization'
         },
         'hasOfferCatalog': {
           '@type': 'OfferCatalog',
@@ -349,7 +349,7 @@ export function App() {
             '@type': 'ListItem',
             'position': 1,
             'name': 'Studio',
-            'item': 'https://cybersteed.com/'
+            'item': 'https://crystalsteed.com/'
           }
         ]
       }
@@ -422,7 +422,7 @@ export function App() {
           ) : currentPath === '/' || currentPath === '' ? (
             <main className="relative z-10 pt-24 pb-24 bg-transparent">
               <HeadSEO
-                title="CyberSteed | Autonomous Systems Engineering & AI Agents"
+                title="CrystalSteed | Autonomous Systems Engineering & AI Agents"
                 description="Eliminate manual operations with autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture. Scale without payroll bloat."
                 canonicalPath="/"
                 schema={homeSchema}

@@ -31,13 +31,13 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'CyberSteed Autonomous Architecture Publications',
+    name: 'CrystalSteed Autonomous Architecture Publications',
     description: 'Explore deep technical publications on autonomous architecture, B2B procurement engineering, AI data pipeline case studies, and enterprise systems design.',
-    url: 'https://cybersteed.com/blog',
+    url: 'https://crystalsteed.com/blog',
     publisher: {
       '@type': 'Organization',
-      name: 'CyberSteed',
-      url: 'https://cybersteed.com/'
+      name: 'CrystalSteed',
+      url: 'https://crystalsteed.com/'
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -46,13 +46,13 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://cybersteed.com/'
+          item: 'https://crystalsteed.com/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Publications',
-          item: 'https://cybersteed.com/blog'
+          item: 'https://crystalsteed.com/blog'
         }
       ]
     }
@@ -77,7 +77,7 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-20">
       <HeadSEO
-        title="CyberSteed | Autonomous Architecture & Engineering Insights"
+        title="CrystalSteed | Autonomous Architecture & Engineering Insights"
         description="Explore deep technical publications on autonomous architecture, B2B procurement engineering, AI data pipeline case studies, and enterprise systems design."
         canonicalPath="/blog"
         schema={blogSchema}
@@ -111,7 +111,7 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
           Autonomous Architecture Publications for Technical Leaders
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">
-          Enterprise engineering teams are overwhelmed by shallow AI demos that fail under production workloads. Implementing brittle prototypes wastes quarters of developer payroll and leaves data architectures corrupted. Our publications deliver battle-tested architectural blueprints, B2B procurement analyses, and real-world AI data pipeline case studies authored by Ansh Rudra and the CyberSteed team.
+          Enterprise engineering teams are overwhelmed by shallow AI demos that fail under production workloads. Implementing brittle prototypes wastes quarters of developer payroll and leaves data architectures corrupted. Our publications deliver battle-tested architectural blueprints, B2B procurement analyses, and real-world AI data pipeline case studies authored by Ansh Rudra and the CrystalSteed team.
         </p>
       </div>
 

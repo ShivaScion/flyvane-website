@@ -16,8 +16,8 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Autonomous Systems Service Terms & Engineering Governance',
-    description: 'Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all CyberSteed client engagements.',
-    url: 'https://cybersteed.com/terms',
+    description: 'Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all CrystalSteed client engagements.',
+    url: 'https://crystalsteed.com/terms',
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -25,13 +25,13 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://cybersteed.com/'
+          item: 'https://crystalsteed.com/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Terms & Governance',
-          item: 'https://cybersteed.com/terms'
+          item: 'https://crystalsteed.com/terms'
         }
       ]
     }
@@ -51,21 +51,21 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
       title: 'Architectural Scope & Advisory Mandate',
       badge: 'MANDATE & DELIVERABLES',
       content:
-        'CyberSteed operates as a specialized Systems Engineering and Behavioral Strategy practice founded by Ansh Rudra. All engagements encompass bespoke autonomous infrastructure, distributed extraction pipelines, deterministic multi-agent swarms, and executive brand positioning. Our mandate is rooted in deterministic engineering: we build resilient production systems that eliminate repetitive operational friction and replace fragile manual workflows with verifiable machine execution.',
+        'CrystalSteed operates as a specialized Systems Engineering and Behavioral Strategy practice founded by Ansh Rudra. All engagements encompass bespoke autonomous infrastructure, distributed extraction pipelines, deterministic multi-agent swarms, and executive brand positioning. Our mandate is rooted in deterministic engineering: we build resilient production systems that eliminate repetitive operational friction and replace fragile manual workflows with verifiable machine execution.',
     },
     {
       id: '02',
       title: 'Data Sovereignty & Absolute Client IP Ownership',
       badge: 'INTELLECTUAL PROPERTY',
       content:
-        'Clients retain 100% unconditional ownership of all proprietary code, extraction scrapers, database schemas, model orchestration graphs, and datasets generated during the engagement. CyberSteed asserts zero vendor lock-in. We do not license proprietary black-box wrappers: all infrastructure is deployed directly into client-controlled cloud environments (AWS, GCP, Supabase, Vercel). Crucially, client data is strictly quarantined: we enforce cryptographic isolation and never train public machine learning models on client confidential records.',
+        'Clients retain 100% unconditional ownership of all proprietary code, extraction scrapers, database schemas, model orchestration graphs, and datasets generated during the engagement. CrystalSteed asserts zero vendor lock-in. We do not license proprietary black-box wrappers: all infrastructure is deployed directly into client-controlled cloud environments (AWS, GCP, Supabase, Vercel). Crucially, client data is strictly quarantined: we enforce cryptographic isolation and never train public machine learning models on client confidential records.',
     },
     {
       id: '03',
       title: 'Deterministic Reliability & Performance Benchmarks',
       badge: 'SERVICE LEVEL STANDARDS',
       content:
-        'Autonomous systems engineered by CyberSteed target strict engineering benchmarks: 99.4%+ schema validation accuracy, sub-second webhook ingestion latency, and zero-loss state recovery through idempotent checkpointing. While external third-party APIs and target websites may alter structures dynamically, our systems incorporate automated backpressure throttles, residential proxy rotations, and dead-letter queues to isolate anomalies before they impact core financial or operational databases.',
+        'Autonomous systems engineered by CrystalSteed target strict engineering benchmarks: 99.4%+ schema validation accuracy, sub-second webhook ingestion latency, and zero-loss state recovery through idempotent checkpointing. While external third-party APIs and target websites may alter structures dynamically, our systems incorporate automated backpressure throttles, residential proxy rotations, and dead-letter queues to isolate anomalies before they impact core financial or operational databases.',
     },
     {
       id: '04',
@@ -86,15 +86,15 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
       title: 'Data Privacy, Ethics & Compliance Posture',
       badge: 'ETHICAL CRAWLING & PRIVACY',
       content:
-        'CyberSteed complies with international privacy frameworks and ethical web crawling protocols (respecting robots.txt guidelines where applicable, rate-limiting outbound requests to prevent server denial-of-service, and eliminating personal identity exposure). Clients are solely responsible for ensuring that their target data collection initiatives align with their jurisdiction\'s statutory frameworks and commercial terms of service.',
+        'CrystalSteed complies with international privacy frameworks and ethical web crawling protocols (respecting robots.txt guidelines where applicable, rate-limiting outbound requests to prevent server denial-of-service, and eliminating personal identity exposure). Clients are solely responsible for ensuring that their target data collection initiatives align with their jurisdiction\'s statutory frameworks and commercial terms of service.',
     },
   ];
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-20">
       <HeadSEO
-        title="Terms of Service & Governance | CyberSteed Systems"
-        description="Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all CyberSteed client engagements."
+        title="Terms of Service & Governance | CrystalSteed Systems"
+        description="Review the autonomous systems service terms, AI automation governance protocols, and engineering SLA architecture governing all CrystalSteed client engagements."
         canonicalPath="/terms"
         schema={termsSchema}
       />
@@ -139,7 +139,7 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
           Autonomous Systems Service Terms & Engineering Governance
         </h1>
         <p className="text-base font-sans text-zinc-400 leading-relaxed text-pretty">
-          Ambiguous software service agreements create operational vulnerability and unexpected intellectual property disputes. Without clear governance, companies face vendor lock-in, data security risks, and unpredictable automation downtime. These terms establish transparent engineering standards, unconditional client IP ownership, and verifiable SLA frameworks for all CyberSteed autonomous partnerships.
+          Ambiguous software service agreements create operational vulnerability and unexpected intellectual property disputes. Without clear governance, companies face vendor lock-in, data security risks, and unpredictable automation downtime. These terms establish transparent engineering standards, unconditional client IP ownership, and verifiable SLA frameworks for all CrystalSteed autonomous partnerships.
         </p>
         <div className="pt-2 flex items-center gap-4 text-xs font-mono text-zinc-500">
           <span>Effective: October 14, 2026</span>
@@ -238,7 +238,7 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
             PRACTICE ARCHITECTURE
           </span>
           <h4 className="text-base font-sans font-semibold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
-            <span>Learn About CyberSteed &amp; Founder</span>
+            <span>Learn About CrystalSteed &amp; Founder</span>
             <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
           </h4>
           <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">

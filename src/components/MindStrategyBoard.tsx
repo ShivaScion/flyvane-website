@@ -18,7 +18,7 @@ export const MindStrategyBoard: React.FC = () => {
     positioning: {
       title: "Category Framing & Positioning Matrix",
       badge: "DIFFERENTIATION ARCHITECTURE",
-      summary: "How CyberSteed structures high-contrast positioning to elevate enterprise organizations out of commoditized price wars.",
+      summary: "How CrystalSteed structures high-contrast positioning to elevate enterprise organizations out of commoditized price wars.",
       pillars: [
         {
           label: "Current State (The Commoditized Trap)",
@@ -100,7 +100,7 @@ export const MindStrategyBoard: React.FC = () => {
           STRATEGIC METHODOLOGY & EXECUTIVE ARCHITECTURE
         </span>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-[1.15] text-balance">
-          The CyberSteed Strategy Board
+          The CrystalSteed Strategy Board
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
           A structured walkthrough of our executive positioning methodology. We architect category authority and demand frameworks engineered for senior decision-makers.
@@ -215,7 +215,7 @@ export const MindStrategyBoard: React.FC = () => {
         {/* Callout Footer */}
         <div className="p-5 rounded-xl bg-amber-500/[0.05] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm font-sans">
           <div className="text-zinc-300 leading-relaxed">
-            <span className="text-amber-400 font-semibold">CyberSteed Advisory Standard: </span>
+            <span className="text-amber-400 font-semibold">CrystalSteed Advisory Standard: </span>
             Strategy is never delivered as an abstract slide deck. Every recommendation is architected as actionable market positioning and validated against commercial pipeline objectives.
           </div>
           <a

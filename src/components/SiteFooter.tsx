@@ -44,15 +44,11 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
             onClick={(e) => handleLinkClick(e, '/')}
             className="inline-flex items-center gap-3 group cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center font-sans font-bold text-xs text-white group-hover:border-cyan-400/40 transition-colors">
-              CS
-            </div>
-            <div>
-              <span className="font-sans font-semibold text-white tracking-tight text-sm block">CyberSteed</span>
-              <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-zinc-500 block">
-                Autonomous Systems &amp; Strategy
-              </span>
-            </div>
+            <img
+              src="/images/logo.png"
+              alt="CrystalSteed"
+              className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
           </a>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-sm">
             Engineering bespoke autonomous pipelines, worker swarms, and category-defining commercial positioning. Turning manual operations into reliable software leverage.
@@ -160,7 +156,7 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
                 onClick={(e) => handleLinkClick(e, '/about')}
                 className="hover:text-white transition-colors"
               >
-                About CyberSteed &amp; Founder
+                About CrystalSteed &amp; Founder
               </a>
             </li>
             <li>
@@ -183,7 +179,7 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="https://www.linkedin.com/company/cybersteed"
+                href="https://www.linkedin.com/company/crystalsteed/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors inline-flex items-center gap-1 text-zinc-400"
@@ -199,7 +195,7 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
       {/* Bottom Bar with Copyright & Sub-links */}
       <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
         <div>
-          © 2026 CyberSteed. All rights reserved. Zero-operator reliability practice.
+          © 2026 CrystalSteed. All rights reserved. Zero-operator reliability practice.
         </div>
         <div className="flex items-center gap-5">
           <a

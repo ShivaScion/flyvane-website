@@ -59,7 +59,7 @@ function buildAdminEmailHtml(payload: AdvisoryPayload, leadId: string): string {
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 640px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-        CYBERSTEED ADVISORY INTAKE — ${safeMode} MODE
+        CRYSTALSTEED ADVISORY INTAKE — ${safeMode} MODE
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 24px 0;">
         New Advisory Brief from ${safeName}
@@ -104,14 +104,14 @@ function buildProspectAckHtml(payload: AdvisoryPayload, leadId: string): string 
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 600px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-        CYBERSTEED ADVISORY DESK
+        CRYSTALSTEED ADVISORY DESK
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 16px 0;">
         Brief Received — ${safeScope}
       </h1>
       <p style="font-size: 14px; line-height: 1.6; color: #D4D4D8; margin-bottom: 20px;">
         Dear ${safeName},<br/><br/>
-        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${safeLeadId}</span>) has been securely logged with CyberSteed. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
+        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${safeLeadId}</span>) has been securely logged with CrystalSteed. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
       </p>
       <div style="background-color: #0B0D13; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; font-size: 13px; color: #A1A1AA;">
         <strong>Submitted Scope:</strong> ${safeScope}<br/>
@@ -212,10 +212,10 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
         if (!error && data?.id) {
           leadId = data.id;
         } else if (error) {
-          console.error('[CYBERSTEED SUPABASE ERROR]', error.message);
+          console.error('[CRYSTALSTEED SUPABASE ERROR]', error.message);
         }
       } catch (dbErr) {
-        console.error('[CYBERSTEED SUPABASE EXCEPTION]', dbErr);
+        console.error('[CRYSTALSTEED SUPABASE EXCEPTION]', dbErr);
       }
     }
 
@@ -245,7 +245,7 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
     // Channel A: Resend Transactional Email
     const resendApiKey = process.env.RESEND_API_KEY;
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CyberSteed Advisory <advisory@cybersteed.com>';
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.com>';
 
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
@@ -257,14 +257,14 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
             const res = await resend.emails.send({
               from: fromEmail,
               to: adminEmail,
-              subject: `[CyberSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+              subject: `[CrystalSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
               html: buildAdminEmailHtml(safePayload, leadId),
             });
             if (res.error && res.error.message?.includes('domain')) {
               return resend.emails.send({
                 from: 'onboarding@resend.dev',
                 to: adminEmail,
-                subject: `[CyberSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+                subject: `[CrystalSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
                 html: buildAdminEmailHtml(safePayload, leadId),
               });
             }
@@ -278,7 +278,7 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
           resend.emails.send({
             from: fromEmail,
             to: sanitizedContact.trim(),
-            subject: `CyberSteed Advisory — Brief Received (${sanitizedServiceScope})`,
+            subject: `CrystalSteed Advisory — Brief Received (${sanitizedServiceScope})`,
             html: buildProspectAckHtml(safePayload, leadId),
           })
         );
@@ -296,7 +296,7 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
       const cleanPersonalWhatsapp = personalWhatsapp.replace('whatsapp:++', 'whatsapp:+');
 
       const whatsappBody =
-        `*CyberSteed Advisory Alert*\n\n` +
+        `*CrystalSteed Advisory Alert*\n\n` +
         `*Client:* ${name}\n` +
         `*Mode:* ${activeMode.toUpperCase()}\n` +
         `*Contact:* ${contact}\n` +
@@ -319,7 +319,7 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
       const results = await Promise.allSettled(dispatchTasks);
       results.forEach((res, idx) => {
         if (res.status === 'rejected') {
-          console.error(`[CYBERSTEED DISPATCH CHANNEL ${idx} ERROR]`, res.reason);
+          console.error(`[CRYSTALSTEED DISPATCH CHANNEL ${idx} ERROR]`, res.reason);
         }
       });
     }
@@ -332,7 +332,7 @@ export async function processAdvisorySubmission(rawBody: unknown): Promise<{ sta
       },
     };
   } catch (err) {
-    console.error('[CYBERSTEED ADVISORY HANDLER ERROR]', err);
+    console.error('[CRYSTALSTEED ADVISORY HANDLER ERROR]', err);
     return {
       status: 500,
       body: {
