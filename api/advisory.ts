@@ -219,18 +219,8 @@ export default async function handler(req: any, res: any) {
       } catch {
         rawBody = {};
       }
-    } else if (!rawBody && typeof req[Symbol.asyncIterator] === 'function') {
-      const chunks: any[] = [];
-      for await (const chunk of req) {
-        chunks.push(chunk);
-      }
-      const str = Buffer.concat(chunks).toString('utf8');
-      try {
-        rawBody = JSON.parse(str || '{}');
-      } catch {
-        rawBody = {};
-      }
     }
+    rawBody = rawBody || {};
 
     // 1. Honeypot check
     if (rawBody && typeof rawBody === 'object') {
@@ -417,7 +407,7 @@ export default async function handler(req: any, res: any) {
     console.error('[FLYVANE ADVISORY HANDLER ERROR]', err);
     return sendResponse(res, 500, {
       success: false,
-      error: 'Unable to process advisory brief at this time.',
+      error: err?.message || 'Unable to process advisory brief at this time.',
     }, true);
   }
 }
