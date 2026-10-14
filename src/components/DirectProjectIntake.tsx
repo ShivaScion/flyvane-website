@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Linkedin, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Mail, CheckCircle2, Loader2, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { stitchEase } from '../utils/motion';
 import { soundEngine } from '../utils/soundEngine';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
@@ -151,7 +151,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
       }
     } catch {
       setErrorDetail(
-        'Network connection interrupted. Please connect directly with our partners via LinkedIn.'
+        'Network connection interrupted. Please connect directly with our partners via email at anshrudra@crystalsteed.in or via LinkedIn.'
       );
       setStatus('error');
     }
@@ -189,13 +189,29 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                 : 'Partner with CrystalSteed to engineer fault-tolerant autonomous pipelines, worker swarms, and custom systems architecture.'}
             </p>
 
-            {/* Restricted Public Touchpoint (Section 4.2 — Strictly Direct LinkedIn + Intake Form, Zero phone numbers) */}
+            {/* Direct Communication Channels */}
             <div className="pt-4 space-y-3 font-sans text-xs">
+              <a
+                href="mailto:anshrudra@crystalsteed.in"
+                className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-cyan-400/40 shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-300 flex items-center justify-between group cursor-pointer"
+              >
+                <span className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-cyan-400" />
+                  <span className="font-mono text-xs text-zinc-200 group-hover:text-cyan-300 transition-colors">
+                    anshrudra@crystalsteed.in
+                  </span>
+                </span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-semibold group-hover:text-white flex items-center gap-1">
+                  <span>Direct Email</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </a>
+
               <a
                 href="https://www.linkedin.com/company/crystalsteed/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
+                className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-sky-400/40 shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-300 flex items-center justify-between group cursor-pointer"
               >
                 <span className="flex items-center gap-3">
                   <Linkedin className="w-4 h-4 text-sky-400" />

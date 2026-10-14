@@ -185,6 +185,15 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
             </li>
             <li>
               <a
+                href="mailto:anshrudra@crystalsteed.in"
+                className="hover:text-white transition-colors inline-flex items-center gap-1.5 text-zinc-400 font-mono text-[11px]"
+              >
+                <span>anshrudra@crystalsteed.in</span>
+                <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+              </a>
+            </li>
+            <li>
+              <a
                 href="https://www.linkedin.com/company/crystalsteed/"
                 target="_blank"
                 rel="noopener noreferrer"

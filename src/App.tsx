@@ -297,7 +297,7 @@ export function App() {
         '@id': 'https://crystalsteed.com/#organization',
         'name': 'CrystalSteed',
         'url': 'https://crystalsteed.com/',
-        'email': 'contact@crystalsteed.com',
+        'email': 'anshrudra@crystalsteed.in',
         'address': [
           {
             '@type': 'PostalAddress',

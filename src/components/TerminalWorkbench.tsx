@@ -185,7 +185,7 @@ if __name__ == "__main__":
       } else if (topic.includes('contact') || topic.includes('email') || topic.includes('hire')) {
         newHist.push({
           sender: 'system',
-          text: `[VERIFIED INFO — CONTACT]\n• Direct Intake: #contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
+          text: `[VERIFIED INFO — CONTACT]\n• Direct Email: anshrudra@crystalsteed.in\n• Direct Intake: #contact\n• Engagement Model: Dedicated engineering pipelines & strategic retainers`
         });
       } else {
         newHist.push({

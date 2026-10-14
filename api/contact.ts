@@ -318,7 +318,7 @@ export default async function handler(req: any, res: any) {
     const dispatchTasks: Promise<unknown>[] = [];
 
     const resendApiKey = process.env.RESEND_API_KEY;
-    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'anshrudra@crystalsteed.in';
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'CrystalSteed Advisory <advisory@crystalsteed.com>';
 
     if (resendApiKey) {
