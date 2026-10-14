@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { soundEngine } from './utils/soundEngine';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
@@ -518,6 +519,9 @@ export function App() {
           onClose={() => setIsCmdOpen(false)}
           onSelectCommand={handleCommand}
         />
+
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
       </div>
     </ErrorBoundary>
   );
