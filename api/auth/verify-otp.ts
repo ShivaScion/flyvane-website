@@ -1,5 +1,5 @@
-import { verifyOtp, createAdminSession } from '../../app/api/auth/otpStore';
-import { applyOwaspHeaders, checkRateLimit, sanitizeServerText } from '../../app/api/auth/security';
+import { verifyOtp, createAdminSession } from '../../app/api/auth/otpStore.ts';
+import { applyOwaspHeaders, checkRateLimit, sanitizeServerText } from '../../app/api/auth/security.ts';
 
 export default async function handler(req: any, res: any) {
   applyOwaspHeaders(res);

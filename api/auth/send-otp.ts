@@ -1,6 +1,6 @@
-import '../../app/api/auth/loadEnv';
-import { generateAndStoreOtp } from '../../app/api/auth/otpStore';
-import { applyOwaspHeaders, checkRateLimit } from '../../app/api/auth/security';
+import '../../app/api/auth/loadEnv.ts';
+import { generateAndStoreOtp } from '../../app/api/auth/otpStore.ts';
+import { applyOwaspHeaders, checkRateLimit } from '../../app/api/auth/security.ts';
 import { Resend } from 'resend';
 import twilio from 'twilio';
 

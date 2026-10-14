@@ -115,14 +115,19 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
         }),
       });
 
-      const data = await response.json();
+      let data: any = null;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
 
-      if (response.ok && data.success) {
+      if (response.ok && data?.success) {
         setLeadId(data.leadId || null);
         setStatus('success');
       } else {
         setErrorDetail(
-          data.error ||
+          data?.error ||
             'We encountered an issue logging your brief. Please connect directly via LinkedIn.'
         );
         setStatus('error');

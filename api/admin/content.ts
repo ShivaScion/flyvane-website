@@ -1,5 +1,5 @@
-import { validateAdminSession } from '../../app/api/auth/otpStore';
-import { applyOwaspHeaders, sanitizeData, sanitizeServerText } from '../../app/api/auth/security';
+import { validateAdminSession } from '../../app/api/auth/otpStore.ts';
+import { applyOwaspHeaders, sanitizeData, sanitizeServerText } from '../../app/api/auth/security.ts';
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';

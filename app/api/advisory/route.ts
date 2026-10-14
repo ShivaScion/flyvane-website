@@ -5,7 +5,7 @@ import twilio from 'twilio';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { sanitizeServerText } from '../auth/security';
+import { sanitizeServerText } from '../auth/security.ts';
 
 export const AdvisoryPayloadSchema = z.object({
   name: z.string().min(2).max(100),
