@@ -349,12 +349,19 @@ export default async function handler(req: any, res: any) {
 
         if (contactType === 'email') {
           dispatchTasks.push(
-            resend.emails.send({
-              from: fromEmail,
-              to: sanitizedContact.trim(),
-              subject: `Flyvane Advisory — Brief Received (${sanitizedServiceScope})`,
-              html: buildProspectAckHtml(safePayload, leadId),
-            })
+            (async () => {
+              try {
+                return await resend.emails.send({
+                  from: fromEmail,
+                  to: sanitizedContact.trim(),
+                  subject: `Flyvane Advisory — Brief Received (${sanitizedServiceScope})`,
+                  html: buildProspectAckHtml(safePayload, leadId),
+                });
+              } catch (err) {
+                console.warn('[PROSPECT EMAIL ERROR]', err);
+                return null;
+              }
+            })()
           );
         }
       } catch (e) {
