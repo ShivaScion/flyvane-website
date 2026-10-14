@@ -399,9 +399,16 @@ export default async function handler(req: any, res: any) {
       await Promise.allSettled(dispatchTasks);
     }
 
+    const dispatchStatus = {
+      supabase: Boolean(supabaseUrl && supabaseKey),
+      resend: Boolean(resendApiKey),
+      twilio: Boolean(twilioSid && twilioToken && rawTwilioFrom && personalWhatsapp),
+    };
+
     return sendResponse(res, 200, {
       success: true,
       leadId,
+      dispatched: dispatchStatus,
     }, true);
   } catch (err: any) {
     console.error('[FLYVANE ADVISORY HANDLER ERROR]', err);
