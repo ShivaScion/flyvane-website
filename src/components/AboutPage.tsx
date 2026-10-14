@@ -24,6 +24,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Asansol',
+          addressRegion: 'West Bengal',
           addressCountry: 'IN'
         },
         worksFor: {
@@ -39,6 +40,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Surat',
+          addressRegion: 'Gujarat',
           addressCountry: 'IN'
         },
         worksFor: {
@@ -314,9 +316,9 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
                   <p className="text-xs font-mono text-cyan-400 font-medium">
                     Co-Founder &amp; Principal Architect, Systems &amp; Automation
                   </p>
-                  <p className="text-xs font-mono text-zinc-500 flex items-center justify-center sm:justify-start gap-1 pt-1">
-                    <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-                    <span>Asansol, India</span>
+                  <p className="text-xs font-mono text-zinc-400 flex items-center justify-center sm:justify-start gap-1.5 pt-1">
+                    <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                    <span>Asansol, West Bengal, India <span className="text-zinc-500 font-sans">(Company Headquarters)</span></span>
                   </p>
                 </div>
               </div>
@@ -364,9 +366,9 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
                   <p className="text-xs font-mono text-amber-400 font-medium">
                     Co-Founder &amp; Principal Strategist, Branding, Marketing &amp; Positioning
                   </p>
-                  <p className="text-xs font-mono text-zinc-500 flex items-center justify-center sm:justify-start gap-1 pt-1">
-                    <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-                    <span>Surat, India</span>
+                  <p className="text-xs font-mono text-zinc-400 flex items-center justify-center sm:justify-start gap-1.5 pt-1">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>Surat, Gujarat, India <span className="text-zinc-500 font-sans">(Sales Headquarters)</span></span>
                   </p>
                 </div>
               </div>

@@ -298,13 +298,38 @@ export function App() {
         'name': 'CrystalSteed',
         'url': 'https://crystalsteed.com/',
         'email': 'contact@crystalsteed.com',
-        'founder': {
-          '@type': 'Person',
-          '@id': 'https://crystalsteed.com/#founder',
-          'name': 'Ansh Rudra',
-          'jobTitle': 'Founder & Principal Systems Architect',
-          'url': 'https://crystalsteed.com/about'
-        }
+        'address': [
+          {
+            '@type': 'PostalAddress',
+            'name': 'Company Headquarters',
+            'addressLocality': 'Asansol',
+            'addressRegion': 'West Bengal',
+            'addressCountry': 'IN'
+          },
+          {
+            '@type': 'PostalAddress',
+            'name': 'Sales Headquarters',
+            'addressLocality': 'Surat',
+            'addressRegion': 'Gujarat',
+            'addressCountry': 'IN'
+          }
+        ],
+        'founder': [
+          {
+            '@type': 'Person',
+            '@id': 'https://crystalsteed.com/#founder-ansh',
+            'name': 'Ansh Rudra',
+            'jobTitle': 'Co-Founder & Principal Architect, Systems & Automation',
+            'url': 'https://crystalsteed.com/about'
+          },
+          {
+            '@type': 'Person',
+            '@id': 'https://crystalsteed.com/#founder-swetaa',
+            'name': 'Swetaa Dhuliya',
+            'jobTitle': 'Co-Founder & Principal Strategist, Branding, Marketing & Positioning',
+            'url': 'https://crystalsteed.com/about'
+          }
+        ]
       },
       {
         '@type': 'ProfessionalService',

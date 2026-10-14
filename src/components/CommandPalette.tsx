@@ -127,13 +127,13 @@ const COMMAND_REGISTRY: CommandItem[] = [
   },
   {
     id: 'cmd-about',
-    title: 'About CrystalSteed & Founder',
-    subtitle: 'Meet Ansh Rudra, our ethics, practice capabilities & trajectory',
+    title: 'About CrystalSteed & Partners',
+    subtitle: 'Meet Ansh Rudra & Swetaa Dhuliya: systems engineering & brand strategy',
     category: 'Identity',
     icon: <User className="w-4 h-4 text-emerald-400" />,
     shortcut: 'ABOUT',
     action: 'about',
-    keywords: ['about', 'founder', 'ansh', 'rudra', 'ethics', 'vision', 'story', 'team']
+    keywords: ['about', 'partners', 'founders', 'ansh', 'rudra', 'swetaa', 'dhuliya', 'ethics', 'vision', 'story', 'team']
   },
   {
     id: 'cmd-terms',

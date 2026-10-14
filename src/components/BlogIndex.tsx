@@ -210,11 +210,11 @@ export function BlogIndex({ onNavigate, onNavigateHome, onSelectPost }: BlogInde
             ABOUT THE PRACTICE
           </span>
           <h4 className="text-base font-sans font-semibold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
-            <span>Systems Engineering Ethics &amp; Founder</span>
+            <span>Systems Engineering Ethics &amp; Partners</span>
             <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
           </h4>
           <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
-            Read how founder Ansh Rudra structures self-healing autonomous systems and strict automation ethics for growing enterprises.
+            Discover how co-founders Ansh Rudra and Swetaa Dhuliya pair self-healing autonomous systems with strategic brand authority.
           </p>
         </a>
 

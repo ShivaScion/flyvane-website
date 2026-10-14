@@ -51,7 +51,7 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
       title: 'Architectural Scope & Advisory Mandate',
       badge: 'MANDATE & DELIVERABLES',
       content:
-        'CrystalSteed operates as a specialized Systems Engineering and Behavioral Strategy practice founded by Ansh Rudra. All engagements encompass bespoke autonomous infrastructure, distributed extraction pipelines, deterministic multi-agent swarms, and executive brand positioning. Our mandate is rooted in deterministic engineering: we build resilient production systems that eliminate repetitive operational friction and replace fragile manual workflows with verifiable machine execution.',
+        'CrystalSteed operates as a specialized Systems Engineering and Behavioral Strategy practice co-founded by Ansh Rudra and Swetaa Dhuliya. All engagements encompass bespoke autonomous infrastructure, distributed extraction pipelines, deterministic multi-agent swarms, and executive brand positioning. Our mandate is rooted in deterministic engineering: we build resilient production systems that eliminate repetitive operational friction and replace fragile manual workflows with verifiable machine execution.',
     },
     {
       id: '02',
@@ -144,7 +144,7 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
         <div className="pt-2 flex items-center gap-4 text-xs font-mono text-zinc-500">
           <span>Effective: October 14, 2026</span>
           <span>•</span>
-          <span>Jurisdiction: Bangalore, India / Global Enterprise</span>
+          <span>Jurisdiction: West Bengal &amp; Gujarat, India • Global Enterprise</span>
         </div>
       </div>
 
@@ -238,11 +238,11 @@ export function TermsPage({ onNavigate, onNavigateHome }: TermsPageProps) {
             PRACTICE ARCHITECTURE
           </span>
           <h4 className="text-base font-sans font-semibold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
-            <span>Learn About CrystalSteed &amp; Founder</span>
+            <span>Learn About CrystalSteed &amp; Partners</span>
             <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
           </h4>
           <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
-            Discover our founder manifesto, engineering ethics doctrine, and how we eliminate 1,000,000 hours of soul-crushing human operational toil.
+            Discover our partner manifesto, engineering ethics doctrine, and how we eliminate 1,000,000 hours of soul-crushing human operational toil.
           </p>
         </a>
 

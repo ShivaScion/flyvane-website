@@ -53,10 +53,16 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
           <p className="text-xs text-zinc-400 leading-relaxed max-w-sm">
             Engineering bespoke autonomous pipelines, worker swarms, and category-defining commercial positioning. Turning manual operations into reliable software leverage.
           </p>
-          <div className="pt-1 flex items-center gap-3 text-[11px] font-mono text-zinc-500">
-            <span>Bangalore, India</span>
-            <span>•</span>
-            <span>Worldwide Execution</span>
+          <div className="pt-2 space-y-1 text-[11px] font-mono text-zinc-500">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-zinc-400 font-semibold">Company HQ:</span>
+              <span className="text-zinc-300">Asansol, West Bengal, India</span>
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-zinc-400 font-semibold">Sales HQ:</span>
+              <span className="text-zinc-300">Surat, Gujarat, India</span>
+            </div>
+            <div className="text-[10px] text-zinc-500 pt-0.5">Worldwide Execution</div>
           </div>
         </div>
 
@@ -156,7 +162,7 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ onNavigate }) => {
                 onClick={(e) => handleLinkClick(e, '/about')}
                 className="hover:text-white transition-colors"
               >
-                About CrystalSteed &amp; Founder
+                About CrystalSteed &amp; Partners
               </a>
             </li>
             <li>
