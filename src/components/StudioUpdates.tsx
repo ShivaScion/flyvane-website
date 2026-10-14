@@ -7,9 +7,10 @@ import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 
 interface StudioUpdatesProps {
   mode: 'machine' | 'mind' | 'hybrid';
+  onNavigate?: (path: string) => void;
 }
 
-export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
+export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode, onNavigate }) => {
   const machineUpdates = [
     {
       date: "OCTOBER 2026",
@@ -88,17 +89,34 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
           </h2>
         </div>
 
-        <a
-          href="https://www.linkedin.com/company/flyvane"
-          target="_blank"
-          rel="noopener noreferrer"
-          onMouseEnter={() => soundEngine.playHoverHum()}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out self-start sm:self-auto"
-        >
-          <Linkedin className="w-3.5 h-3.5 text-sky-400" />
-          <span>Follow Flyvane on LinkedIn</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
-        </a>
+        <div className="flex flex-wrap items-center gap-3 self-start sm:self-auto">
+          <a
+            href="/blog"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/blog');
+              }
+            }}
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 text-xs font-sans font-medium text-cyan-300 transition-all duration-300 cursor-pointer"
+          >
+            <span>All Technical Publications</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+
+          <a
+            href="https://www.linkedin.com/company/flyvane"
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-xs font-sans font-medium text-zinc-200 hover:text-white transition-all duration-500 ease-out"
+          >
+            <Linkedin className="w-3.5 h-3.5 text-sky-400" />
+            <span>Follow Flyvane on LinkedIn</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+          </a>
+        </div>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -141,6 +159,51 @@ export const StudioUpdates: React.FC<StudioUpdatesProps> = ({ mode }) => {
             </a>
           </InteractiveTiltWrapper>
         ))}
+      </div>
+
+      {/* Long-form Engineering Publications Interlink Banner */}
+      <div className="mt-10 p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-1.5 max-w-2xl">
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400 font-semibold block">
+            DEEP-DIVE ARCHITECTURAL LOGS
+          </span>
+          <h3 className="text-lg font-sans font-semibold text-white">
+            Looking for production code architectures and loss-aversion case studies?
+          </h3>
+          <p className="text-xs font-sans text-zinc-400 leading-relaxed">
+            Read our long-form publications analyzing autonomous data pipelines at scale, LangGraph state persistence, and B2B procurement psychology.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+          <a
+            href="/blog/autonomous-data-pipelines-at-scale"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/blog/autonomous-data-pipelines-at-scale');
+              }
+            }}
+            className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans text-zinc-200 hover:text-white transition-colors flex items-center justify-between gap-2 cursor-pointer"
+          >
+            <span>Autonomous Pipelines</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" />
+          </a>
+
+          <a
+            href="/blog/loss-aversion-and-b2b-procurement-psychology"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/blog/loss-aversion-and-b2b-procurement-psychology');
+              }
+            }}
+            className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-sans text-zinc-200 hover:text-white transition-colors flex items-center justify-between gap-2 cursor-pointer"
+          >
+            <span>B2B Procurement</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-amber-400" />
+          </a>
+        </div>
       </div>
     </section>
   );

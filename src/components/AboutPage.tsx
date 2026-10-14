@@ -1,13 +1,15 @@
 import { ArrowLeft, Cpu, Shield, Target, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 import { InteractiveTiltWrapper } from './InteractiveTiltWrapper';
 import { HeadSEO } from './HeadSEO';
+import { SiteFooter } from './SiteFooter';
 
 interface AboutPageProps {
+  onNavigate?: (path: string) => void;
   onNavigateHome: () => void;
   onNavigateContact?: () => void;
 }
 
-export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps) {
+export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: AboutPageProps) {
   const aboutSchema = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
@@ -148,16 +150,20 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
 
       {/* Top Header Navigation */}
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
-        <button
-          onClick={onNavigateHome}
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigateHome();
+          }}
           className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Studio</span>
-        </button>
+        </a>
 
         <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400">
-          PRACTICE OVERVIEW & FOUNDER MANIFESTO
+          PRACTICE OVERVIEW &amp; FOUNDER MANIFESTO
         </span>
       </div>
 
@@ -417,12 +423,60 @@ export function AboutPage({ onNavigateHome, onNavigateContact }: AboutPageProps)
               onNavigateHome();
             }
           }}
-          className="px-6 py-3 rounded-xl bg-white text-black font-sans font-semibold text-xs tracking-wider hover:bg-zinc-200 transition-colors shrink-0 flex items-center gap-2"
+          className="px-6 py-3 rounded-xl bg-white text-black font-sans font-semibold text-xs tracking-wider hover:bg-zinc-200 transition-colors shrink-0 flex items-center gap-2 cursor-pointer"
         >
           <span>Initialize Advisory Brief</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
+
+      {/* Sub-URL Interlinking Matrix */}
+      <div className="mt-14 pt-10 border-t border-white/[0.08] grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a
+          href="/blog"
+          onClick={(e) => {
+            e.preventDefault();
+            if (onNavigate) onNavigate('/blog');
+            else onNavigateHome();
+          }}
+          className="p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-cyan-400/30 transition-all duration-300 group block cursor-pointer"
+        >
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400 block mb-2 font-semibold">
+            ENGINEERING PUBLICATIONS
+          </span>
+          <h4 className="text-base font-sans font-semibold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
+            <span>Explore Technical Architecture Logs</span>
+            <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+          </h4>
+          <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
+            Deep-dive production blueprints analyzing autonomous data pipelines at scale, LangGraph state persistence, and B2B procurement psychology.
+          </p>
+        </a>
+
+        <a
+          href="/terms"
+          onClick={(e) => {
+            e.preventDefault();
+            if (onNavigate) onNavigate('/terms');
+            else onNavigateHome();
+          }}
+          className="p-6 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-amber-400/30 transition-all duration-300 group block cursor-pointer"
+        >
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-amber-400 block mb-2 font-semibold">
+            GOVERNANCE &amp; SLA STANDARDS
+          </span>
+          <h4 className="text-base font-sans font-semibold text-white group-hover:text-amber-300 transition-colors flex items-center justify-between">
+            <span>Review Terms of Engagement &amp; SLAs</span>
+            <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
+          </h4>
+          <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
+            Examine our 100% client IP ownership guarantee, 99.4% extraction schema precision benchmarks, and isolated cryptographic secret vaults.
+          </p>
+        </a>
+      </div>
+
+      {/* Global Unified Footer */}
+      <SiteFooter onNavigate={onNavigate || onNavigateHome} />
     </div>
   );
 }

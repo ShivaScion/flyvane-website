@@ -153,6 +153,25 @@ export const Navbar: React.FC<NavbarProps> = ({
             Publications
           </a>
 
+          <a
+            href="/terms"
+            onMouseEnter={() => soundEngine.playHoverHum()}
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                soundEngine.playClick(0.05);
+                onNavigate('/terms');
+              }
+            }}
+            className={`hidden md:inline-block text-xs font-sans font-medium transition-colors px-2.5 py-1.5 rounded-lg ${
+              currentPath === '/terms'
+                ? 'text-cyan-400 bg-white/[0.08] border border-cyan-400/20'
+                : 'text-zinc-300 hover:text-white hover:bg-white/[0.05]'
+            }`}
+          >
+            Terms &amp; SLAs
+          </a>
+
 
 
           <button

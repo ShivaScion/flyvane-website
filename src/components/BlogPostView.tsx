@@ -1,14 +1,16 @@
-import { ArrowLeft, Clock, Calendar, Share2, Check } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Share2, Check, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { BlogPost } from './BlogIndex';
 import { HeadSEO } from './HeadSEO';
+import { SiteFooter } from './SiteFooter';
 
 interface BlogPostViewProps {
   post: BlogPost;
   onBack: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export function BlogPostView({ post, onBack }: BlogPostViewProps) {
+export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
   const [copied, setCopied] = useState(false);
 
   const articleSchema = {
@@ -77,17 +79,21 @@ export function BlogPostView({ post, onBack }: BlogPostViewProps) {
       />
       {/* Top Navigation */}
       <div className="flex items-center justify-between pb-8 border-b border-white/[0.08]">
-        <button
-          onClick={onBack}
-          className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2"
+        <a
+          href="/blog"
+          onClick={(e) => {
+            e.preventDefault();
+            onBack();
+          }}
+          className="px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>All Publications</span>
-        </button>
+        </a>
 
         <button
           onClick={handleShare}
-          className="px-3.5 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2"
+          className="px-3.5 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-sans text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
           <span>{copied ? 'Link Copied' : 'Share'}</span>
@@ -133,8 +139,18 @@ export function BlogPostView({ post, onBack }: BlogPostViewProps) {
             </div>
           </div>
           <div>
-            <div className="text-sm font-sans font-semibold text-white">Ansh Rudra</div>
-            <div className="text-xs font-mono text-zinc-500">Principal Systems Architect & Behavioral Strategist</div>
+            <a
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) onNavigate('/about');
+              }}
+              className="text-sm font-sans font-semibold text-white hover:text-cyan-400 transition-colors cursor-pointer inline-flex items-center gap-2"
+            >
+              <span>Ansh Rudra</span>
+              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider font-normal bg-cyan-400/10 px-1.5 py-0.5 rounded border border-cyan-400/20">Author Bio</span>
+            </a>
+            <div className="text-xs font-mono text-zinc-500">Principal Systems Architect &amp; Behavioral Strategist</div>
           </div>
         </div>
       </header>
@@ -183,16 +199,112 @@ export function BlogPostView({ post, onBack }: BlogPostViewProps) {
         })}
       </div>
 
+      {/* Related Reading & Cross-SubURL Interlinking */}
+      <div className="mt-20 pt-10 border-t border-white/[0.08] space-y-6">
+        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400 font-semibold block">
+          COMPANION ARCHITECTURAL READING
+        </span>
+
+        {post.slug === 'autonomous-data-pipelines-at-scale' ? (
+          <a
+            href="/blog/loss-aversion-and-b2b-procurement-psychology"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigate) onNavigate('/blog/loss-aversion-and-b2b-procurement-psychology');
+            }}
+            className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-amber-400/40 transition-all duration-300 group block cursor-pointer"
+          >
+            <div className="flex items-center justify-between text-xs mb-3">
+              <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-[10px] uppercase tracking-wider">
+                BEHAVIORAL STRATEGY
+              </span>
+              <span className="text-[11px] font-mono text-zinc-500">Next Article →</span>
+            </div>
+            <h3 className="text-xl font-display font-medium text-white group-hover:text-amber-300 transition-colors">
+              B2B Procurement Psychology &amp; Loss Aversion: How C-Suite Buyers Frame Technical Risk
+            </h3>
+            <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
+              Why enterprise software deals collapse when architects pitch features instead of de-risking commercial balance sheets, and how to structure value narratives that close.
+            </p>
+          </a>
+        ) : (
+          <a
+            href="/blog/autonomous-data-pipelines-at-scale"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigate) onNavigate('/blog/autonomous-data-pipelines-at-scale');
+            }}
+            className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-cyan-400/40 transition-all duration-300 group block cursor-pointer"
+          >
+            <div className="flex items-center justify-between text-xs mb-3">
+              <span className="px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 font-mono text-[10px] uppercase tracking-wider">
+                SYSTEMS ENGINEERING
+              </span>
+              <span className="text-[11px] font-mono text-zinc-500">Next Article →</span>
+            </div>
+            <h3 className="text-xl font-display font-medium text-white group-hover:text-cyan-300 transition-colors">
+              Autonomous Data Pipelines at Scale: Eliminating Brittle Cron Jobs with LangGraph
+            </h3>
+            <p className="text-xs font-sans text-zinc-400 mt-2 leading-relaxed">
+              Production architectures for distributed headless browser clusters, checkpoint persistence, and automated dead-letter queues achieving 99.4% extraction schema precision.
+            </p>
+          </a>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <a
+            href="/about"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigate) onNavigate('/about');
+            }}
+            className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.2] transition-colors group flex items-center justify-between cursor-pointer"
+          >
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">About Practice</span>
+              <span className="text-xs font-sans font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                Ansh Rudra &amp; Automation Ethics
+              </span>
+            </div>
+            <ArrowRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+          </a>
+
+          <a
+            href="/terms"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigate) onNavigate('/terms');
+            }}
+            className="p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.2] transition-colors group flex items-center justify-between cursor-pointer"
+          >
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">Engineering SLAs</span>
+              <span className="text-xs font-sans font-semibold text-white group-hover:text-amber-300 transition-colors">
+                Terms of Engagement &amp; Governance
+              </span>
+            </div>
+            <ArrowRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-amber-400 group-hover:translate-x-0.5 transition-all" />
+          </a>
+        </div>
+      </div>
+
       {/* Footer Back */}
       <div className="mt-16 pt-8 border-t border-white/[0.08] flex justify-between items-center">
-        <button
-          onClick={onBack}
-          className="px-5 py-2.5 rounded-xl bg-white text-black font-sans font-semibold text-xs transition-transform hover:scale-[1.02] flex items-center gap-2"
+        <a
+          href="/blog"
+          onClick={(e) => {
+            e.preventDefault();
+            onBack();
+          }}
+          className="px-5 py-2.5 rounded-xl bg-white text-black font-sans font-semibold text-xs transition-transform hover:scale-[1.02] flex items-center gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Return to Publications</span>
-        </button>
+        </a>
       </div>
+
+      {/* Global Unified Footer */}
+      <SiteFooter onNavigate={onNavigate || onBack} />
     </article>
   );
 }

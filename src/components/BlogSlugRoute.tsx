@@ -7,10 +7,11 @@ interface BlogSlugRouteProps {
   slug: string;
   cachedPost: BlogPost | null;
   onBack: () => void;
+  onNavigate?: (path: string) => void;
   onNavigateHome: () => void;
 }
 
-export function BlogSlugRoute({ slug, cachedPost, onBack, onNavigateHome }: BlogSlugRouteProps) {
+export function BlogSlugRoute({ slug, cachedPost, onBack, onNavigate, onNavigateHome }: BlogSlugRouteProps) {
   const [post, setPost] = useState<BlogPost | null>(() => {
     if (cachedPost && cachedPost.slug === slug) {
       return cachedPost;
@@ -65,7 +66,7 @@ export function BlogSlugRoute({ slug, cachedPost, onBack, onNavigateHome }: Blog
     return <NotFoundPage onNavigateHome={onNavigateHome} />;
   }
 
-  return <BlogPostView post={post} onBack={onBack} />;
+  return <BlogPostView post={post} onBack={onBack} onNavigate={onNavigate} />;
 }
 
 export default BlogSlugRoute;

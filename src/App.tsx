@@ -16,6 +16,7 @@ import { CommandPalette } from './components/CommandPalette';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { NotFoundPage } from './components/NotFoundPage';
 import { HeadSEO } from './components/HeadSEO';
+import { SiteFooter } from './components/SiteFooter';
 import { BlogPost } from './components/BlogIndex';
 import { MODE_CONTENT, ModeConfig } from './data/modeContent';
 
@@ -384,6 +385,7 @@ export function App() {
             <AdminDashboard onNavigateHome={() => navigate('/')} />
           ) : currentPath === '/about' ? (
             <AboutPage
+              onNavigate={navigate}
               onNavigateHome={() => navigate('/')}
               onNavigateContact={() => {
                 navigate('/');
@@ -396,9 +398,13 @@ export function App() {
               }}
             />
           ) : currentPath === '/terms' ? (
-            <TermsPage onNavigateHome={() => navigate('/')} />
+            <TermsPage
+              onNavigate={navigate}
+              onNavigateHome={() => navigate('/')}
+            />
           ) : currentPath === '/blog' ? (
             <BlogIndex
+              onNavigate={navigate}
               onNavigateHome={() => navigate('/')}
               onSelectPost={(post) => {
                 setSelectedBlog(post);
@@ -410,6 +416,7 @@ export function App() {
               slug={currentPath.replace(/^\/blog\//, '').trim()}
               cachedPost={selectedBlog}
               onBack={() => navigate('/blog')}
+              onNavigate={navigate}
               onNavigateHome={() => navigate('/')}
             />
           ) : currentPath === '/' || currentPath === '' ? (
@@ -484,41 +491,12 @@ export function App() {
 
               <CompanyCapabilities mode={mode} />
 
-              <StudioUpdates mode={mode} />
+              <StudioUpdates mode={mode} onNavigate={navigate} />
 
               <ContactSection mode={mode} inquiryContext={inquiryContext} />
 
               {/* Studio Global Footer */}
-              <footer className="mt-20 pt-10 pb-16 border-t border-white/[0.08] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs font-sans text-zinc-500">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.1] flex items-center justify-center font-sans font-bold text-[10px] text-white">
-                      FV
-                    </div>
-                    <span>© 2026 Flyvane — Systems Engineering & Behavioral Strategy Practice</span>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <button
-                      onClick={() => navigate('/about')}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      About & Founder
-                    </button>
-                    <button
-                      onClick={() => navigate('/blog')}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Publications
-                    </button>
-                    <button
-                      onClick={() => navigate('/terms')}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Terms & Governance
-                    </button>
-                  </div>
-                </div>
-              </footer>
+              <SiteFooter onNavigate={navigate} />
             </main>
           ) : (
             <NotFoundPage onNavigateHome={() => navigate('/')} />
