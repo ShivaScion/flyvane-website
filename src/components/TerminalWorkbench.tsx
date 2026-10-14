@@ -478,7 +478,7 @@ if __name__ == "__main__":
     let isLiveFetched = false;
 
     try {
-      // 1. Try local Node scraper API (runs via Vite middleware with zero browser CORS)
+      // 1. Try local/Vercel Node scraper API (zero browser CORS)
       setScrapeStatus("FETCHING LIVE DOM VIA LOCAL NODE ENGINE...");
       try {
         const localResp = await fetch(`/api/scrape?url=${encodeURIComponent(cleanUrl)}`, {
@@ -511,6 +511,24 @@ if __name__ == "__main__":
           if (err.name === 'AbortError') throw err;
         }
       }
+
+      // 3. Fallback to AllOrigins raw proxy gateway
+      if (!isLiveFetched) {
+        setScrapeStatus("FETCHING VIA ALLORIGINS PROXY GATEWAY...");
+        try {
+          const aoResp = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(cleanUrl)}`, {
+            signal: controller.signal
+          });
+          if (aoResp.ok) {
+            rawHtml = await aoResp.text();
+            if (rawHtml && rawHtml.length > 100) {
+              isLiveFetched = true;
+            }
+          }
+        } catch (err: any) {
+          if (err.name === 'AbortError') throw err;
+        }
+      }
     } catch (err: any) {
       clearTimeout(timeoutId);
       setIsScraping(false);
@@ -534,12 +552,25 @@ if __name__ == "__main__":
       const doc = parser.parseFromString(rawHtml, 'text/html');
       const bodyText = doc.body?.innerText || rawHtml;
 
+      const resolveUrl = (rawHref: string): string => {
+        if (!rawHref) return '';
+        try {
+          return new URL(rawHref, parsedUrl.origin).href;
+        } catch {
+          return rawHref;
+        }
+      };
+
       if (targetType === 'contacts') {
         // A. Emails from mailto anchors
         const mailtoEls = Array.from(doc.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]'))
-          .map(a => a.href.replace(/^mailto:/i, '').split('?')[0].trim());
+          .map(a => {
+            const raw = a.getAttribute('href') || a.href || '';
+            return raw.replace(/^mailto:/i, '').split('?')[0].trim();
+          })
+          .filter(Boolean);
 
-        // B. Emails from body text regex
+        // B. Emails from body text or markdown regex
         const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/gi;
         const bodyEmails = Array.from(bodyText.match(emailRegex) || []);
         const rawEmails = Array.from(new Set([...mailtoEls, ...bodyEmails]))
@@ -560,7 +591,7 @@ if __name__ == "__main__":
         if (parsedRecords.length < 3) {
           const phoneRegex = /(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
           const telEls = Array.from(doc.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]'))
-            .map(a => a.href.replace(/^tel:/i, '').trim());
+            .map(a => (a.getAttribute('href') || a.href || '').replace(/^tel:/i, '').trim());
           const bodyPhones = Array.from(bodyText.match(phoneRegex) || []);
           const rawPhones = Array.from(new Set([...telEls, ...bodyPhones]))
             .filter(p => p.length >= 8 && p.length <= 20);
@@ -577,13 +608,18 @@ if __name__ == "__main__":
           });
         }
 
-        // D. Contact channels & profiles
+        // D. Contact channels & profiles (resolved against target origin)
         if (parsedRecords.length < 3) {
-          const contactLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>('a[href*="contact"], a[href*="about"], a[href*="linkedin.com"], a[href*="github.com"], a[href*="twitter.com"], a[href*="x.com"]'))
-            .map(a => a.href)
-            .filter(h => h.startsWith('http'));
+          const contactLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>('a[href*="contact"], a[href*="about"], a[href*="apply"], a[href*="help"], a[href*="team"], a[href*="linkedin.com"], a[href*="github.com"], a[href*="twitter.com"], a[href*="x.com"]'))
+            .map(a => resolveUrl(a.getAttribute('href') || a.href || ''))
+            .filter(h => h.startsWith('http') && !h.includes(window.location.hostname));
 
-          Array.from(new Set(contactLinks)).forEach(cl => {
+          // Also check markdown links if response was markdown
+          const mdLinks = Array.from(rawHtml.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/gi))
+            .filter(m => /contact|about|apply|help|team|linkedin|github|twitter/i.test(m[1]) || /contact|about|apply|help|team|linkedin|github|twitter/i.test(m[2]))
+            .map(m => m[2]);
+
+          Array.from(new Set([...contactLinks, ...mdLinks])).forEach(cl => {
             if (parsedRecords.length < 3 && (!lowerQuery || cl.toLowerCase().includes(lowerQuery))) {
               parsedRecords.push({
                 id: parsedRecords.length + 1,
@@ -606,10 +642,18 @@ if __name__ == "__main__":
           });
         }
 
-        // Headings H1, H2, H3
-        const headings = Array.from(doc.querySelectorAll<HTMLElement>('h1, h2, h3, .titleline, article header'))
-          .map(h => h.innerText.trim())
+        // Headings H1, H2, H3, titleline, story titles
+        const headings = Array.from(doc.querySelectorAll<HTMLElement>('h1, h2, h3, .titleline > a, .titleline, article header, [class*="headline"], [class*="story-title"]'))
+          .map(h => (h.innerText || '').trim())
           .filter(t => t.length > 4 && t.length < 240);
+
+        // Markdown headings fallback (e.g. # Title or ## Subtitle)
+        if (headings.length === 0) {
+          const mdHeadings = Array.from(rawHtml.matchAll(/^#{1,3}\s+(.+)$/gm))
+            .map(m => m[1].trim())
+            .filter(t => t.length > 4 && t.length < 240);
+          headings.push(...mdHeadings);
+        }
 
         Array.from(new Set(headings)).forEach(hd => {
           if (parsedRecords.length < 3 && hd !== title && (!lowerQuery || hd.toLowerCase().includes(lowerQuery))) {
@@ -625,7 +669,7 @@ if __name__ == "__main__":
         // Key Paragraphs
         if (parsedRecords.length < 3) {
           const paragraphs = Array.from(doc.querySelectorAll<HTMLElement>('p, article, [data-testid]'))
-            .map(p => p.innerText.trim())
+            .map(p => (p.innerText || '').trim())
             .filter(t => t.length > 25 && t.length < 300);
 
           Array.from(new Set(paragraphs)).forEach(para => {
@@ -642,10 +686,21 @@ if __name__ == "__main__":
       } else if (targetType === 'links') {
         const rawLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>('a[href]'))
           .map(a => ({
-            text: (a.innerText || a.getAttribute('aria-label') || 'Destination Resource').trim().replace(/\s+/g, ' '),
-            href: a.href
+            text: (a.innerText || a.getAttribute('aria-label') || a.getAttribute('title') || 'Destination Resource').trim().replace(/\s+/g, ' '),
+            href: resolveUrl(a.getAttribute('href') || '')
           }))
-          .filter(l => l.href.startsWith('http') && l.text.length > 2 && !l.href.includes('javascript:'));
+          .filter(l => l.href.startsWith('http') && l.text.length > 1 && !l.href.includes('javascript:') && !l.href.startsWith(window.location.origin));
+
+        // Markdown links fallback
+        if (rawLinks.length === 0) {
+          const mdLinks = Array.from(rawHtml.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/gi))
+            .map(m => ({
+              text: m[1].trim(),
+              href: m[2].trim()
+            }))
+            .filter(l => l.text.length > 1 && !l.href.startsWith(window.location.origin));
+          rawLinks.push(...mdLinks);
+        }
 
         const seenUrls = new Set<string>();
         rawLinks.forEach(item => {
