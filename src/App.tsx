@@ -284,35 +284,35 @@ export function App() {
     '@graph': [
       {
         '@type': 'WebSite',
-        '@id': 'https://flyvane.com/#website',
-        'url': 'https://flyvane.com/',
-        'name': 'Flyvane',
+        '@id': 'https://cybersteed.com/#website',
+        'url': 'https://cybersteed.com/',
+        'name': 'CyberSteed',
         'description': 'Autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture.',
         'publisher': {
-          '@id': 'https://flyvane.com/#organization'
+          '@id': 'https://cybersteed.com/#organization'
         }
       },
       {
         '@type': 'Organization',
-        '@id': 'https://flyvane.com/#organization',
-        'name': 'Flyvane',
-        'url': 'https://flyvane.com/',
-        'email': 'contact@flyvane.com',
+        '@id': 'https://cybersteed.com/#organization',
+        'name': 'CyberSteed',
+        'url': 'https://cybersteed.com/',
+        'email': 'contact@cybersteed.com',
         'founder': {
           '@type': 'Person',
-          '@id': 'https://flyvane.com/#founder',
+          '@id': 'https://cybersteed.com/#founder',
           'name': 'Ansh Rudra',
           'jobTitle': 'Founder & Principal Systems Architect',
-          'url': 'https://flyvane.com/about'
+          'url': 'https://cybersteed.com/about'
         }
       },
       {
         '@type': 'ProfessionalService',
-        '@id': 'https://flyvane.com/#service',
-        'name': 'Flyvane Autonomous Engineering & Brand Advisory',
-        'url': 'https://flyvane.com/',
+        '@id': 'https://cybersteed.com/#service',
+        'name': 'CyberSteed Autonomous Engineering & Brand Advisory',
+        'url': 'https://cybersteed.com/',
         'provider': {
-          '@id': 'https://flyvane.com/#organization'
+          '@id': 'https://cybersteed.com/#organization'
         },
         'hasOfferCatalog': {
           '@type': 'OfferCatalog',
@@ -349,7 +349,7 @@ export function App() {
             '@type': 'ListItem',
             'position': 1,
             'name': 'Studio',
-            'item': 'https://flyvane.com/'
+            'item': 'https://cybersteed.com/'
           }
         ]
       }
@@ -422,7 +422,7 @@ export function App() {
           ) : currentPath === '/' || currentPath === '' ? (
             <main className="relative z-10 pt-24 pb-24 bg-transparent">
               <HeadSEO
-                title="Flyvane | Autonomous Systems Engineering & AI Agents"
+                title="CyberSteed | Autonomous Systems Engineering & AI Agents"
                 description="Eliminate manual operations with autonomous systems engineering, resilient AI agent workflows, and B2B automation architecture. Scale without payroll bloat."
                 canonicalPath="/"
                 schema={homeSchema}

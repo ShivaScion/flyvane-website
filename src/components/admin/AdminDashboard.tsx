@@ -56,7 +56,7 @@ interface AdminDashboardProps {
 export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
   // Authentication State
   const [sessionToken, setSessionToken] = useState<string | null>(() => {
-    return sessionStorage.getItem('flyvane_admin_token') || null;
+    return sessionStorage.getItem('cybersteed_admin_token') || null;
   });
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
@@ -144,7 +144,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
       });
       const data = await res.json();
       if (res.ok && data.success && data.token) {
-        sessionStorage.setItem('flyvane_admin_token', data.token);
+        sessionStorage.setItem('cybersteed_admin_token', data.token);
         setSessionToken(data.token);
       } else {
         setAuthError(data.error || 'Invalid 2FA passcode.');
@@ -157,7 +157,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('flyvane_admin_token');
+    sessionStorage.removeItem('cybersteed_admin_token');
     setSessionToken(null);
     setOtpSent(false);
     setOtpCode('');
@@ -317,7 +317,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
     return (
       <div className="min-h-screen bg-[#030406] text-zinc-200 flex items-center justify-center p-4 sm:p-6 select-none relative z-20">
         <HeadSEO
-          title="Command Vault | Flyvane Administration"
+          title="Command Vault | CyberSteed Administration"
           description="Restricted executive administration and telemetry interface."
           canonicalPath="/admin"
           robots="noindex, nofollow"
@@ -329,7 +329,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
               <ShieldCheck className="w-7 h-7" />
             </div>
             <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-cyan-400 block font-semibold">
-              FLYVANE COMMAND VAULT
+              CYBERSTEED COMMAND VAULT
             </span>
             <h1 className="text-2xl font-display font-medium text-white tracking-tight">
               Two-Factor Authentication
@@ -445,7 +445,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-24 pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-20">
       <HeadSEO
-        title="Command Vault Console | Flyvane Administration"
+        title="Command Vault Console | CyberSteed Administration"
         description="Restricted executive administration and telemetry interface."
         canonicalPath="/admin"
         robots="noindex, nofollow"
@@ -464,7 +464,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <h1 className="text-base font-display font-medium text-white tracking-tight">
-                Flyvane Command Vault
+                CyberSteed Command Vault
               </h1>
             </div>
             <span className="text-[11px] font-mono text-zinc-500">
@@ -675,7 +675,7 @@ export function AdminDashboard({ onNavigateHome }: AdminDashboardProps) {
 
                     <div className="pt-2 flex gap-2">
                       <a
-                        href={`mailto:${selectedLead.contact_handle}?subject=Flyvane Advisory — Scope Discussion`}
+                        href={`mailto:${selectedLead.contact_handle}?subject=CyberSteed Advisory — Scope Discussion`}
                         className="flex-1 py-2.5 rounded-xl bg-white text-black font-sans font-semibold text-xs text-center hover:bg-zinc-200 transition-colors"
                       >
                         Initiate Email

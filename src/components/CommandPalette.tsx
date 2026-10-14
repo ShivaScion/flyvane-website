@@ -108,12 +108,12 @@ const COMMAND_REGISTRY: CommandItem[] = [
   {
     id: 'cmd-whoami',
     title: 'Inspect Studio Capabilities & Standards',
-    subtitle: 'Flyvane — Engineering, Automation & Strategy Practice',
+    subtitle: 'CyberSteed — Engineering, Automation & Strategy Practice',
     category: 'Identity',
     icon: <User className="w-4 h-4 text-zinc-300" />,
     shortcut: 'STANDARDS',
     action: 'capabilities',
-    keywords: ['capabilities', 'architecture', 'standards', 'security', 'sla', 'flyvane']
+    keywords: ['capabilities', 'architecture', 'standards', 'security', 'sla', 'cybersteed']
   },
   {
     id: 'cmd-blog',
@@ -127,7 +127,7 @@ const COMMAND_REGISTRY: CommandItem[] = [
   },
   {
     id: 'cmd-about',
-    title: 'About Flyvane & Founder',
+    title: 'About CyberSteed & Founder',
     subtitle: 'Meet Ansh Rudra, our ethics, practice capabilities & trajectory',
     category: 'Identity',
     icon: <User className="w-4 h-4 text-emerald-400" />,
@@ -352,7 +352,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
             <span><strong className="text-zinc-200">↵</strong> Execute</span>
             <span><strong className="text-zinc-200">Esc</strong> Dismiss</span>
           </div>
-          <span className="text-emerald-400/80 font-medium">Flyvane Command</span>
+          <span className="text-emerald-400/80 font-medium">CyberSteed Command</span>
         </div>
       </div>
     </div>

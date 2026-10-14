@@ -215,7 +215,7 @@ export const MODE_CONTENT: Record<'machine' | 'mind' | 'hybrid', ModeConfig> = {
       subEmphasis: "brilliant."
     },
     heroDescription:
-      "Flyvane integrates autonomous engineering with executive positioning. We build the technical infrastructure that scales your operations and the strategic authority that captures enterprise demand.",
+      "CyberSteed integrates autonomous engineering with executive positioning. We build the technical infrastructure that scales your operations and the strategic authority that captures enterprise demand.",
     ctaPrimary: "Explore Integrated Systems",
     ctaPrimaryHash: "#capabilities",
     ctaSecondary: "Retain Advisory",

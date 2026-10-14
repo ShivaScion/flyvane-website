@@ -39,7 +39,7 @@ export function HeadSEO({
     updateMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     updateMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description);
 
-    const canonicalUrl = `https://flyvane.com${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`;
+    const canonicalUrl = `https://cybersteed.com${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`;
     updateMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
 
     // 4. Enforce Self-Referencing Canonical URL

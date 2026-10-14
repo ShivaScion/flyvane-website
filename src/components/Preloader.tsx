@@ -8,7 +8,7 @@ interface PreloaderProps {
 const CUBIC_EASE = [0.76, 0, 0.24, 1] as const;
 
 const PRELOADER_WORDS = [
-  "Hello", "Namaste", "Bonjour", "Flyvane"
+  "Hello", "Namaste", "Bonjour", "CyberSteed"
 ];
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
@@ -26,12 +26,12 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         navigator.webdriver ||
         /bot|crawler|spider|crawling|lighthouse|chrome-lighthouse|headless/i.test(navigator.userAgent) ||
         window.location.search.includes('no-preload') ||
-        sessionStorage.getItem('flyvane_visited')
+        sessionStorage.getItem('cybersteed_visited')
       );
       if (isCrawler) {
         return true;
       }
-      sessionStorage.setItem('flyvane_visited', '1');
+      sessionStorage.setItem('cybersteed_visited', '1');
     }
     return false;
   });
@@ -131,7 +131,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="inline-block w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
               <span className="text-xs uppercase font-sans font-semibold tracking-[0.14em] text-zinc-400">
-                Flyvane Advisory Studio
+                CyberSteed Advisory Studio
               </span>
             </div>
             <motion.div

@@ -32,7 +32,7 @@ export const AiraCompanion: React.FC<AiraCompanionProps> = ({
             </button>
           </div>
           <p className="text-xs text-zinc-300 leading-relaxed mb-4">
-            Welcome to Flyvane. Select a service track below to orient the interface.
+            Welcome to CyberSteed. Select a service track below to orient the interface.
           </p>
           <div className="flex flex-col gap-2">
             {/* Navigation Buttons */}

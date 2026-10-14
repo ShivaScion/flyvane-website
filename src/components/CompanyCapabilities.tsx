@@ -244,10 +244,10 @@ export const CompanyCapabilities: React.FC<CompanyCapabilitiesProps> = ({ mode }
         </h2>
         <p className="text-sm sm:text-base font-sans text-zinc-400 max-w-2xl mt-3 leading-relaxed text-pretty">
           {mode === 'mind'
-            ? 'Every Flyvane advisory engagement adheres to strict commercial clarity benchmarks designed to command executive attention and accelerate deal qualification.'
+            ? 'Every CyberSteed advisory engagement adheres to strict commercial clarity benchmarks designed to command executive attention and accelerate deal qualification.'
             : mode === 'hybrid'
-              ? 'Flyvane bridges two critical operational pillars: fault-tolerant backend software infrastructure and category-defining commercial authority frameworks.'
-              : 'Flyvane engineers production-grade autonomous infrastructure designed for continuous operation, strict schema integrity, and defensive security.'}
+              ? 'CyberSteed bridges two critical operational pillars: fault-tolerant backend software infrastructure and category-defining commercial authority frameworks.'
+              : 'CyberSteed engineers production-grade autonomous infrastructure designed for continuous operation, strict schema integrity, and defensive security.'}
         </p>
       </motion.div>
 

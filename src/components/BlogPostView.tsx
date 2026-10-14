@@ -24,14 +24,14 @@ export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
       '@type': 'Person',
       name: 'Ansh Rudra',
       jobTitle: 'Principal Systems Architect',
-      url: 'https://flyvane.com/about'
+      url: 'https://cybersteed.com/about'
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Flyvane',
-      url: 'https://flyvane.com/'
+      name: 'CyberSteed',
+      url: 'https://cybersteed.com/'
     },
-    mainEntityOfPage: `https://flyvane.com/blog/${post.slug}`,
+    mainEntityOfPage: `https://cybersteed.com/blog/${post.slug}`,
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -39,19 +39,19 @@ export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://flyvane.com/'
+          item: 'https://cybersteed.com/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Publications',
-          item: 'https://flyvane.com/blog'
+          item: 'https://cybersteed.com/blog'
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: post.title,
-          item: `https://flyvane.com/blog/${post.slug}`
+          item: `https://cybersteed.com/blog/${post.slug}`
         }
       ]
     }
@@ -66,7 +66,7 @@ export function BlogPostView({ post, onBack, onNavigate }: BlogPostViewProps) {
   };
 
   const cleanTitle = post.title.length > 48 ? `${post.title.slice(0, 47)}…` : post.title;
-  const pageTitle = `${cleanTitle} | Flyvane`;
+  const pageTitle = `${cleanTitle} | CyberSteed`;
   const pageDesc = post.excerpt.length > 150 ? `${post.excerpt.slice(0, 147)}...` : post.excerpt;
 
   return (

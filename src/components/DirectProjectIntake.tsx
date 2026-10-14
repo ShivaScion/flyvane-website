@@ -185,14 +185,14 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
 
             <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed text-pretty">
               {mode === 'mind'
-                ? 'Partner with Flyvane to architect high-contrast positioning, loss-aversion messaging, and executive demand systems.'
-                : 'Partner with Flyvane to engineer fault-tolerant autonomous pipelines, worker swarms, and custom systems architecture.'}
+                ? 'Partner with CyberSteed to architect high-contrast positioning, loss-aversion messaging, and executive demand systems.'
+                : 'Partner with CyberSteed to engineer fault-tolerant autonomous pipelines, worker swarms, and custom systems architecture.'}
             </p>
 
             {/* Restricted Public Touchpoint (Section 4.2 — Strictly Direct LinkedIn + Intake Form, Zero phone numbers) */}
             <div className="pt-4 space-y-3 font-sans text-xs">
               <a
-                href="https://www.linkedin.com/company/flyvane"
+                href="https://www.linkedin.com/company/cybersteed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full px-5 py-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium transition-all duration-500 ease-out flex items-center justify-between group"
@@ -395,7 +395,7 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
                       <div>
                         <span>{errorDetail} </span>
                         <a
-                          href="https://www.linkedin.com/company/flyvane"
+                          href="https://www.linkedin.com/company/cybersteed"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline text-white font-medium"

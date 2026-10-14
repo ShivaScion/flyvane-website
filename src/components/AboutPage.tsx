@@ -13,17 +13,17 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
   const aboutSchema = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    name: 'About Flyvane — AI Systems Engineering Practice',
-    description: 'Learn how Flyvane pairs deterministic automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra.',
-    url: 'https://flyvane.com/about',
+    name: 'About CyberSteed — AI Systems Engineering Practice',
+    description: 'Learn how CyberSteed pairs deterministic automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra.',
+    url: 'https://cybersteed.com/about',
     mainEntity: {
       '@type': 'Person',
       name: 'Ansh Rudra',
       jobTitle: 'Founder & Principal Systems Architect',
       worksFor: {
         '@type': 'Organization',
-        name: 'Flyvane',
-        url: 'https://flyvane.com/'
+        name: 'CyberSteed',
+        url: 'https://cybersteed.com/'
       }
     },
     breadcrumb: {
@@ -33,13 +33,13 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
           '@type': 'ListItem',
           position: 1,
           name: 'Studio',
-          item: 'https://flyvane.com/'
+          item: 'https://cybersteed.com/'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'About & Practice',
-          item: 'https://flyvane.com/about'
+          item: 'https://cybersteed.com/about'
         }
       ]
     }
@@ -142,8 +142,8 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
   return (
     <div className="min-h-screen bg-transparent text-zinc-200 pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-20">
       <HeadSEO
-        title="About Flyvane | AI Systems Engineering Practice & Ethics"
-        description="Learn how Flyvane's AI systems engineering practice pairs strict automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra."
+        title="About CyberSteed | AI Systems Engineering Practice & Ethics"
+        description="Learn how CyberSteed's AI systems engineering practice pairs strict automation ethics with resilient autonomous infrastructure built by founder Ansh Rudra."
         canonicalPath="/about"
         schema={aboutSchema}
       />
@@ -172,14 +172,14 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
         <div className="flex items-center gap-2.5">
           <Sparkles className="w-4 h-4 text-amber-400" />
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-400 font-semibold">
-            ABOUT FLYVANE & LEADERSHIP
+            ABOUT CYBERSTEED & LEADERSHIP
           </span>
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-medium text-white tracking-tight leading-[1.15] text-balance">
           The AI Systems Engineering Practice Built for Deterministic Leverage
         </h1>
         <p className="text-lg font-sans text-zinc-300 leading-relaxed">
-          Growing enterprises are flooded with fragile AI wrappers that collapse under real-world loads. When automations break, they pollute production databases and burn expensive engineering hours. Flyvane operates as a specialized AI systems engineering practice founded by Ansh Rudra, pairing strict automation ethics with self-healing, deterministic infrastructure that turns manual operations into reliable software leverage.
+          Growing enterprises are flooded with fragile AI wrappers that collapse under real-world loads. When automations break, they pollute production databases and burn expensive engineering hours. CyberSteed operates as a specialized AI systems engineering practice founded by Ansh Rudra, pairing strict automation ethics with self-healing, deterministic infrastructure that turns manual operations into reliable software leverage.
         </p>
       </div>
 
@@ -208,7 +208,7 @@ export function AboutPage({ onNavigate, onNavigateHome, onNavigateContact }: Abo
               I engineer autonomous infrastructure for businesses that have outgrown fragile manual workarounds. With a multidisciplinary background bridging distributed asynchronous software engineering (Python, Node.js, Playwright, LangGraph) and cognitive behavioral economics, I help founders replace operations bottlenecks with self-healing machine swarms.
             </p>
             <p className="text-zinc-400 text-sm">
-              Prior to establishing Flyvane, I identified that 90% of enterprise software failures stem not from technology limitations, but from the mismatch between technical execution and how buyers evaluate risk. We bridge that gap permanently.
+              Prior to establishing CyberSteed, I identified that 90% of enterprise software failures stem not from technology limitations, but from the mismatch between technical execution and how buyers evaluate risk. We bridge that gap permanently.
             </p>
             <div className="pt-2 flex flex-wrap gap-2 text-[11px] font-mono text-zinc-400">
               <span className="px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.08]">Python AsyncIO & FastAPI</span>

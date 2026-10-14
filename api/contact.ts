@@ -102,7 +102,7 @@ function buildAdminEmailHtml(payload: any, leadId: string): string {
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 640px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-        FLYVANE ADVISORY INTAKE — ${safeMode} MODE
+        CYBERSTEED ADVISORY INTAKE — ${safeMode} MODE
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 24px 0;">
         New Advisory Brief from ${safeName}
@@ -147,14 +147,14 @@ function buildProspectAckHtml(payload: any, leadId: string): string {
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #07080B; color: #E4E4E7; padding: 36px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); max-width: 600px; margin: 0 auto;">
       <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #10B981; font-weight: 600; margin-bottom: 8px;">
-        FLYVANE ADVISORY DESK
+        CYBERSTEED ADVISORY DESK
       </div>
       <h1 style="font-size: 22px; font-weight: 600; color: #FFFFFF; margin: 0 0 16px 0;">
         Brief Received — ${safeScope}
       </h1>
       <p style="font-size: 14px; line-height: 1.6; color: #D4D4D8; margin-bottom: 20px;">
         Dear ${safeName},<br/><br/>
-        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${safeLeadId}</span>) has been securely logged with Flyvane. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
+        Your project brief (Reference: <span style="font-family: monospace; color: #FFFFFF;">${safeLeadId}</span>) has been securely logged with CyberSteed. Our partners will review your architectural and commercial scope and initiate direct contact within our <strong>24-hour SLA response window</strong>.
       </p>
       <div style="background-color: #0B0D13; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; font-size: 13px; color: #A1A1AA;">
         <strong>Submitted Scope:</strong> ${safeScope}<br/>
@@ -287,10 +287,10 @@ export default async function handler(req: any, res: any) {
         if (!error && data?.id) {
           leadId = data.id;
         } else if (error) {
-          console.error('[FLYVANE SUPABASE ERROR]', error.message);
+          console.error('[CYBERSTEED SUPABASE ERROR]', error.message);
         }
       } catch (dbErr) {
-        console.error('[FLYVANE SUPABASE EXCEPTION]', dbErr);
+        console.error('[CYBERSTEED SUPABASE EXCEPTION]', dbErr);
       }
     }
 
@@ -319,7 +319,7 @@ export default async function handler(req: any, res: any) {
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'Flyvane Advisory <advisory@flyvane.com>';
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CyberSteed Advisory <advisory@cybersteed.com>';
 
     if (resendApiKey) {
       try {
@@ -331,14 +331,14 @@ export default async function handler(req: any, res: any) {
               const res = await resend.emails.send({
                 from: fromEmail,
                 to: adminEmail,
-                subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+                subject: `[CyberSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
                 html: buildAdminEmailHtml(safePayload, leadId),
               });
               if (res.error && res.error.message?.includes('domain')) {
                 return resend.emails.send({
                   from: 'onboarding@resend.dev',
                   to: adminEmail,
-                  subject: `[Flyvane Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
+                  subject: `[CyberSteed Advisory - ${activeMode.toUpperCase()}] New Brief from ${sanitizedName}`,
                   html: buildAdminEmailHtml(safePayload, leadId),
                 });
               }
@@ -354,7 +354,7 @@ export default async function handler(req: any, res: any) {
                 return await resend.emails.send({
                   from: fromEmail,
                   to: sanitizedContact.trim(),
-                  subject: `Flyvane Advisory — Brief Received (${sanitizedServiceScope})`,
+                  subject: `CyberSteed Advisory — Brief Received (${sanitizedServiceScope})`,
                   html: buildProspectAckHtml(safePayload, leadId),
                 });
               } catch (err) {
@@ -380,7 +380,7 @@ export default async function handler(req: any, res: any) {
         const cleanPersonalWhatsapp = personalWhatsapp.replace('whatsapp:++', 'whatsapp:+');
 
         const whatsappBody =
-          `*Flyvane Advisory Alert*\n\n` +
+          `*CyberSteed Advisory Alert*\n\n` +
           `*Client:* ${sanitizedName}\n` +
           `*Mode:* ${activeMode.toUpperCase()}\n` +
           `*Contact:* ${sanitizedContact}\n` +
@@ -418,7 +418,7 @@ export default async function handler(req: any, res: any) {
       dispatched: dispatchStatus,
     }, true);
   } catch (err: any) {
-    console.error('[FLYVANE ADVISORY HANDLER ERROR]', err);
+    console.error('[CYBERSTEED ADVISORY HANDLER ERROR]', err);
     return sendResponse(res, 500, {
       success: false,
       error: 'Unable to process advisory brief at this time.',

@@ -1,6 +1,6 @@
-# Flyvane — Interactive 3D Digital Infrastructure & Strategic Operations
+# CyberSteed — Interactive 3D Digital Infrastructure & Strategic Operations
 
-Official high-craft website for **Flyvane** — uniting autonomous engineering, workflow automation, and market strategy into a singular operational engine.
+Official high-craft website for **CyberSteed** — uniting autonomous engineering, workflow automation, and market strategy into a singular operational engine.
 
 ---
 
@@ -59,7 +59,7 @@ npm run preview
 
 ## Character & Interactive Guide: Aira
 
-Aira serves as Flyvane's interactive operations guide:
+Aira serves as CyberSteed's interactive operations guide:
 - Procedural anime-inspired humanoid character with styled hair geometry, cybernetic accents, and luminous iris shaders.
 - Contextual posture swapping across section viewports.
 - Integrated voice and terminal assistance for exploring capabilities, diagnosing workflows, and calculating ROI arbitrage.

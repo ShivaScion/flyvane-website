@@ -189,7 +189,7 @@ const backendApiPlugin = (): Plugin => ({
           const parsed = JSON.parse(body || '{}');
           const result = await processAdvisorySubmission({
             name: parsed.name || 'Partner',
-            contact: parsed.contact || parsed.contactInfo || 'contact@flyvane.com',
+            contact: parsed.contact || parsed.contactInfo || 'contact@cybersteed.com',
             serviceScope: parsed.serviceScope || parsed.projectType || 'Autonomous Data Pipelines',
             projectBrief: parsed.projectBrief || parsed.message || 'Advisory project inquiry submitted.',
             activeMode: parsed.activeMode || 'machine',
