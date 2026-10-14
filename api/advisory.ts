@@ -407,7 +407,7 @@ export default async function handler(req: any, res: any) {
     console.error('[FLYVANE ADVISORY HANDLER ERROR]', err);
     return sendResponse(res, 500, {
       success: false,
-      error: err?.message || 'Unable to process advisory brief at this time.',
+      error: 'Unable to process advisory brief at this time.',
     }, true);
   }
 }

@@ -102,18 +102,35 @@ export const DirectProjectIntake: React.FC<DirectProjectIntakeProps> = ({
     soundEngine.playPop(0.08);
 
     try {
-      const response = await fetch('/api/advisory', {
+      const payload = JSON.stringify({
+        name: sanitizedName,
+        contact: sanitizedContact,
+        serviceScope: sanitizeText(serviceScope, 100),
+        projectBrief: sanitizedBrief,
+        activeMode: mode,
+        trapField: sanitizeText(trapField, 50),
+      });
+
+      let response = await fetch('/api/advisory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: sanitizedName,
-          contact: sanitizedContact,
-          serviceScope: sanitizeText(serviceScope, 100),
-          projectBrief: sanitizedBrief,
-          activeMode: mode,
-          trapField: sanitizeText(trapField, 50),
-        }),
+        body: payload,
       });
+
+      if (!response.ok && response.status >= 500) {
+        try {
+          const fallbackResp = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+          });
+          if (fallbackResp.ok) {
+            response = fallbackResp;
+          }
+        } catch {
+          // Keep primary response
+        }
+      }
 
       let data: any = null;
       try {
